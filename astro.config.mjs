@@ -16,6 +16,7 @@ export default defineConfig({
     routing: { prefixDefaultLocale: false },
   },
   integrations: [react(), sitemap()],
+  server: { port: 7860, host: true },
   vite: {
     plugins: [
       tailwindcss(),

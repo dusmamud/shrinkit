@@ -26,7 +26,7 @@ light/dark/system theming. Zero backend — the static output deploys to
 
 ```bash
 npm install
-npm run dev        # local dev server → http://localhost:4321
+npm run dev        # local dev server → http://localhost:7860
 ```
 
 Other commands:
