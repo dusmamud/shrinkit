@@ -1,7 +1,6 @@
 ---
 import { t } from "../lib/i18n";
 import { localizedPath, type Locale } from "../lib/locale";
-import ThemeToggle from "./react/ThemeToggle";
 import LanguageSwitcher from "./LanguageSwitcher.astro";
 
 interface Props {
@@ -10,59 +9,147 @@ interface Props {
 }
 const { locale, path } = Astro.props;
 
+const home = localizedPath("/", locale);
 const links = [
-  { href: localizedPath("/", locale), label: t(locale, "nav.tool") },
+  { href: `${home}#how-it-works`, label: t(locale, "nav.how") },
   { href: localizedPath("/privacy", locale), label: t(locale, "nav.privacy") },
-  { href: localizedPath("/about", locale), label: t(locale, "nav.about") },
   { href: localizedPath("/contact", locale), label: t(locale, "nav.contact") },
 ];
 ---
 
-<header class="sticky top-0 z-40 border-b border-slate-200/70 bg-white/85 backdrop-blur dark:border-slate-800 dark:bg-slate-950/85">
-  <div class="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-    <a href={localizedPath("/", locale)} class="flex items-center gap-2.5" aria-label={t(locale, "site.name")}>
-      <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">
-        <rect width="32" height="32" rx="8" fill="#0d9488" />
-        <path d="M9 12.5h14M9 19.5h14" stroke="#fff" stroke-width="2.4" stroke-linecap="round" />
-        <path d="M12.5 9.5 9 12.5l3.5 3M19.5 16.5l3.5 3-3.5 3" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+<header class="bg-[#fafcff]">
+  <div class="mx-auto flex max-w-[1075px] items-center justify-between px-4 py-4">
+    <a href={home} class="flex items-center gap-2.5" aria-label={t(locale, "site.name")}>
+      <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+        <rect width="34" height="34" rx="7" fill="#007bff"></rect>
+        <path
+          d="M11 23V11h12"
+          stroke="#fff"
+          stroke-width="2.6"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          fill="none"></path>
+        <path
+          d="M11 11l9.5 9.5"
+          stroke="#fff"
+          stroke-width="2.6"
+          stroke-linecap="round"></path>
+        <path
+          d="M15.5 20.5h5v-5"
+          stroke="#fff"
+          stroke-width="2.6"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          fill="none"></path>
       </svg>
-      <span class="text-lg font-extrabold tracking-tight text-slate-900 dark:text-white">
-        {t(locale, "site.name")}
-      </span>
+      <span class="text-[1.35rem] font-medium tracking-tight text-black">ShrinkIt</span>
     </a>
-    <nav class="hidden items-center gap-1 md:flex" aria-label="Primary">
-      {links.map((l) => (
+
+    {/* Desktop nav */}
+    <nav class="hidden items-center lg:flex" aria-label="Primary">
+      {
+        links.map((l, i) => (
+          <>
+            {i > 0 && <span class="mx-4 h-5 w-px bg-[#d7dee9]" aria-hidden="true" />}
+            <a
+              href={l.href}
+              class="text-[14px] font-normal tracking-[1.17px] text-black transition-colors hover:text-[#016df0]"
+            >
+              {l.label}
+            </a>
+          </>
+        ))
+      }
+      <a
+        href={`${home}#tool`}
+        class="ml-8 inline-flex h-[42px] items-center rounded-[6px] bg-[#007bff] px-6 text-[14px] font-bold text-white transition-colors hover:bg-[#0257bf]"
+      >
+        {t(locale, "nav.resize")}
+      </a>
+      <span class="ml-4">
+        <LanguageSwitcher locale={locale} path={path} />
+      </span>
+    </nav>
+
+    {/* Mobile hamburger */}
+    <div class="flex items-center gap-3 lg:hidden">
+      <LanguageSwitcher locale={locale} path={path} />
+      <button
+        type="button"
+        id="nav-open"
+        aria-label="Menu"
+        class="inline-flex h-10 w-10 items-center justify-center rounded-md text-black"
+      >
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true">
+          <path d="M4 8h18M4 13h18M4 18h18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+{/* Full-screen mobile menu */}
+<div
+  id="mobile-menu"
+  class="fixed inset-0 z-[100] hidden flex-col bg-white"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Menu"
+>
+  <div class="flex items-center justify-between px-4 py-4">
+    <span class="text-[1.35rem] font-medium tracking-tight text-black">ShrinkIt</span>
+    <button
+      type="button"
+      id="nav-close"
+      aria-label="Close"
+      class="inline-flex h-10 w-10 items-center justify-center rounded-md text-black"
+    >
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+      </svg>
+    </button>
+  </div>
+  <nav class="flex flex-col items-center gap-8 px-6 pt-10" aria-label="Mobile">
+    {
+      links.map((l) => (
         <a
           href={l.href}
-          class:list={[
-            "rounded-full px-4 py-2 text-sm font-medium transition",
-            l.href === localizedPath(path, locale)
-              ? "bg-teal-100 text-teal-800 dark:bg-teal-900/50 dark:text-teal-200"
-              : "text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white",
-          ]}
+          class="mobile-link text-xl font-normal tracking-[1.17px] text-black transition-colors hover:text-[#016df0]"
         >
           {l.label}
         </a>
-      ))}
-    </nav>
-    <div class="flex items-center gap-2">
-      <LanguageSwitcher locale={locale} path={path} />
-      <ThemeToggle client:load />
-    </div>
-  </div>
-  <nav class="flex items-center gap-1 overflow-x-auto border-t border-slate-100 px-4 py-1.5 md:hidden dark:border-slate-800" aria-label="Primary mobile">
-    {links.map((l) => (
-      <a
-        href={l.href}
-        class:list={[
-          "whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-medium transition",
-          l.href === localizedPath(path, locale)
-            ? "bg-teal-100 text-teal-800 dark:bg-teal-900/50 dark:text-teal-200"
-            : "text-slate-600 dark:text-slate-300",
-        ]}
-      >
-        {l.label}
-      </a>
-    ))}
+      ))
+    }
+    <a
+      href={`${home}#tool`}
+      class="mobile-link mt-2 inline-flex h-[48px] items-center rounded-[6px] bg-[#007bff] px-8 text-base font-bold text-white transition-colors hover:bg-[#0257bf]"
+    >
+      {t(locale, "nav.resize")}
+    </a>
   </nav>
-</header>
+</div>
+
+<script is:inline>
+  (function () {
+    var menu = document.getElementById("mobile-menu");
+    var open = document.getElementById("nav-open");
+    var close = document.getElementById("nav-close");
+    if (!menu || !open || !close) return;
+    function show(v) {
+      menu.classList.toggle("hidden", !v);
+      menu.classList.toggle("flex", v);
+      document.body.style.overflow = v ? "hidden" : "";
+    }
+    open.addEventListener("click", function () {
+      show(true);
+    });
+    close.addEventListener("click", function () {
+      show(false);
+    });
+    menu.querySelectorAll(".mobile-link").forEach(function (a) {
+      a.addEventListener("click", function () {
+        show(false);
+      });
+    });
+  })();
+</script>

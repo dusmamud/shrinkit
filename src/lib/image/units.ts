@@ -93,3 +93,60 @@ export function percentOf(target: number, original: number): number {
   if (original <= 0) return 0;
   return Math.round((target / original) * 1000) / 10;
 }
+
+export interface CropRect {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
+/**
+ * Largest centered rectangle of the source that matches the target aspect
+ * ratio — the "crop" resize mode. Nothing outside this rect survives, so
+ * the output fills the target box exactly with no distortion.
+ * Pure math, no DOM — fully unit-testable.
+ */
+export function cropRect(srcW: number, srcH: number, targetW: number, targetH: number): CropRect {
+  if (srcW <= 0 || srcH <= 0 || targetW <= 0 || targetH <= 0) {
+    throw new RangeError("Dimensions must be greater than zero.");
+  }
+  const targetAspect = targetW / targetH;
+  const srcAspect = srcW / srcH;
+  let w: number;
+  let h: number;
+  if (srcAspect > targetAspect) {
+    // Source is wider than the target: trim the left/right edges.
+    h = srcH;
+    w = srcH * targetAspect;
+  } else {
+    // Source is taller than (or equal to) the target: trim top/bottom.
+    w = srcW;
+    h = srcW / targetAspect;
+  }
+  const width = Math.max(1, Math.round(w));
+  const height = Math.max(1, Math.round(h));
+  return {
+    x: Math.max(0, Math.round((srcW - width) / 2)),
+    y: Math.max(0, Math.round((srcH - height) / 2)),
+    width,
+    height,
+  };
+}
+
+/**
+ * Largest dimensions that fit INSIDE the target box while preserving the
+ * source aspect ratio — the "fit" resize mode. The output is letterboxed
+ * (background colour, or transparency for formats that support it).
+ * Pure math, no DOM — fully unit-testable.
+ */
+export function fitDims(srcW: number, srcH: number, targetW: number, targetH: number): TargetSize {
+  if (srcW <= 0 || srcH <= 0 || targetW <= 0 || targetH <= 0) {
+    throw new RangeError("Dimensions must be greater than zero.");
+  }
+  const scale = Math.min(targetW / srcW, targetH / srcH);
+  return {
+    width: Math.max(1, Math.round(srcW * scale)),
+    height: Math.max(1, Math.round(srcH * scale)),
+  };
+}

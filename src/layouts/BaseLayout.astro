@@ -41,26 +41,20 @@ const canonical = `${site}${localizedPath(path, locale)}`;
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="theme-color" content="#0d9488" />
+    <meta name="theme-color" content="#007bff" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <script is:inline>
-      (function () {
-        try {
-          var t = localStorage.getItem("shrinkit-theme");
-          var d =
-            t === "dark" ||
-            (t !== "light" && matchMedia("(prefers-color-scheme: dark)").matches);
-          document.documentElement.classList.toggle("dark", d);
-          document.documentElement.style.colorScheme = d ? "dark" : "light";
-        } catch (e) {}
-      })();
-    </script>
   </head>
-  <body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+  <body class="bg-white text-[#1d2939]">
     <Header locale={locale} path={path} />
     <main>
       <slot />

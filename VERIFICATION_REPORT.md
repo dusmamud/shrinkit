@@ -3,6 +3,68 @@
 What was actually verified, and what was not. No claims beyond what the
 evidence supports.
 
+## 2026-10-09 — Frontend rebuild for reference parity (commit on push)
+
+The whole frontend was rebuilt to mirror the reference site's layout,
+structure and flow (Poppins, blue #007bff buttons, dashed dropzone,
+"Choose new size and format" panel, info bands, blue copyright bar),
+with original branding/copy — no logo, illustration or paragraph was
+copied. The image engine (`src/lib/image/`) was NOT rewritten: pica
+worker, DPI injection, EXIF and unit conversions are untouched; the new
+UI calls the existing `processImageBytes` via the existing worker API.
+
+Engine extension (additive only): `ProcessSettings.mode?: "stretch" |
+"crop" | "fit"` (default `"stretch"` = byte-identical old path) plus
+pure `cropRect()` / `fitDims()` math in `units.ts`. Crop center-crops
+the source to the target aspect before resizing; fit resizes inside the
+box and letterboxes with the background colour (transparent for
+PNG/WebP).
+
+### Static quality gates — PASS
+
+| Gate             | Command                  | Result                                       |
+| ---------------- | ------------------------ | -------------------------------------------- |
+| TypeScript       | `npx tsc --noEmit`       | clean, 0 errors                              |
+| ESLint           | `npx eslint .`           | clean, 0 errors / 0 warnings                 |
+| Prettier         | `npx prettier --check .` | all files conform                            |
+| Production build | `npm run build`          | success — 13 static pages, sitemap generated |
+| Unit tests       | `npx vitest run`         | **50/50 pass** (38 old + 12 new crop/fit)    |
+
+### E2E (headless Chromium) — PASS, 6/6
+
+`npx playwright test` — **6 passed**, exercising the real pipeline end
+to end with zero mocks:
+
+1. Single image 50% + quality 60 → 960×540 JPEG downloads; EXIF DPI
+   present; thumbnail strip shows probed 1920×1080 dims; aspect lock
+   keeps height in sync when width is edited.
+2. JPG → PNG conversion (quality control correctly hidden for PNG);
+   PNG signature + pHYs chunk verified.
+3. Batch: two images → "Resize All Images" → per-card downloads +
+   "Download all images" ZIP (PK signature).
+4. Aspect lock off + unequal dims → stretch/crop/fit row slides open;
+   crop selected → 800×450 output downloads.
+5. Fit mode → PNG: corner pixel of the 500×400 output is transparent
+   (alpha 0), proving real letterboxing.
+6. Unsupported file → red banner with clear message, no silent failure.
+
+Two test bugs were found and fixed during this pass (both in the spec,
+not the app): mode buttons stay in the DOM for the slide animation
+(assert `aria-hidden`, not count), and 800 "percent" is 15360 px — the
+app correctly refused it as too large until the spec selected pixels.
+
+### Visual self-check — screenshots reviewed and iterated
+
+Playwright screenshots (desktop 1440px + mobile 390px) of hero,
+dropzone, thumbnail strip, settings panel, mode row, result panel,
+info bands, footer and mobile menu were captured from `npm run dev`
+(:7860, HTTP 200 verified) and read back as images. Findings fixed:
+"−74.6% saved" was ambiguous → now "74.6% saved" / "+x% larger".
+Confirmed visually: header (logo, divider-separated nav, blue CTA),
+hero, dashed dropzone, 140px thumbnail cards, settings rows, teal
+underline on the selected resize mode, result rows/cards, blue
+copyright bar, mobile hamburger → full-screen menu.
+
 ## Environment
 
 - Sandbox: Linux VM, Node v24.20.0, npm 10.9.4
@@ -60,8 +122,10 @@ protection" error. Fixed by passing an `OffscreenCanvas`-based
 
 ## NOT verifiable in this sandbox (needs a real machine/browser)
 
-- Visual design review (no display): layout, dark mode, responsive
-  breakpoints — inspect on a real device before launch.
+- Interactive visual/feel review: static screenshots (1440px + 390px)
+  were captured and inspected, but layout polish, dark-mode-free
+  rendering quirks, and responsive breakpoints should be eyeballed on a
+  real device before launch.
 - 60 fps / jank-free processing feel, and worker behaviour on Safari/Firefox
   (only headless Chromium was exercised).
 - PWA install prompt and true offline reload (service worker is

@@ -1,10 +1,18 @@
 @import "tailwindcss";
-@import "@fontsource-variable/inter";
-
-@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Poppins", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --color-brand: #007bff;
+  --color-brand-dark: #0257bf;
+  --color-link: #016df0;
+  --color-outline-blue: #1a7af7;
+  --color-accent-teal: #42c3ac;
+  --color-ink: #1d2939;
+  --color-band: #fafcff;
+  --color-footer: #f6faff;
+  --color-error: #d33;
+  --color-dash: #52a0ff;
+  --color-input-border: #667085;
 }
 
 html {
@@ -13,14 +21,105 @@ html {
 
 body {
   font-family: var(--font-sans);
+  color: var(--color-ink);
+  background: #ffffff;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
-/* Subtle dotted texture for the hero, drawn with CSS only */
-.hero-dots {
-  background-image: radial-gradient(circle at 1px 1px, rgb(0 0 0 / 0.08) 1px, transparent 0);
-  background-size: 22px 22px;
+/* Dark rounded tooltips (reference style: #323232 bg, #ecf0f1 text, 8px radius) */
+[data-tip] {
+  position: relative;
 }
-.dark .hero-dots {
-  background-image: radial-gradient(circle at 1px 1px, rgb(255 255 255 / 0.09) 1px, transparent 0);
+[data-tip]::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background: #323232;
+  color: #ecf0f1;
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.4;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  white-space: normal;
+  width: max-content;
+  max-width: 220px;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
+  z-index: 50;
+}
+[data-tip]:hover::after,
+[data-tip]:focus-visible::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Animated "processing…" dots */
+.dots::after {
+  content: "";
+  display: inline-block;
+  width: 1.2em;
+  text-align: left;
+  animation: blinkdots 1.2s steps(1) infinite;
+}
+@keyframes blinkdots {
+  0% {
+    content: "";
+  }
+  25% {
+    content: ".";
+  }
+  50% {
+    content: "..";
+  }
+  75% {
+    content: "...";
+  }
+}
+
+/* Slide-open for the resize-mode row */
+.mode-row {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 0.25s ease,
+    opacity 0.25s ease,
+    margin 0.25s ease;
+  margin-top: 0;
+}
+.mode-row.open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  margin-top: 1.25rem;
+}
+.mode-row > div {
+  overflow: hidden;
+}
+
+/* Mobile label collapse for the size/resolution rows */
+@media (max-width: 576px) {
+  .lbl-full {
+    display: none;
+  }
+}
+@media (min-width: 577px) {
+  .lbl-short {
+    display: none;
+  }
+}
+
+/* Two-line filename clamp */
+.clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }

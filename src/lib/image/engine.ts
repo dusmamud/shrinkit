@@ -37,12 +37,23 @@ async function readOrientationFallback(blob: Blob): Promise<number> {
     return 1;
   }
 }
-import { toPixels, type SizeUnit } from "./units";
+import { toPixels, cropRect, fitDims, type SizeUnit } from "./units";
 import { checkInputDimensions, checkOutputDimensions } from "./limits";
 import { injectJpegDpi, injectPngDpi, preserveJpegExif } from "./dpi";
 import { outputFileName, type OutputFormat } from "./filenames";
 
 export type { OutputFormat };
+
+/**
+ * How the source image is mapped onto the target box:
+ * - "stretch": direct resize (may change the aspect ratio) — the default,
+ *   byte-identical to the original pipeline.
+ * - "crop": center-crop the source to the target aspect ratio first, then
+ *   resize — the output fills the box exactly, no distortion.
+ * - "fit": resize to fit inside the box preserving aspect ratio, then
+ *   letterbox with the background colour (or transparency for PNG/WebP).
+ */
+export type ResizeMode = "stretch" | "crop" | "fit";
 
 export interface ProcessSettings {
   width: number;
@@ -55,6 +66,8 @@ export interface ProcessSettings {
   background: "white" | "black";
   /** Copy the source JPEG's EXIF into the output (orientation reset to 1). */
   preserveExif: boolean;
+  /** Defaults to "stretch" when omitted. */
+  mode?: ResizeMode;
 }
 
 export interface ProcessedImage {
@@ -296,21 +309,44 @@ export async function processImageBytes(
     flattened = true;
   }
 
+  const mode: ResizeMode = settings.mode ?? "stretch";
+  let resizeInput: ImageBitmap | AnyCanvas = source;
+  if (mode === "crop") {
+    // Center-crop the source to the target aspect ratio before resizing.
+    const rect = cropRect(srcW, srcH, target.width, target.height);
+    const cropped = makeCanvas(rect.width, rect.height);
+    const cctx = get2d(cropped);
+    cctx.drawImage(source, rect.x, rect.y, rect.width, rect.height, 0, 0, rect.width, rect.height);
+    if (source instanceof ImageBitmap) source.close();
+    resizeInput = cropped;
+  }
+
   const resizer = createResizer();
+  const resizeOpts = {
+    alpha: keepAlpha,
+    unsharpAmount: 80,
+    unsharpRadius: 0.6,
+    unsharpThreshold: 2,
+  };
   try {
-    await resizer.resize(source, dst, {
-      alpha: keepAlpha,
-      unsharpAmount: 80,
-      unsharpRadius: 0.6,
-      unsharpThreshold: 2,
-    });
+    if (mode === "fit") {
+      // Resize to fit inside the box, then letterbox onto the background.
+      const fitted = fitDims(srcW, srcH, target.width, target.height);
+      const tmp = makeCanvas(fitted.width, fitted.height);
+      await resizer.resize(resizeInput, tmp, resizeOpts);
+      const dx = Math.round((target.width - fitted.width) / 2);
+      const dy = Math.round((target.height - fitted.height) / 2);
+      dstCtx.drawImage(tmp, dx, dy, fitted.width, fitted.height);
+    } else {
+      await resizer.resize(resizeInput, dst, resizeOpts);
+    }
   } catch (err) {
     throw new ProcessError(
       "encode-failed",
       `Resizing failed: ${err instanceof Error ? err.message : "unknown error"}.`,
     );
   } finally {
-    if (source instanceof ImageBitmap) source.close();
+    if (resizeInput instanceof ImageBitmap) resizeInput.close();
   }
   throwIfAborted(signal);
 
