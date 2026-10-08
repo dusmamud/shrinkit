@@ -1,0 +1,17 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import HomePage from "../../components/HomePage.astro";
+import { locales, type Locale } from "../../lib/locales";
+
+export function getStaticPaths() {
+  return locales
+    .filter((l): l is Exclude<Locale, "en"> => l !== "en")
+    .map((locale) => ({ params: { locale } }));
+}
+
+const { locale } = Astro.params as { locale: Locale };
+---
+
+<BaseLayout locale={locale} path="/">
+  <HomePage locale={locale} />
+</BaseLayout>

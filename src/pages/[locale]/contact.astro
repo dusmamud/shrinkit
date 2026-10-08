@@ -1,0 +1,25 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import InfoPage from "../../components/InfoPage.astro";
+import { t } from "../../lib/i18n";
+import { locales, type Locale } from "../../lib/locales";
+
+export function getStaticPaths() {
+  return locales
+    .filter((l): l is Exclude<Locale, "en"> => l !== "en")
+    .map((locale) => ({ params: { locale } }));
+}
+
+const { locale } = Astro.params as { locale: Locale };
+// Replace with a real inbox before publishing.
+const CONTACT_EMAIL = "hello@shrinkit.pages.dev";
+---
+
+<BaseLayout locale={locale} path="/contact" title={`${t(locale, "contact.title")} — ${t(locale, "site.name")}`}>
+  <InfoPage
+    locale={locale}
+    title={t(locale, "contact.title")}
+    intro={t(locale, "contact.body")}
+    contactEmail={CONTACT_EMAIL}
+  />
+</BaseLayout>

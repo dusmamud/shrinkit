@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://shrinkit.pages.dev/sitemap-index.xml

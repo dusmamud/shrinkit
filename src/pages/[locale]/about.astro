@@ -1,0 +1,23 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import InfoPage from "../../components/InfoPage.astro";
+import { t } from "../../lib/i18n";
+import { locales, type Locale } from "../../lib/locales";
+
+export function getStaticPaths() {
+  return locales
+    .filter((l): l is Exclude<Locale, "en"> => l !== "en")
+    .map((locale) => ({ params: { locale } }));
+}
+
+const { locale } = Astro.params as { locale: Locale };
+---
+
+<BaseLayout locale={locale} path="/about" title={`${t(locale, "about.title")} — ${t(locale, "site.name")}`}>
+  <InfoPage locale={locale} title={t(locale, "about.title")}>
+    <div class="mt-4 space-y-4 text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+      <p>{t(locale, "about.body1")}</p>
+      <p>{t(locale, "about.body2")}</p>
+    </div>
+  </InfoPage>
+</BaseLayout>

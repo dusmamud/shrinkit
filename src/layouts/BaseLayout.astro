@@ -1,0 +1,77 @@
+---
+import "../styles/global.css";
+import { t } from "../lib/i18n";
+import { alternates, localizedPath, type Locale } from "../lib/locale";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+interface Props {
+  locale: Locale;
+  /** Path without locale prefix, e.g. "/" or "/privacy". */
+  path: string;
+  title?: string;
+  description?: string;
+}
+
+const { locale, path } = Astro.props;
+
+const site = (Astro.site ?? new URL("https://shrinkit.pages.dev")).toString().replace(/\/$/, "");
+const title = Astro.props.title ?? `${t(locale, "site.name")} — ${t(locale, "site.tagline")}`;
+const description = Astro.props.description ?? t(locale, "site.description");
+const canonical = `${site}${localizedPath(path, locale)}`;
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {alternates(site, path).map((a) => (
+      <link rel="alternate" hreflang={a.locale} href={a.href} />
+    ))}
+    <link rel="alternate" hreflang="x-default" href={`${site}${path}`} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={t(locale, "site.name")} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="theme-color" content="#0d9488" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <script is:inline>
+      (function () {
+        try {
+          var t = localStorage.getItem("shrinkit-theme");
+          var d =
+            t === "dark" ||
+            (t !== "light" && matchMedia("(prefers-color-scheme: dark)").matches);
+          document.documentElement.classList.toggle("dark", d);
+          document.documentElement.style.colorScheme = d ? "dark" : "light";
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+    <Header locale={locale} path={path} />
+    <main>
+      <slot />
+    </main>
+    <Footer locale={locale} />
+    <script is:inline>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function () {
+          navigator.serviceWorker.register("/sw.js").catch(function () {});
+        });
+      }
+    </script>
+  </body>
+</html>

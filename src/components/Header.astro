@@ -1,0 +1,68 @@
+---
+import { t } from "../lib/i18n";
+import { localizedPath, type Locale } from "../lib/locale";
+import ThemeToggle from "./react/ThemeToggle";
+import LanguageSwitcher from "./LanguageSwitcher.astro";
+
+interface Props {
+  locale: Locale;
+  path: string;
+}
+const { locale, path } = Astro.props;
+
+const links = [
+  { href: localizedPath("/", locale), label: t(locale, "nav.tool") },
+  { href: localizedPath("/privacy", locale), label: t(locale, "nav.privacy") },
+  { href: localizedPath("/about", locale), label: t(locale, "nav.about") },
+  { href: localizedPath("/contact", locale), label: t(locale, "nav.contact") },
+];
+---
+
+<header class="sticky top-0 z-40 border-b border-slate-200/70 bg-white/85 backdrop-blur dark:border-slate-800 dark:bg-slate-950/85">
+  <div class="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
+    <a href={localizedPath("/", locale)} class="flex items-center gap-2.5" aria-label={t(locale, "site.name")}>
+      <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">
+        <rect width="32" height="32" rx="8" fill="#0d9488" />
+        <path d="M9 12.5h14M9 19.5h14" stroke="#fff" stroke-width="2.4" stroke-linecap="round" />
+        <path d="M12.5 9.5 9 12.5l3.5 3M19.5 16.5l3.5 3-3.5 3" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+      </svg>
+      <span class="text-lg font-extrabold tracking-tight text-slate-900 dark:text-white">
+        {t(locale, "site.name")}
+      </span>
+    </a>
+    <nav class="hidden items-center gap-1 md:flex" aria-label="Primary">
+      {links.map((l) => (
+        <a
+          href={l.href}
+          class:list={[
+            "rounded-full px-4 py-2 text-sm font-medium transition",
+            l.href === localizedPath(path, locale)
+              ? "bg-teal-100 text-teal-800 dark:bg-teal-900/50 dark:text-teal-200"
+              : "text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white",
+          ]}
+        >
+          {l.label}
+        </a>
+      ))}
+    </nav>
+    <div class="flex items-center gap-2">
+      <LanguageSwitcher locale={locale} path={path} />
+      <ThemeToggle client:load />
+    </div>
+  </div>
+  <nav class="flex items-center gap-1 overflow-x-auto border-t border-slate-100 px-4 py-1.5 md:hidden dark:border-slate-800" aria-label="Primary mobile">
+    {links.map((l) => (
+      <a
+        href={l.href}
+        class:list={[
+          "whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-medium transition",
+          l.href === localizedPath(path, locale)
+            ? "bg-teal-100 text-teal-800 dark:bg-teal-900/50 dark:text-teal-200"
+            : "text-slate-600 dark:text-slate-300",
+        ]}
+      >
+        {l.label}
+      </a>
+    ))}
+  </nav>
+</header>

@@ -1,0 +1,26 @@
+@import "tailwindcss";
+@import "@fontsource-variable/inter";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Subtle dotted texture for the hero, drawn with CSS only */
+.hero-dots {
+  background-image: radial-gradient(circle at 1px 1px, rgb(0 0 0 / 0.08) 1px, transparent 0);
+  background-size: 22px 22px;
+}
+.dark .hero-dots {
+  background-image: radial-gradient(circle at 1px 1px, rgb(255 255 255 / 0.09) 1px, transparent 0);
+}

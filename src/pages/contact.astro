@@ -1,0 +1,18 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import InfoPage from "../components/InfoPage.astro";
+import { t } from "../lib/i18n";
+
+const locale = "en" as const;
+// Replace with a real inbox before publishing.
+const CONTACT_EMAIL = "hello@shrinkit.pages.dev";
+---
+
+<BaseLayout locale={locale} path="/contact" title={`${t(locale, "contact.title")} — ${t(locale, "site.name")}`}>
+  <InfoPage
+    locale={locale}
+    title={t(locale, "contact.title")}
+    intro={t(locale, "contact.body")}
+    contactEmail={CONTACT_EMAIL}
+  />
+</BaseLayout>

@@ -1,0 +1,24 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import InfoPage from "../../components/InfoPage.astro";
+import { t } from "../../lib/i18n";
+import { locales, type Locale } from "../../lib/locales";
+
+export function getStaticPaths() {
+  return locales
+    .filter((l): l is Exclude<Locale, "en"> => l !== "en")
+    .map((locale) => ({ params: { locale } }));
+}
+
+const { locale } = Astro.params as { locale: Locale };
+const sections = [
+  { title: t(locale, "privacy.s1t"), body: t(locale, "privacy.s1d") },
+  { title: t(locale, "privacy.s2t"), body: t(locale, "privacy.s2d") },
+  { title: t(locale, "privacy.s3t"), body: t(locale, "privacy.s3d") },
+  { title: t(locale, "privacy.s4t"), body: t(locale, "privacy.s4d") },
+];
+---
+
+<BaseLayout locale={locale} path="/privacy" title={`${t(locale, "privacy.title")} — ${t(locale, "site.name")}`}>
+  <InfoPage locale={locale} title={t(locale, "privacy.title")} intro={t(locale, "privacy.intro")} sections={sections} />
+</BaseLayout>

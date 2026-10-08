@@ -1,0 +1,19 @@
+{
+  "background_color": "#ffffff",
+  "description": "ShrinkIt — free online image resizer. Shrink, compress and convert images entirely in your browser. No sign-up, no uploads, no watermarks.",
+  "display": "standalone",
+  "icons": [
+    { "purpose": "any", "sizes": "192x192", "src": "/icons/icon-192.png", "type": "image/png" },
+    { "purpose": "any", "sizes": "512x512", "src": "/icons/icon-512.png", "type": "image/png" },
+    {
+      "purpose": "maskable",
+      "sizes": "512x512",
+      "src": "/icons/icon-maskable-512.png",
+      "type": "image/png"
+    }
+  ],
+  "name": "ShrinkIt — Image Resizer",
+  "short_name": "ShrinkIt",
+  "start_url": "/",
+  "theme_color": "#0d9488"
+}
