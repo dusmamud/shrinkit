@@ -18,15 +18,15 @@ interface DropzoneProps {
 function UploadMark() {
   return (
     <svg width="110" height="110" viewBox="0 0 110 110" fill="none" aria-hidden="true">
-      <path d="M55 80V32" stroke="#016df0" stroke-width="7" stroke-linecap="round" />
+      <path d="M55 80V32" stroke="#016df0" strokeWidth="7" strokeLinecap="round" />
       <path
         d="M34 53l21-21 21 21"
         stroke="#016df0"
-        stroke-width="7"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="7"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
-      <path d="M24 92h62" stroke="#016df0" stroke-width="7" stroke-linecap="round" />
+      <path d="M24 92h62" stroke="#016df0" strokeWidth="7" strokeLinecap="round" />
     </svg>
   );
 }

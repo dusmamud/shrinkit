@@ -9,7 +9,7 @@ export default defineConfig({
   reporter: "list",
   timeout: 120_000,
   use: {
-    baseURL: "http://localhost:4321",
+    baseURL: "http://localhost:7860",
     trace: "on-first-retry",
     acceptDownloads: true,
   },
@@ -20,8 +20,8 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: "npm run preview -- --port 4321 --host 127.0.0.1",
-    url: "http://localhost:4321",
+    command: "npm run preview -- --port 7860 --host 127.0.0.1",
+    url: "http://localhost:7860",
     reuseExistingServer: !process.env.CI,
     timeout: 60_000,
   },

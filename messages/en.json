@@ -79,6 +79,7 @@
   "settings.process_one": "Resize Image",
   "settings.processing": "Resizing…",
   "settings.quality": "Quality",
+  "settings.quality_tip": "Lower values make smaller files but lose detail — 90 is a good balance.",
   "settings.res_short": "Res",
   "settings.resize_mode": "Resize mode",
   "settings.resolution": "Resolution",

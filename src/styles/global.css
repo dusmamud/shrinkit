@@ -48,15 +48,18 @@ body {
   width: max-content;
   max-width: 220px;
   text-align: center;
+  display: none;
   opacity: 0;
   pointer-events: none;
   transition:
     opacity 0.15s ease,
-    transform 0.15s ease;
+    transform 0.15s ease,
+    display 0.15s allow-discrete;
   z-index: 50;
 }
 [data-tip]:hover::after,
 [data-tip]:focus-visible::after {
+  display: block;
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
@@ -89,6 +92,7 @@ body {
   display: grid;
   grid-template-rows: 0fr;
   opacity: 0;
+  overflow: hidden;
   transition:
     grid-template-rows 0.25s ease,
     opacity 0.25s ease,
@@ -108,6 +112,47 @@ body {
 @media (max-width: 576px) {
   .lbl-full {
     display: none;
+  }
+}
+/* Narrow phones: size row becomes a tidy grid —
+   W/H inputs + lock on one row, unit dropdown full-width below. */
+@media (max-width: 576px) {
+  .size-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    grid-template-areas:
+      "w h lock"
+      "unit unit unit";
+    align-items: center;
+    justify-items: center;
+    row-gap: 0.9rem;
+    column-gap: 0.5rem;
+  }
+  .size-row .size-group-w {
+    grid-area: w;
+    justify-self: end;
+  }
+  .size-row .size-group-h {
+    grid-area: h;
+    justify-self: start;
+  }
+  .size-row .size-group-w label,
+  .size-row .size-group-h label {
+    width: auto;
+  }
+  .size-row .size-lock {
+    grid-area: lock;
+  }
+  .size-row .size-unit {
+    grid-area: unit;
+    width: 100%;
+    max-width: 300px;
+  }
+  .size-row .size-unit select {
+    width: 100%;
+  }
+  .size-row > * {
+    min-width: 0;
   }
 }
 @media (min-width: 577px) {

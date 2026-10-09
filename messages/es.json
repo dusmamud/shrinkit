@@ -79,6 +79,7 @@
   "settings.process_one": "Redimensionar imagen",
   "settings.processing": "Redimensionando…",
   "settings.quality": "Calidad",
+  "settings.quality_tip": "Valores más bajos crean archivos más pequeños pero pierden detalle; 90 es un buen equilibrio.",
   "settings.res_short": "Res",
   "settings.resize_mode": "Modo de redimensionado",
   "settings.resolution": "Resolución",

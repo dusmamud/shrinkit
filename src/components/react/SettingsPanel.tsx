@@ -165,37 +165,41 @@ export default function SettingsPanel({
       </h2>
 
       {/* (a) Size row */}
-      <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-        <label htmlFor="set-width" className="w-20 text-right text-base font-normal text-black">
-          <span className="lbl-full">{t(locale, "settings.width")}</span>
-          <span className="lbl-short">{t(locale, "settings.w_short")}</span>
-        </label>
-        <input
-          id="set-width"
-          data-testid="width-input"
-          type="number"
-          min="0"
-          step="any"
-          value={settings.width}
-          disabled={disabled}
-          onChange={(e) => setWidth(e.target.value)}
-          className={`${numInputCls} w-[72px]`}
-        />
-        <label htmlFor="set-height" className="w-20 text-right text-base font-normal text-black">
-          <span className="lbl-full">{t(locale, "settings.height")}</span>
-          <span className="lbl-short">{t(locale, "settings.h_short")}</span>
-        </label>
-        <input
-          id="set-height"
-          data-testid="height-input"
-          type="number"
-          min="0"
-          step="any"
-          value={settings.height}
-          disabled={disabled}
-          onChange={(e) => setHeight(e.target.value)}
-          className={`${numInputCls} w-[72px]`}
-        />
+      <div className="size-row mt-6 flex flex-wrap items-center justify-center gap-3">
+        <div className="size-group-w flex items-center gap-3">
+          <label htmlFor="set-width" className="w-20 text-right text-base font-normal text-black">
+            <span className="lbl-full">{t(locale, "settings.width")}</span>
+            <span className="lbl-short">{t(locale, "settings.w_short")}</span>
+          </label>
+          <input
+            id="set-width"
+            data-testid="width-input"
+            type="number"
+            min="0"
+            step="any"
+            value={settings.width}
+            disabled={disabled}
+            onChange={(e) => setWidth(e.target.value)}
+            className={`${numInputCls} w-[72px]`}
+          />
+        </div>
+        <div className="size-group-h flex items-center gap-3">
+          <label htmlFor="set-height" className="w-20 text-right text-base font-normal text-black">
+            <span className="lbl-full">{t(locale, "settings.height")}</span>
+            <span className="lbl-short">{t(locale, "settings.h_short")}</span>
+          </label>
+          <input
+            id="set-height"
+            data-testid="height-input"
+            type="number"
+            min="0"
+            step="any"
+            value={settings.height}
+            disabled={disabled}
+            onChange={(e) => setHeight(e.target.value)}
+            className={`${numInputCls} w-[72px]`}
+          />
+        </div>
         <button
           type="button"
           data-testid="aspect-lock"
@@ -204,11 +208,11 @@ export default function SettingsPanel({
           data-tip={t(locale, "settings.lock_tip")}
           disabled={disabled}
           onClick={() => setLocked((v) => !v)}
-          className="inline-flex h-[50px] w-[50px] items-center justify-center rounded-[6px] border border-[#667085] text-[#1d2939] transition hover:border-[#016df0] hover:text-[#016df0] disabled:opacity-50"
+          className="size-lock inline-flex h-[50px] w-[50px] items-center justify-center rounded-[6px] border border-[#667085] text-[#1d2939] transition hover:border-[#016df0] hover:text-[#016df0] disabled:opacity-50"
         >
           {locked ? <Lock size={22} /> : <LockOpen size={22} />}
         </button>
-        <div className="relative">
+        <div className="size-unit relative">
           <select
             id="set-unit"
             data-testid="unit-select"
@@ -242,7 +246,7 @@ export default function SettingsPanel({
             {t(locale, "settings.res_short")}
           </span>
         </label>
-        <div className="relative">
+        <div className="relative" data-tip={t(locale, "settings.resolution_tip")}>
           <input
             id="set-dpi"
             data-testid="dpi-input"
@@ -282,7 +286,7 @@ export default function SettingsPanel({
                   tabIndex={showModes ? 0 : -1}
                   onClick={() => onChange({ resizeMode: m })}
                   className={[
-                    "flex w-28 flex-col items-center gap-1.5 rounded-[6px] px-3 pb-2 pt-3 transition",
+                    "flex w-24 flex-col items-center gap-1.5 rounded-[6px] px-2 pb-2 pt-3 transition sm:w-28 sm:px-3",
                     selected ? "scale-[1.04] border-b-4 border-[#42c3ac]" : "hover:bg-[#fafcff]",
                   ].join(" ")}
                 >
@@ -314,7 +318,7 @@ export default function SettingsPanel({
           >
             {t(locale, "settings.format")}
           </label>
-          <div className="relative">
+          <div className="relative" data-tip={t(locale, "settings.format_tip")}>
             <select
               id="set-format"
               data-testid="format-select"
@@ -334,8 +338,11 @@ export default function SettingsPanel({
         </div>
 
         {qualityApplies && (
-          <div className="flex items-center gap-3">
-            <label htmlFor="set-quality" className="text-base font-normal text-black">
+          <div className="flex items-center gap-3" data-tip={t(locale, "settings.quality_tip")}>
+            <label
+              htmlFor="set-quality"
+              className="cursor-help text-base font-normal text-black underline decoration-dotted underline-offset-4"
+            >
               {t(locale, "settings.quality")}
             </label>
             <div className="relative">

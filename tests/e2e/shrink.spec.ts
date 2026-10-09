@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { gotoApp } from "./helpers";
 import path from "path";
 import fs from "fs";
 
@@ -14,7 +15,7 @@ const small = path.resolve(here, "fixtures/small.jpg"); // 640×480
  */
 
 test("single image: 50% resize + quality 60 → JPEG downloads at 960×540", async ({ page }) => {
-  await page.goto("/");
+  await gotoApp(page);
   await expect(page.getByTestId("dropzone")).toBeVisible();
 
   // Upload the demo photo.
@@ -50,7 +51,7 @@ test("single image: 50% resize + quality 60 → JPEG downloads at 960×540", asy
   await downloadBtn.click();
   const download = await downloadPromise;
   expect(download.suggestedFilename()).toMatch(/\.jpg$/);
-  const outPath = path.resolve(here, "fixtures", `e2e-out-${Date.now()}.jpg`);
+  const outPath = `/tmp/e2e-out-${Date.now()}.jpg`;
   await download.saveAs(outPath);
   const stats = fs.statSync(outPath);
   const original = fs.statSync(photo);
@@ -65,7 +66,7 @@ test("single image: 50% resize + quality 60 → JPEG downloads at 960×540", asy
 });
 
 test("format conversion: JPG → PNG renames the file and downloads", async ({ page }) => {
-  await page.goto("/");
+  await gotoApp(page);
   await page.getByTestId("file-input").setInputFiles(small);
   await page.getByTestId("format-select").selectOption("png");
   // Quality control is hidden for PNG (forced 100).
@@ -80,7 +81,7 @@ test("format conversion: JPG → PNG renames the file and downloads", async ({ p
   await downloadBtn.click();
   const download = await downloadPromise;
   expect(download.suggestedFilename()).toBe("small.png");
-  const outPath = path.resolve(here, "fixtures", `e2e-out-${Date.now()}.png`);
+  const outPath = `/tmp/e2e-out-${Date.now()}.png`;
   await download.saveAs(outPath);
   const bytes = fs.readFileSync(outPath);
   // PNG signature.
@@ -91,7 +92,7 @@ test("format conversion: JPG → PNG renames the file and downloads", async ({ p
 });
 
 test("batch: two images process and download as a ZIP", async ({ page }) => {
-  await page.goto("/");
+  await gotoApp(page);
   await page.getByTestId("file-input").setInputFiles([photo, small]);
   await expect(page.getByTestId("process-button")).toContainText("Resize All Images");
   await page.getByTestId("process-button").click();
@@ -106,7 +107,7 @@ test("batch: two images process and download as a ZIP", async ({ page }) => {
   await page.getByTestId("download-zip").click();
   const download = await downloadPromise;
   expect(download.suggestedFilename()).toBe("shrinkit-images.zip");
-  const outPath = path.resolve(here, "fixtures", `e2e-out-${Date.now()}.zip`);
+  const outPath = `/tmp/e2e-out-${Date.now()}.zip`;
   await download.saveAs(outPath);
   const bytes = fs.readFileSync(outPath);
   // ZIP local file header signature "PK\x03\x04".
@@ -117,7 +118,7 @@ test("batch: two images process and download as a ZIP", async ({ page }) => {
 });
 
 test("aspect lock off + unequal dims reveals stretch/crop/fit modes", async ({ page }) => {
-  await page.goto("/");
+  await gotoApp(page);
   await page.getByTestId("file-input").setInputFiles(photo);
 
   // Modes row is collapsed while the aspect lock is on.
@@ -144,14 +145,14 @@ test("aspect lock off + unequal dims reveals stretch/crop/fit modes", async ({ p
   const downloadPromise = page.waitForEvent("download", { timeout: 30_000 });
   await downloadBtn.click();
   const download = await downloadPromise;
-  const outPath = path.resolve(here, "fixtures", `e2e-out-${Date.now()}.jpg`);
+  const outPath = `/tmp/e2e-out-${Date.now()}.jpg`;
   await download.saveAs(outPath);
   expect(fs.statSync(outPath).size).toBeGreaterThan(0);
   fs.unlinkSync(outPath);
 });
 
 test("fit mode letterboxes with transparency on PNG output", async ({ page }) => {
-  await page.goto("/");
+  await gotoApp(page);
   await page.getByTestId("file-input").setInputFiles(photo);
 
   await page.getByTestId("aspect-lock").click();
@@ -169,7 +170,7 @@ test("fit mode letterboxes with transparency on PNG output", async ({ page }) =>
   const downloadPromise = page.waitForEvent("download", { timeout: 30_000 });
   await downloadBtn.click();
   const download = await downloadPromise;
-  const outPath = path.resolve(here, "fixtures", `e2e-out-${Date.now()}.png`);
+  const outPath = `/tmp/e2e-out-${Date.now()}.png`;
   await download.saveAs(outPath);
   const bytes = fs.readFileSync(outPath);
 
@@ -194,10 +195,8 @@ test("fit mode letterboxes with transparency on PNG output", async ({ page }) =>
 });
 
 test("unsupported file shows a clear error, not a silent failure", async ({ page }) => {
-  await page.goto("/");
+  await gotoApp(page);
   const txtPath = path.resolve(here, "fixtures", "note.txt");
-  fs.writeFileSync(txtPath, "not an image");
   await page.getByTestId("file-input").setInputFiles(txtPath);
   await expect(page.getByRole("alert")).toContainText(/not a supported/i);
-  fs.unlinkSync(txtPath);
 });

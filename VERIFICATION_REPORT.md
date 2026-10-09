@@ -143,3 +143,93 @@ protection" error. Fixed by passing an `OffscreenCanvas`-based
   refused with a clear error instead of crashing the tab.
 - `CONTACT_EMAIL` in the contact pages and `site` in `astro.config.mjs`
   are placeholders — set them before publishing.
+
+## 2026-10-09 — Full QA pass: "Choose new size and format" + responsive + result display
+
+Fourteen checklist items tested one-by-one in headless Chromium (Playwright),
+each screenshot-verified. Issues found and fixed below; everything re-verified
+after each fix.
+
+### Issues found → fix applied → verification
+
+1. **Mobile (390px): Width/Height row overlapped.** The size row used
+   `flex-wrap`; on narrow screens the Height input wrapped under its label and
+   collided with the aspect-lock button and unit dropdown (screenshot showed
+   the "70" input overlapping the lock + Percent select). Fix:
+   `SettingsPanel.tsx` groups each label+input in a nowrap flex wrapper;
+   `global.css` adds a ≤576px grid layout (`W [70] H [70] [lock]` on row 1,
+   unit dropdown full-width on row 2; labels collapse to W/H/Res). Verified:
+   bounding boxes show zero overlap; screenshot confirms tidy stacking.
+2. **Mobile: resize-mode buttons (Stretch/Crop/Fit) overflowed 53px.**
+   Three `w-28` buttons exceeded the 390px viewport. Fix: buttons are
+   `w-24` below the `sm` breakpoint (`sm:w-28` on desktop). Verified: all
+   three fit, 0px horizontal overflow.
+3. **Phantom horizontal overflow from hidden tooltips.** Every `[data-tip]`
+   tooltip renders an always-present `::after` pseudo-element (opacity 0).
+   Absolutely-positioned centered tooltips contribute to `scrollWidth` even
+   when invisible — the 50px aspect-lock button reported scrollWidth 134px,
+   pushing `documentElement.scrollWidth` to 443px on mobile. Fix: tooltip
+   `::after` is now `display: none` when idle and `display: block` on
+   hover/focus-visible, with `transition-behavior: allow-discrete` so the
+   fade still animates. Verified: resting `scrollWidth - clientWidth = 0`;
+   tooltip still appears on hover (computed `display: block, opacity: 1`).
+4. **Missing tooltips (minor).** DPI input, format select and Quality had no
+   tooltip while every other control did (Quality had none at all). Added
+   `data-tip` wrappers + new `settings.quality_tip` key in en/es/pt
+   (paraglide recompiled). Verified in tests.
+5. **Invalid React DOM props.** `stroke-width` / `stroke-linecap` /
+   `stroke-linejoin` on an SVG in `Dropzone.tsx` (console warnings). Fixed to
+   camelCase props.
+
+### Verified working (no fix needed)
+
+- Aspect lock ON: Width=50 → Height auto 50 (proportional); OFF: 800×450
+  independent; lock icon swaps closed/open.
+- Units: 50% of 1920×1080 → 960×540; pixels/cm/inches exact incl. DPI math.
+- Mode row hidden while locked; slides open only when unlocked AND aspect
+  differs; Stretch exact W×H, Crop exact W×H center-cropped, Fit letterboxes
+  with chosen bg (pixel-verified) / transparency for PNG.
+- JPG/PNG/GIF/WebP all produce valid signatures + extensions; Quality input
+  hidden for PNG/GIF (forced 100), visible for JPG/WebP; quality 20 vs 90
+  differs substantially in bytes.
+- Bg swatch 3px #016df0 ring; transparent PNG → JPG uses chosen bg
+  (corner pixel verified).
+- Button label "Resize Image" (1 file) / "Resize All Images" (batch).
+- Result panel: filename, dimensions, size, unambiguous "x% saved" /
+  "+x% larger"; single row layout; batch card grid + ZIP downloads a valid
+  zip; downloads verified byte-identical.
+- .txt upload → red #d33 localized banner; oversized image refused cleanly.
+- /es/ + /pt/ fully translated (no raw keys).
+- EXIF checkbox toggles; drag-over highlights; input accepts multiple.
+- Responsive: hamburger → full-screen menu (links work, X closes); result
+  cards + footer stack; 0px horizontal overflow at 390px.
+
+### Test-environment notes (not app bugs)
+
+- Dev server on :7860 once served pages where React handlers never fired;
+  root cause was a corrupted Vite optimizer cache — cleared
+  `node_modules/.vite` + `.astro`, restarted, uploads work. Production
+  `astro build` output was never affected.
+- A test that wrote fixture files into the project tree mid-run triggered
+  Vite's file watcher → full page reload → React state wiped → upload lost.
+  Fixed by committing permanent fixtures (`transparent.png`, `huge.jpg`,
+  `note.txt`) and writing downloads to /tmp. Not an app bug.
+- `tests/e2e/helpers.ts` `gotoApp()` waits for React hydration before
+  `setInputFiles` — fixes a real race where uploading onto SSR markup
+  silently drops files.
+
+### Static quality gates — PASS (2026-10-09 ~06:40 IST)
+
+| Gate             | Command                  | Result                        |
+| ---------------- | ------------------------ | ----------------------------- |
+| TypeScript       | `npx tsc --noEmit`       | clean, 0 errors               |
+| ESLint           | `npx eslint .`           | 0 errors, 5 `any` warnings in tests/e2e (pre-existing pattern) |
+| Prettier         | `npx prettier --check .` | all files conform             |
+| Unit tests       | `npx vitest run`         | 50/50 passed                  |
+| E2E (Playwright) | `npx playwright test`    | 23/23 passed (qa 14, responsive 3, shrink 6) |
+| Production build | `npm run build`          | success — 13 pages, sitemap   |
+
+### Not verifiable in this sandbox
+
+Visual design review on a real display/GPU, Safari/Firefox, real-phone EXIF
+photos, Cloudflare Pages deploy — need the maintainer's machine/browser.
