@@ -25,6 +25,9 @@ export default defineConfig({
         outdir: "./src/paraglide",
       }),
     ],
+    optimizeDeps: {
+      include: ["piexifjs", "exifr", "pica", "gifenc", "jszip"],
+    },
     worker: {
       format: "es",
     },

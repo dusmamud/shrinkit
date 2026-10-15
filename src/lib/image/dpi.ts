@@ -133,7 +133,8 @@ export function injectPngDpi(png: Uint8Array, dpi: number): Uint8Array {
  */
 export async function injectJpegDpi(jpeg: Uint8Array, dpi: number): Promise<Uint8Array> {
   if (!isJpeg(jpeg) || !Number.isFinite(dpi) || dpi <= 0) return jpeg;
-  const piexif = (await import("piexifjs")).default;
+  const mod = await import("piexifjs");
+  const piexif = (mod as any).default ?? mod;
   const rounded = Math.max(1, Math.round(dpi));
   const exifStr = piexif.dump({
     "0th": {
@@ -161,7 +162,8 @@ export async function preserveJpegExif(
   dpi: number,
 ): Promise<Uint8Array> {
   if (!isJpeg(srcJpeg) || !isJpeg(dstJpeg)) return dstJpeg;
-  const piexif = (await import("piexifjs")).default;
+  const mod = await import("piexifjs");
+  const piexif = (mod as any).default ?? mod;
   let exif: Record<string, Record<number, unknown>>;
   try {
     exif = piexif.load(bytesToDataUrl(srcJpeg, "jpeg")) as Record<string, Record<number, unknown>>;

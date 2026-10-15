@@ -148,14 +148,10 @@ export default function CustomSelect<T extends string = string>({
         onChange={(e) => onChange(e.target.value as T)}
         style={{
           position: "absolute",
-          width: "1px",
-          height: "1px",
-          padding: 0,
-          margin: "-1px",
-          overflow: "hidden",
-          clip: "rect(0, 0, 0, 0)",
-          whiteSpace: "nowrap",
-          borderWidth: 0,
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
           opacity: 0,
           pointerEvents: "none",
         }}

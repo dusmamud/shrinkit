@@ -370,11 +370,14 @@ export default function SettingsPanel({
 
           {/* Resolution Row (Full text label always, perfectly aligned) */}
           {resolutionApplies && (
-            <div id="resolution_row" className="mt-4 flex items-center justify-center">
+            <div
+              id="resolution_row"
+              data-tip={t(locale, "settings.resolution_tip")}
+              className="mt-4 flex items-center justify-center"
+            >
               <div className="flex h-[50px] items-center justify-end pr-2.5 sm:pr-4">
                 <label
                   htmlFor="set-dpi"
-                  data-tip={t(locale, "settings.resolution_tip")}
                   className="lbl-full font-medium text-[0.875rem] sm:text-[1.125rem] text-[#000] whitespace-nowrap cursor-help underline decoration-dotted underline-offset-4"
                 >
                   {t(locale, "settings.resolution")}
@@ -408,51 +411,52 @@ export default function SettingsPanel({
         </div>
 
         {/* Resize Mode Row (slides open when unlocked & W !== H) */}
-        {showModes && (
-          <div className="mode-row open my-4" aria-hidden={false}>
-            <div
-              className="flex items-stretch justify-center gap-2 sm:gap-4 pb-2"
-              role="radiogroup"
-              aria-label={t(locale, "settings.resize_mode")}
-            >
-              {MODES.map((m) => {
-                const selected = settings.resizeMode === m;
-                return (
-                  <button
-                    key={m}
-                    type="button"
-                    role="radio"
-                    aria-checked={selected}
-                    data-testid={`mode-${m}`}
-                    data-tip={t(locale, `settings.mode_${m}_tip` as MessageKey)}
-                    disabled={disabled}
-                    onClick={() => onChange({ resizeMode: m })}
-                    className={[
-                      "flex w-24 flex-col items-center gap-1.5 rounded-[6px] px-2 pb-2 pt-3 transition sm:w-28 sm:px-3",
-                      selected
-                        ? "scale-[1.04] border-b-4 border-[#42c3ac]"
-                        : "hover:bg-[#fafcff]",
-                    ].join(" ")}
-                  >
-                    <ModeDiagram mode={m} />
-                    <span className="flex items-center gap-1.5 text-sm font-normal text-black">
-                      <span
-                        className={[
-                          "inline-block h-3.5 w-3.5 rounded-full border-2",
-                          selected
-                            ? "border-[#007bff] bg-[#007bff]"
-                            : "border-[#667085] bg-white",
-                        ].join(" ")}
-                        aria-hidden="true"
-                      />
-                      {t(locale, `settings.mode_${m}` as MessageKey)}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
+        <div
+          className={`mode-row ${showModes ? "open my-4 block" : "hidden"}`}
+          aria-hidden={!showModes}
+        >
+          <div
+            className="flex items-stretch justify-center gap-2 sm:gap-4 pb-2"
+            role="radiogroup"
+            aria-label={t(locale, "settings.resize_mode")}
+          >
+            {MODES.map((m) => {
+              const selected = settings.resizeMode === m;
+              return (
+                <button
+                  key={m}
+                  type="button"
+                  role="radio"
+                  aria-checked={selected}
+                  data-testid={`mode-${m}`}
+                  data-tip={t(locale, `settings.mode_${m}_tip` as MessageKey)}
+                  disabled={disabled}
+                  onClick={() => onChange({ resizeMode: m })}
+                  className={[
+                    "flex w-24 flex-col items-center gap-1.5 rounded-[6px] px-2 pb-2 pt-3 transition sm:w-28 sm:px-3",
+                    selected
+                      ? "scale-[1.04] border-b-4 border-[#42c3ac]"
+                      : "hover:bg-[#fafcff]",
+                  ].join(" ")}
+                >
+                  <ModeDiagram mode={m} />
+                  <span className="flex items-center gap-1.5 text-sm font-normal text-black">
+                    <span
+                      className={[
+                        "inline-block h-3.5 w-3.5 rounded-full border-2",
+                        selected
+                          ? "border-[#007bff] bg-[#007bff]"
+                          : "border-[#667085] bg-white",
+                      ].join(" ")}
+                      aria-hidden="true"
+                    />
+                    {t(locale, `settings.mode_${m}` as MessageKey)}
+                  </span>
+                </button>
+              );
+            })}
           </div>
-        )}
+        </div>
 
         {/* (b) Format / Quality / Background row — Exact ReduceImages layout */}
         <div className="format-quality-area mt-8 flex flex-wrap items-center justify-center gap-6 sm:gap-10">
@@ -534,7 +538,7 @@ export default function SettingsPanel({
                         : "bg-black shadow-[0px_1px_5px_0px_rgba(0,0,0,0.2)]"
                     } ${
                       selected
-                        ? "border-[3px] border-[#016df0]"
+                        ? "ring-[3px] ring-[#016df0] border-[3px] border-[#016df0]"
                         : c === "white"
                           ? "border border-[#ddd]"
                           : "border border-black"

@@ -180,13 +180,13 @@ export default function Dropzone({
         <div
           id="error_message_offline"
           role="alert"
-          className="mx-auto mt-8 flex max-w-xl items-start gap-3 rounded-[6px] border border-[#f5c6cb] bg-[#f8d7da] p-4 text-left text-sm text-[#721c24] shadow-sm transition"
+          className="mx-auto mt-8 flex max-w-xl items-start gap-3 rounded-[6px] bg-[#d33] p-4 text-left text-sm text-white shadow-sm transition"
           onClick={(e) => e.stopPropagation()}
         >
-          <WarningCircle size={22} weight="fill" className="shrink-0 text-[#d33] mt-0.5" />
+          <WarningCircle size={22} weight="fill" className="shrink-0 text-white mt-0.5" />
           <div className="flex-1">
-            <div className="font-semibold text-black">
-              {failedFiles && failedFiles.length > 0
+            <div className="font-semibold text-white">
+              {failedFiles && failedFiles.length > 1
                 ? "Some selected images are not supported. Please select JPG, PNG, BMP, WebP or GIF images only."
                 : error}
             </div>

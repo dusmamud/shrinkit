@@ -36,13 +36,34 @@ function triggerDownload(url: string, fileName: string): void {
 /** Read dimensions without fully processing — for the thumbnail strip. */
 async function probeDims(file: File): Promise<{ width: number; height: number } | null> {
   try {
-    const bmp = await createImageBitmap(file);
-    const dims = { width: bmp.width, height: bmp.height };
-    bmp.close();
-    return dims;
+    if (typeof createImageBitmap === "function") {
+      const bmp = await createImageBitmap(file);
+      const dims = { width: bmp.width, height: bmp.height };
+      bmp.close();
+      return dims;
+    }
   } catch {
-    return null;
+    // Fall back to Image element
   }
+
+  return new Promise((resolve) => {
+    try {
+      const url = URL.createObjectURL(file);
+      const img = new Image();
+      img.onload = () => {
+        const dims = { width: img.naturalWidth, height: img.naturalHeight };
+        URL.revokeObjectURL(url);
+        resolve(dims);
+      };
+      img.onerror = () => {
+        URL.revokeObjectURL(url);
+        resolve(null);
+      };
+      img.src = url;
+    } catch {
+      resolve(null);
+    }
+  });
 }
 
 function errorMessageFor(locale: Locale, err: unknown, fileName: string): string {
@@ -153,22 +174,20 @@ export default function ShrinkItApp({ locale }: ShrinkItAppProps) {
             : "Some selected images are not supported. Please select JPG, PNG, BMP, WebP or GIF images only."
         );
       }
-      let fresh: QueueItem[] = [];
-      setItems((prev) => {
-        const room = MAX_BATCH - prev.length;
-        const take = accepted.slice(0, Math.max(0, room));
-        if (accepted.length > take.length) {
-          setFormError(t(locale, "errors.too_many", { max: MAX_BATCH }));
-        }
-        fresh = take.map((file) => ({
-          id: nextId(),
-          file,
-          previewUrl: URL.createObjectURL(file),
-          status: "queued" as const,
-          background: "white" as const,
-        }));
-        return [...prev, ...fresh];
-      });
+      const room = MAX_BATCH - itemsRef.current.length;
+      const take = accepted.slice(0, Math.max(0, room));
+      if (accepted.length > take.length) {
+        setFormError(t(locale, "errors.too_many", { max: MAX_BATCH }));
+      }
+      const fresh: QueueItem[] = take.map((file) => ({
+        id: nextId(),
+        file,
+        previewUrl: URL.createObjectURL(file),
+        status: "queued" as const,
+        background: "white" as const,
+      }));
+      setItems((prev) => [...prev, ...fresh]);
+
       // Fill in dimensions asynchronously for thumbnail strip and calculations.
       for (let idx = 0; idx < fresh.length; idx++) {
         const item = fresh[idx];
