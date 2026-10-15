@@ -197,219 +197,211 @@ export default function SettingsPanel({
           {t(locale, "settings.title")}
         </h2>
 
-        {/* (a) Size Form Area - Exact ReduceImages table layout */}
-        <div className="size-form-area flex justify-center items-center">
-          <table className="border-collapse mx-auto">
-            <tbody>
-              <tr className="width_and_height">
-                <td className="label_cell text-right pr-4 align-middle">
-                  <div className="flex justify-end items-center h-[50px] my-[18px]">
-                    <label className="lbl-full text-[1.2rem] font-medium text-[#000]" htmlFor="set-width">
-                      {t(locale, "settings.width")}
-                    </label>
-                    <label className="lbl-short text-[1.2rem] font-medium text-[#000]" htmlFor="set-width">
-                      {t(locale, "settings.w_short")}
-                    </label>
-                  </div>
-                  <div className="flex justify-end items-center h-[50px] my-[18px]">
-                    <label className="lbl-full text-[1.2rem] font-medium text-[#000]" htmlFor="set-height">
-                      {t(locale, "settings.height")}
-                    </label>
-                    <label className="lbl-short text-[1.2rem] font-medium text-[#000]" htmlFor="set-height">
-                      {t(locale, "settings.h_short")}
-                    </label>
-                  </div>
-                </td>
+        {/* (a) Size Form Area - Exact ReduceImages alignment with full text labels */}
+        <div className="size-form-area flex flex-col items-center justify-center">
+          {/* Width & Height + Lock + Unit Section */}
+          <div className="flex items-center justify-center">
+            {/* Labels Column (Full text always, responsive font size) */}
+            <div className="flex flex-col gap-4 text-right pr-2.5 sm:pr-4">
+              <div className="flex h-[50px] items-center justify-end">
+                <label
+                  htmlFor="set-width"
+                  className="lbl-full font-medium text-[0.875rem] sm:text-[1.125rem] text-[#000] whitespace-nowrap"
+                >
+                  {t(locale, "settings.width")}
+                </label>
+              </div>
+              <div className="flex h-[50px] items-center justify-end">
+                <label
+                  htmlFor="set-height"
+                  className="lbl-full font-medium text-[0.875rem] sm:text-[1.125rem] text-[#000] whitespace-nowrap"
+                >
+                  {t(locale, "settings.height")}
+                </label>
+              </div>
+            </div>
 
-                <td className="lock_and_units_area align-middle whitespace-nowrap">
-                  <div className="flex items-center">
-                    {/* Inputs Column */}
-                    <div className="inputs_col flex flex-col">
-                      <input
-                        id="set-width"
-                        data-testid="width-input"
-                        type="number"
-                        min="0"
-                        step="any"
-                        value={settings.width}
-                        disabled={disabled}
-                        onChange={(e) => setWidth(e.target.value)}
-                        className={`w-[72px] h-[50px] my-[18px] text-center text-[1.25em] font-light text-[#1d2939] bg-white border rounded-[6px] outline-none transition focus:border-[#016df0] ${
-                          isWidthInvalid ? "border-[#d33] focus:border-[#d33]" : "border-[#667085]"
-                        }`}
+            {/* Inputs Column */}
+            <div className="flex flex-col gap-4">
+              <input
+                id="set-width"
+                data-testid="width-input"
+                type="number"
+                min="0"
+                step="any"
+                value={settings.width}
+                disabled={disabled}
+                onChange={(e) => setWidth(e.target.value)}
+                className={`h-[50px] w-[68px] sm:w-[72px] text-center text-[1.15em] sm:text-[1.25em] font-light text-[#1d2939] bg-white border rounded-[6px] outline-none transition focus:border-[#016df0] ${
+                  isWidthInvalid ? "border-[#d33] focus:border-[#d33]" : "border-[#667085]"
+                }`}
+              />
+              <input
+                id="set-height"
+                data-testid="height-input"
+                type="number"
+                min="0"
+                step="any"
+                value={settings.height}
+                disabled={disabled}
+                onChange={(e) => setHeight(e.target.value)}
+                className={`h-[50px] w-[68px] sm:w-[72px] text-center text-[1.15em] sm:text-[1.25em] font-light text-[#1d2939] bg-white border rounded-[6px] outline-none transition focus:border-[#016df0] ${
+                  isHeightInvalid ? "border-[#d33] focus:border-[#d33]" : "border-[#667085]"
+                }`}
+              />
+            </div>
+
+            {/* Bracket + Blue Circular Lock Badge + Unit Dropdown */}
+            <div className="flex items-center">
+              {/* Precision Bracket SVG (50px top + 16px gap + 50px bottom = 116px total) */}
+              <div className="relative h-[116px] w-[50px] sm:w-[58px] flex-shrink-0">
+                <svg
+                  width="100%"
+                  height="116"
+                  viewBox="0 0 58 116"
+                  className="overflow-visible"
+                  aria-hidden="true"
+                >
+                  {/* Top Line to Lock Badge (Y=25 is center of 50px top input) */}
+                  <path
+                    d="M 0 25 L 18 25 Q 26 25 26 33 L 26 45"
+                    fill="none"
+                    stroke={locked ? "#1d2939" : "transparent"}
+                    strokeWidth="1.2"
+                  />
+                  {/* Bottom Line to Lock Badge (Y=91 is center of bottom input: 50+16+25=91) */}
+                  <path
+                    d="M 0 91 L 18 91 Q 26 91 26 83 L 26 71"
+                    fill="none"
+                    stroke={locked ? "#1d2939" : "transparent"}
+                    strokeWidth="1.2"
+                  />
+                  {/* Horizontal Line to Unit Select (Y=58 is exact midpoint) */}
+                  <line
+                    x1="39"
+                    y1="58"
+                    x2="58"
+                    y2="58"
+                    stroke="#1d2939"
+                    strokeWidth="1.2"
+                  />
+                </svg>
+
+                {/* Clickable Blue Circle Badge exactly centered at (26, 58) */}
+                <button
+                  type="button"
+                  data-testid="aspect-lock"
+                  aria-pressed={locked}
+                  aria-label={t(
+                    locale,
+                    locked ? "settings.unlock_aspect" : "settings.lock_aspect",
+                  )}
+                  data-tip={t(locale, "settings.lock_tip")}
+                  onClick={toggleLock}
+                  className={`absolute left-[13px] top-[45px] z-10 flex h-[26px] w-[26px] items-center justify-center rounded-full transition-transform active:scale-95 ${
+                    locked
+                      ? "bg-[#016df0] text-white shadow-sm"
+                      : "bg-[#667085] text-white opacity-80"
+                  }`}
+                >
+                  {locked ? (
+                    <svg width="12" height="14" viewBox="0 0 12 14" fill="none">
+                      <path
+                        d="M2.5 5.5V3.5C2.5 1.567 4.067 0 6 0C7.933 0 9.5 1.567 9.5 3.5V5.5"
+                        stroke="white"
+                        strokeWidth="1.8"
+                        strokeLinecap="round"
                       />
-                      <input
-                        id="set-height"
-                        data-testid="height-input"
-                        type="number"
-                        min="0"
-                        step="any"
-                        value={settings.height}
-                        disabled={disabled}
-                        onChange={(e) => setHeight(e.target.value)}
-                        className={`w-[72px] h-[50px] my-[18px] text-center text-[1.25em] font-light text-[#1d2939] bg-white border rounded-[6px] outline-none transition focus:border-[#016df0] ${
-                          isHeightInvalid ? "border-[#d33] focus:border-[#d33]" : "border-[#667085]"
-                        }`}
+                      <rect y="5.5" width="12" height="8.5" rx="2" fill="white" />
+                      <circle cx="6" cy="9.75" r="1.2" fill="#016df0" />
+                    </svg>
+                  ) : (
+                    <svg width="12" height="14" viewBox="0 0 12 14" fill="none">
+                      <path
+                        d="M2.5 5.5V3.5C2.5 1.567 4.067 0 6 0C7.933 0 9.5 1.567 9.5 3.5"
+                        stroke="white"
+                        strokeWidth="1.8"
+                        strokeLinecap="round"
                       />
-                    </div>
+                      <rect y="5.5" width="12" height="8.5" rx="2" fill="white" />
+                      <circle cx="6" cy="9.75" r="1.2" fill="#667085" />
+                    </svg>
+                  )}
+                </button>
+              </div>
 
-                    {/* Mathematical SVG Bracket & Circular Lock Badge */}
-                    <div className="relative inline-block select-none -ml-[1px]">
-                      <svg
-                        width="64"
-                        height="176"
-                        viewBox="0 0 64 176"
-                        className="overflow-visible"
-                        aria-hidden="true"
-                      >
-                        {/* Top Line to Lock Badge (Y=43 is center of top input 18+25) */}
-                        <path
-                          d="M 0 43 L 18 43 Q 26 43 26 51 L 26 75"
-                          fill="none"
-                          stroke={locked ? "#1d2939" : "transparent"}
-                          strokeWidth="1.2"
-                        />
-                        {/* Bottom Line to Lock Badge (Y=133 is center of bottom input 18+50+18+25+22... wait: 18+50+18+25 = 111, wait: 50+36+50 = 136? No: top input is 18 to 68, center 43; bottom input is 86 to 136, center 111) */}
-                        <path
-                          d="M 0 111 L 18 111 Q 26 111 26 103 L 26 79"
-                          fill="none"
-                          stroke={locked ? "#1d2939" : "transparent"}
-                          strokeWidth="1.2"
-                        />
-                        {/* Right Line to Unit Dropdown */}
-                        <line
-                          x1="39"
-                          y1="77"
-                          x2="64"
-                          y2="77"
-                          stroke="#1d2939"
-                          strokeWidth="1.2"
-                        />
-                      </svg>
+              {/* Unit Select Dropdown */}
+              <div className="relative">
+                <select
+                  id="set-unit"
+                  data-testid="unit-select"
+                  aria-label={t(locale, "settings.unit")}
+                  value={settings.unit}
+                  disabled={disabled}
+                  onChange={(e) => handleUnitChange(e.target.value as SizeUnit)}
+                  className="h-[50px] w-[120px] sm:w-[150px] appearance-none rounded-[6px] border border-[#667085] bg-white px-2.5 sm:px-4 pr-7 sm:pr-9 text-center text-[0.875rem] sm:text-[1rem] capitalize text-[#1d2939] outline-none transition focus:border-[#016df0] cursor-pointer"
+                >
+                  {UNITS.map((u) => (
+                    <option key={u} value={u}>
+                      {t(locale, `settings.units.${u}` as MessageKey)}
+                    </option>
+                  ))}
+                </select>
+                <svg
+                  className="pointer-events-none absolute right-2.5 sm:right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#1d2939]"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="m4 6 4 4 4-4"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
 
-                      {/* Clickable Blue Circle Badge exactly centered at (26, 77) */}
-                      <button
-                        type="button"
-                        data-testid="aspect-lock"
-                        aria-pressed={locked}
-                        aria-label={t(
-                          locale,
-                          locked ? "settings.unlock_aspect" : "settings.lock_aspect",
-                        )}
-                        data-tip={t(locale, "settings.lock_tip")}
-                        onClick={toggleLock}
-                        className={`absolute left-[13px] top-[64px] z-10 flex h-[26px] w-[26px] items-center justify-center rounded-full transition-transform active:scale-95 ${
-                          locked
-                            ? "bg-[#016df0] text-white shadow-sm"
-                            : "bg-[#667085] text-white opacity-80"
-                        }`}
-                      >
-                        {locked ? (
-                          <svg width="12" height="14" viewBox="0 0 12 14" fill="none">
-                            <path
-                              d="M2.5 5.5V3.5C2.5 1.567 4.067 0 6 0C7.933 0 9.5 1.567 9.5 3.5V5.5"
-                              stroke="white"
-                              strokeWidth="1.8"
-                              strokeLinecap="round"
-                            />
-                            <rect y="5.5" width="12" height="8.5" rx="2" fill="white" />
-                            <circle cx="6" cy="9.75" r="1.2" fill="#016df0" />
-                          </svg>
-                        ) : (
-                          <svg width="12" height="14" viewBox="0 0 12 14" fill="none">
-                            <path
-                              d="M2.5 5.5V3.5C2.5 1.567 4.067 0 6 0C7.933 0 9.5 1.567 9.5 3.5"
-                              stroke="white"
-                              strokeWidth="1.8"
-                              strokeLinecap="round"
-                            />
-                            <rect y="5.5" width="12" height="8.5" rx="2" fill="white" />
-                            <circle cx="6" cy="9.75" r="1.2" fill="#667085" />
-                          </svg>
-                        )}
-                      </button>
-                    </div>
-
-                    {/* Unit Select Dropdown */}
-                    <div className="pixels_or_percent inline-block align-middle ml-0">
-                      <div className="relative">
-                        <select
-                          id="set-unit"
-                          data-testid="unit-select"
-                          aria-label={t(locale, "settings.unit")}
-                          value={settings.unit}
-                          disabled={disabled}
-                          onChange={(e) => handleUnitChange(e.target.value as SizeUnit)}
-                          className="h-[50px] w-[140px] sm:w-[160px] appearance-none rounded-[6px] border border-[#667085] bg-white px-4 pr-9 text-center text-[1rem] capitalize text-[#1d2939] outline-none transition focus:border-[#016df0] cursor-pointer"
-                        >
-                          {UNITS.map((u) => (
-                            <option key={u} value={u}>
-                              {t(locale, `settings.units.${u}` as MessageKey)}
-                            </option>
-                          ))}
-                        </select>
-                        <svg
-                          className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#1d2939]"
-                          viewBox="0 0 16 16"
-                          fill="none"
-                          aria-hidden="true"
-                        >
-                          <path
-                            d="m4 6 4 4 4-4"
-                            stroke="currentColor"
-                            strokeWidth="1.8"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-
-              {/* Resolution Row */}
-              {resolutionApplies && (
-                <tr id="resolution_row">
-                  <td className="label_and_field_cell text-right pr-4 align-middle">
-                    <label
-                      htmlFor="set-dpi"
-                      data-tip={t(locale, "settings.resolution_tip")}
-                      className="text-[1.2rem] font-medium text-[#000]"
-                    >
-                      <span className="lbl-full cursor-help underline decoration-dotted underline-offset-4">
-                        {t(locale, "settings.resolution")}
-                      </span>
-                      <span className="lbl-short cursor-help underline decoration-dotted underline-offset-4">
-                        {t(locale, "settings.res_short")}
-                      </span>
-                    </label>
-                  </td>
-                  <td className="text-left align-middle py-2">
-                    <div className="relative inline-block align-middle">
-                      <input
-                        id="set-dpi"
-                        data-testid="dpi-input"
-                        type="number"
-                        min="1"
-                        step="1"
-                        value={settings.dpi}
-                        disabled={disabled}
-                        onChange={(e) => onChange({ dpi: e.target.value })}
-                        className="h-[50px] w-[95px] rounded-[6px] border border-[#667085] bg-white pr-9 text-center text-[1.25em] font-light text-[#1d2939] outline-none transition focus:border-[#016df0]"
-                      />
-                      <span
-                        id="dpi_unit_overlay"
-                        className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-[0.75em] text-[#667085]"
-                      >
-                        DPI
-                      </span>
-                    </div>
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+          {/* Resolution Row (Full text label always, perfectly aligned) */}
+          {resolutionApplies && (
+            <div id="resolution_row" className="mt-4 flex items-center justify-center">
+              <div className="flex h-[50px] items-center justify-end pr-2.5 sm:pr-4">
+                <label
+                  htmlFor="set-dpi"
+                  data-tip={t(locale, "settings.resolution_tip")}
+                  className="lbl-full font-medium text-[0.875rem] sm:text-[1.125rem] text-[#000] whitespace-nowrap cursor-help underline decoration-dotted underline-offset-4"
+                >
+                  {t(locale, "settings.resolution")}
+                </label>
+              </div>
+              <div className="flex items-center">
+                <div className="relative">
+                  <input
+                    id="set-dpi"
+                    data-testid="dpi-input"
+                    type="number"
+                    min="1"
+                    step="1"
+                    value={settings.dpi}
+                    disabled={disabled}
+                    onChange={(e) => onChange({ dpi: e.target.value })}
+                    className="h-[50px] w-[85px] sm:w-[95px] rounded-[6px] border border-[#667085] bg-white pr-8 text-center text-[1.15em] sm:text-[1.25em] font-light text-[#1d2939] outline-none transition focus:border-[#016df0]"
+                  />
+                  <span
+                    id="dpi_unit_overlay"
+                    className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-[0.75em] text-[#667085]"
+                  >
+                    DPI
+                  </span>
+                </div>
+                {/* Spacer to keep input visually aligned with the Width/Height column */}
+                <div className="w-[170px] sm:w-[208px] hidden sm:block pointer-events-none" />
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Resize Mode Row (slides open when unlocked & W !== H) */}

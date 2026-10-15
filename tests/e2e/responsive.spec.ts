@@ -42,11 +42,9 @@ test("mobile: hero + dropzone usable, settings stack without overlap", async ({ 
   await expect(page.getByTestId("process-button")).toBeEnabled({ timeout: 20_000 });
   await expect(page.getByText("Choose new size and format")).toBeVisible();
 
-  // Labels collapse to short forms on narrow screens.
+  // Full labels remain visible on narrow screens with scaled font size
   const lblFullVisible = await page.locator(".lbl-full").first().isVisible();
-  const lblShortVisible = await page.locator(".lbl-short").first().isVisible();
-  expect(lblFullVisible).toBe(false);
-  expect(lblShortVisible).toBe(true);
+  expect(lblFullVisible).toBe(true);
 
   // Settings panel stacks: screenshot for visual review.
   await page

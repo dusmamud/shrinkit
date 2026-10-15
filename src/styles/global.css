@@ -108,16 +108,9 @@ body {
   overflow: hidden;
 }
 
-/* Mobile label collapse for the size/resolution rows */
-@media (max-width: 576px) {
-  .lbl-full {
-    display: none !important;
-  }
-}
-@media (min-width: 577px) {
-  .lbl-short {
-    display: none !important;
-  }
+/* Full text labels always visible with responsive font size */
+.lbl-full {
+  display: inline-block !important;
 }
 
 /* Authentic reduceimages.com styling for Choose new size and format */
@@ -139,68 +132,11 @@ body {
   color: #000;
 }
 #resize-form-offline .size-form-area {
-  max-width: 485px;
+  max-width: 520px;
   margin-left: auto;
   margin-right: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
-#resize-form-offline .size-form-area table {
-  border-collapse: collapse;
-}
-#resize-form-offline .size-form-area .label_cell {
-  text-align: right;
-  vertical-align: middle;
-  padding-right: 15px;
-}
-#resize-form-offline .size-form-area .label_cell > div {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  height: 50px;
-  margin: 18px 0;
-}
-#resize-form-offline .size-form-area label {
-  margin-right: 0px;
-  font-size: 1.2rem;
-  font-weight: 500;
-  color: #000;
-  line-height: normal;
-}
-#resize-form-offline .size-form-area .lock_and_units_area {
-  text-align: left;
-  width: 320px;
-  vertical-align: middle;
-  white-space: nowrap;
-}
-#resize-form-offline .size-form-area .lock_and_units_area > div {
-  display: inline-block;
-  vertical-align: middle;
-}
-#resize-form-offline .size-form-area .inputs_col {
-  display: inline-block;
-  vertical-align: middle;
-}
-#resize-form-offline .size-form-area .inputs_col input {
-  width: 72px;
-  height: 50px;
-  font-size: 1.25em;
-  font-weight: 300;
-  margin: 18px 0px;
-  padding: 4px 5px 0px 5px;
-  text-align: center;
-  display: block;
-  border: 1px solid #667085;
-  border-radius: 6px;
-  color: #1d2939;
-  background: #fff;
-  outline: none;
-  transition: border-color 0.15s ease;
-}
-#resize-form-offline .size-form-area .inputs_col input:focus {
-  border-color: #016df0;
-}
+
 
 /* Lock aspect bracket line */
 #resize-form-offline .lock-aspect {
