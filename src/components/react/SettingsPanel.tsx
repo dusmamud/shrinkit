@@ -10,6 +10,7 @@ import {
 } from "../../lib/image/units";
 import type { OutputFormat } from "../../lib/image/filenames";
 import type { ResizeMode } from "../../lib/image/engine";
+import CustomSelect from "./CustomSelect";
 
 export interface SettingsState {
   width: string;
@@ -349,38 +350,21 @@ export default function SettingsPanel({
                 </button>
               </div>
 
-              {/* Unit Select Dropdown */}
-              <div className="relative">
-                <select
-                  id="set-unit"
-                  data-testid="unit-select"
-                  aria-label={t(locale, "settings.unit")}
-                  value={settings.unit}
-                  disabled={disabled}
-                  onChange={(e) => handleUnitChange(e.target.value as SizeUnit)}
-                  className="h-[50px] w-[120px] sm:w-[150px] appearance-none rounded-[6px] border border-[#667085] bg-white px-2.5 sm:px-4 pr-7 sm:pr-9 text-center text-[0.875rem] sm:text-[1rem] capitalize text-[#1d2939] outline-none transition focus:border-[#016df0] cursor-pointer"
-                >
-                  {UNITS.map((u) => (
-                    <option key={u} value={u}>
-                      {t(locale, `settings.units.${u}` as MessageKey)}
-                    </option>
-                  ))}
-                </select>
-                <svg
-                  className="pointer-events-none absolute right-2.5 sm:right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#1d2939]"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  aria-hidden="true"
-                >
-                  <path
-                    d="m4 6 4 4 4-4"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </div>
+              {/* Unit Select Dropdown with Custom UI */}
+              <CustomSelect<SizeUnit>
+                id="set-unit"
+                testId="unit-select"
+                ariaLabel={t(locale, "settings.unit")}
+                value={settings.unit}
+                disabled={disabled}
+                onChange={handleUnitChange}
+                className="w-[125px] sm:w-[155px]"
+                triggerClassName="w-full"
+                options={UNITS.map((u) => ({
+                  value: u,
+                  label: t(locale, `settings.units.${u}` as MessageKey),
+                }))}
+              />
             </div>
           </div>
 
@@ -477,36 +461,20 @@ export default function SettingsPanel({
             <label htmlFor="set-format" className="mb-2 text-[1.15rem] font-medium text-[#000]">
               {t(locale, "settings.format")}
             </label>
-            <div className="relative">
-              <select
-                id="set-format"
-                data-testid="format-select"
-                value={settings.format}
-                disabled={disabled}
-                onChange={(e) => handleFormatChange(e.target.value as OutputFormat)}
-                className="h-[50px] w-[95px] sm:w-[105px] appearance-none rounded-[6px] border border-[#667085] bg-white px-3 pr-8 text-center text-[1rem] font-normal text-[#1d2939] outline-none transition focus:border-[#016df0] cursor-pointer"
-              >
-                {FORMATS.map((f) => (
-                  <option key={f} value={f}>
-                    {f === "jpeg" ? "JPG" : f.toUpperCase()}
-                  </option>
-                ))}
-              </select>
-              <svg
-                className="pointer-events-none absolute right-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[#1d2939]"
-                viewBox="0 0 16 16"
-                fill="none"
-                aria-hidden="true"
-              >
-                <path
-                  d="m4 6 4 4 4-4"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
+            <CustomSelect<OutputFormat>
+              id="set-format"
+              testId="format-select"
+              ariaLabel={t(locale, "settings.format")}
+              value={settings.format}
+              disabled={disabled}
+              onChange={handleFormatChange}
+              className="w-[100px] sm:w-[115px]"
+              triggerClassName="w-full uppercase"
+              options={FORMATS.map((f) => ({
+                value: f,
+                label: f === "jpeg" ? "JPG" : f.toUpperCase(),
+              }))}
+            />
           </div>
 
           {/* Quality */}
