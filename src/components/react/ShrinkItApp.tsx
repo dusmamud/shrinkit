@@ -13,6 +13,7 @@ import type { Locale } from "../../lib/locales";
 import Dropzone from "./Dropzone";
 import SettingsPanel, { type SettingsState } from "./SettingsPanel";
 import ResultPanel, { type QueueItem } from "./ResultPanel";
+import { getDefaultDimensionsForUnit } from "../../lib/image/units";
 
 const MAX_BATCH = 50;
 

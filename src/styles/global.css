@@ -142,10 +142,12 @@ body {
 #resize-form-offline input[type="number"]::-webkit-inner-spin-button,
 #resize-form-offline input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
+  appearance: none;
   margin: 0;
 }
 #resize-form-offline input[type="number"] {
   -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 /* Authentic reduceimages.com styling for Choose new size and format */
@@ -384,6 +386,7 @@ body {
 .clamp-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
