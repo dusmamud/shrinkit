@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-label="Boy holding a very large photo print">
+<style>
+:root{--ink:#14181f;--paper:#ffffff;--blue:#016df0;--sky:#dbeafe;}
+</style>
+<!-- confetti behind -->
+<path d="M110 300 l16 20 -16 20 -16 -20 Z" fill="var(--blue)"/>
+<path d="M910 300 l16 20 -16 20 -16 -20 Z" fill="none" stroke="var(--ink)" stroke-width="4" stroke-linejoin="round"/>
+<path d="M130 700 l14 17 -14 17 -14 -17 Z" fill="var(--blue)"/>
+<path d="M900 750 l14 17 -14 17 -14 -17 Z" fill="none" stroke="var(--ink)" stroke-width="4" stroke-linejoin="round"/>
+<circle cx="150" cy="150" r="10" fill="var(--blue)"/>
+<circle cx="880" cy="180" r="10" fill="var(--blue)"/>
+<circle cx="900" cy="500" r="10" fill="var(--blue)"/>
+<circle cx="120" cy="550" r="10" fill="var(--blue)"/>
+<circle cx="90" cy="450" r="12" fill="none" stroke="var(--ink)" stroke-width="4"/>
+<circle cx="930" cy="420" r="12" fill="none" stroke="var(--ink)" stroke-width="4"/>
+<path d="M180 600 h30" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"/>
+<path d="M820 250 h30" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"/>
+<!-- legs -->
+<path d="M460 800 L560 800 L580 1024 L440 1024 Z" fill="var(--blue)" stroke="var(--ink)" stroke-width="6" stroke-linejoin="round"/>
+<path d="M620 830 L720 830 L750 1024 L600 1024 Z" fill="var(--blue)" stroke="var(--ink)" stroke-width="6" stroke-linejoin="round"/>
+<rect x="430" y="980" width="150" height="44" rx="22" fill="var(--ink)"/>
+<rect x="600" y="980" width="150" height="44" rx="22" fill="var(--ink)"/>
+<!-- torso -->
+<path d="M520 310 Q620 265 720 315 L745 520 L500 520 Z" fill="var(--paper)" stroke="var(--ink)" stroke-width="7" stroke-linejoin="round"/>
+<!-- tilted photo -->
+<g transform="translate(560 580) rotate(24)">
+<rect x="-350" y="-230" width="700" height="460" rx="10" fill="var(--sky)" stroke="var(--ink)" stroke-width="7"/>
+<!-- sunburst rays -->
+<g stroke="var(--blue)" stroke-width="16" stroke-linecap="round">
+<line x1="-140" y1="-80" x2="-30" y2="-80"/>
+<line x1="-140" y1="-80" x2="-62" y2="-158"/>
+<line x1="-140" y1="-80" x2="-140" y2="-190"/>
+<line x1="-140" y1="-80" x2="-218" y2="-158"/>
+<line x1="-140" y1="-80" x2="-250" y2="-80"/>
+<line x1="-140" y1="-80" x2="-218" y2="-2"/>
+<line x1="-140" y1="-80" x2="-140" y2="30"/>
+<line x1="-140" y1="-80" x2="-62" y2="-2"/>
+</g>
+<circle cx="-140" cy="-80" r="68" fill="var(--blue)" stroke="var(--ink)" stroke-width="4"/>
+<!-- mountains -->
+<path d="M-350 230 L-180 10 L-80 110 L80 -50 L180 90 L350 230 Z" fill="var(--ink)" stroke="var(--ink)" stroke-width="4" stroke-linejoin="round"/>
+<path d="M-210 45 L-180 10 L-150 45 Z" fill="var(--paper)"/>
+<path d="M50 -5 L80 -50 L110 -5 Z" fill="var(--paper)"/>
+<!-- pixel checkerboard -->
+<g stroke="var(--ink)" stroke-width="2">
+<rect x="110" y="30" width="50" height="50" fill="var(--blue)"/><rect x="160" y="30" width="50" height="50" fill="var(--paper)"/><rect x="210" y="30" width="50" height="50" fill="var(--blue)"/><rect x="260" y="30" width="50" height="50" fill="var(--paper)"/>
+<rect x="110" y="80" width="50" height="50" fill="var(--paper)"/><rect x="160" y="80" width="50" height="50" fill="var(--blue)"/><rect x="210" y="80" width="50" height="50" fill="var(--paper)"/><rect x="260" y="80" width="50" height="50" fill="var(--blue)"/>
+<rect x="110" y="130" width="50" height="50" fill="var(--blue)"/><rect x="160" y="130" width="50" height="50" fill="var(--paper)"/><rect x="210" y="130" width="50" height="50" fill="var(--blue)"/><rect x="260" y="130" width="50" height="50" fill="var(--paper)"/>
+<rect x="110" y="180" width="50" height="50" fill="var(--paper)"/><rect x="160" y="180" width="50" height="50" fill="var(--blue)"/><rect x="210" y="180" width="50" height="50" fill="var(--paper)"/><rect x="260" y="180" width="50" height="50" fill="var(--blue)"/>
+</g>
+</g>
+<!-- hands gripping bottom edge (arms behind photo, wrists peeking below edge) -->
+<rect x="305" y="735" width="42" height="30" rx="15" fill="var(--paper)" stroke="var(--ink)" stroke-width="5"/>
+<rect x="655" y="880" width="42" height="30" rx="15" fill="var(--paper)" stroke="var(--ink)" stroke-width="5"/>
+<ellipse cx="340" cy="733" rx="36" ry="28" fill="var(--paper)" stroke="var(--ink)" stroke-width="5"/>
+<path d="M325 728 v18 M340 730 v18" stroke="var(--ink)" stroke-width="3.5" stroke-linecap="round"/>
+<ellipse cx="660" cy="874" rx="36" ry="28" fill="var(--paper)" stroke="var(--ink)" stroke-width="5"/>
+<path d="M645 869 v18 M660 871 v18" stroke="var(--ink)" stroke-width="3.5" stroke-linecap="round"/>
+<!-- head -->
+<circle cx="575" cy="210" r="22" fill="var(--paper)" stroke="var(--ink)" stroke-width="5"/>
+<circle cx="680" cy="200" r="110" fill="var(--paper)" stroke="var(--ink)" stroke-width="7"/>
+<path d="M570 200 Q560 75 680 70 Q800 75 790 200 Q765 150 725 168 Q685 140 645 168 Q600 150 570 200 Z" fill="var(--ink)"/>
+<circle cx="640" cy="210" r="9" fill="var(--ink)"/>
+<circle cx="720" cy="210" r="9" fill="var(--ink)"/>
+<path d="M620 185 Q640 175 660 185" fill="none" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"/>
+<path d="M700 185 Q720 175 740 185" fill="none" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"/>
+<path d="M650 250 Q680 275 710 250" fill="none" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"/>
+</svg>

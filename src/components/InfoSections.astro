@@ -21,33 +21,15 @@ const { locale } = Astro.props;
           <div class="home-info-block flex flex-col min-[1185px]:flex-row items-center justify-center max-w-[1075px] mx-auto min-[1185px]:gap-16 mb-0 min-[1185px]:mb-[4.0625rem]">
             <!-- Illustration (on top for mobile, on left for desktop) -->
             <div class="illustration-col flex items-center justify-center w-full min-[1185px]:w-1/2 p-4 min-[1185px]:p-8">
-              <svg
-                width="300"
-                height="240"
-                viewBox="0 0 300 240"
-                fill="none"
-                role="img"
-                aria-label="Pixel grid illustration"
-                class="max-h-[220px] min-[600px]:max-h-[300px] w-auto"
-              >
-                <rect x="30" y="30" width="180" height="180" rx="10" stroke="#1d2939" stroke-width="3" />
-                <g stroke="#007bff" stroke-width="2">
-                  <path d="M90 30v180M150 30v180M30 90h180M30 150h180" />
-                </g>
-                <rect x="150" y="150" width="60" height="60" fill="#42c3ac" opacity="0.55" />
-                <rect x="30" y="30" width="60" height="60" fill="#007bff" opacity="0.25" />
-                <path
-                  d="M30 228h180"
-                  stroke="#1d2939"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-dasharray="1 8"
-                />
-                <path d="M238 96v48M244 96l-6-9-6 9M244 144l-6 9-6-9" stroke="#1d2939" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-                <path d="M96 238h48M96 232l-9 6 9 6M144 232l9 6-9 6" stroke="#1d2939" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-                <circle cx="262" cy="52" r="16" stroke="#007bff" stroke-width="3" />
-                <path d="M256 52h12M262 46v12" stroke="#007bff" stroke-width="3" stroke-linecap="round" />
-              </svg>
+              <img
+                src="/Illustration/what-is-file-size-color.svg"
+                alt="Illustration showing what an image file size is"
+                width="420"
+                height="420"
+                loading="lazy"
+                decoding="async"
+                class="h-auto max-h-[240px] min-[600px]:max-h-[300px] min-[1185px]:max-h-[360px] w-auto max-w-full object-contain select-none pointer-events-none"
+              />
             </div>
 
             <!-- Text Content -->
@@ -85,38 +67,15 @@ const { locale } = Astro.props;
 
             <!-- Illustration (on top for mobile via order-1, on right for desktop via order-2) -->
             <div class="illustration-col order-1 min-[1185px]:order-2 flex items-center justify-center w-full min-[1185px]:w-1/2 p-4 min-[1185px]:p-8">
-              <svg
-                width="300"
-                height="240"
-                viewBox="0 0 300 240"
-                fill="none"
-                role="img"
-                aria-label="Shrinking illustration"
-                class="max-h-[220px] min-[600px]:max-h-[300px] w-auto"
-              >
-                <rect x="24" y="60" width="120" height="120" rx="10" stroke="#1d2939" stroke-width="3" />
-                <g stroke="#007bff" stroke-width="2">
-                  <path d="M64 60v120M104 60v120M24 100h120M24 140h120" />
-                </g>
-                <path
-                  d="M168 118h44m0 0-10-10m10 10-10 10"
-                  stroke="#42c3ac"
-                  stroke-width="4"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <rect x="228" y="92" width="52" height="52" rx="8" stroke="#1d2939" stroke-width="3" />
-                <path d="M241 92v52M254 92v52M228 105h52M228 118h52M228 131h52" stroke="#007bff" stroke-width="1.6" />
-                <path
-                  d="M60 200c14-10 26 6 40-4s26 6 40-4"
-                  stroke="#42c3ac"
-                  stroke-width="3"
-                  stroke-linecap="round"
-                  stroke-dasharray="1 9"
-                />
-                <circle cx="252" cy="170" r="14" stroke="#007bff" stroke-width="3" />
-                <path d="M246 170l4.5 4.5L259 166" stroke="#007bff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
+              <img
+                src="/Illustration/how-to-reduce-file-size-color.svg"
+                alt="Illustration showing how to reduce image file size"
+                width="420"
+                height="420"
+                loading="lazy"
+                decoding="async"
+                class="h-auto max-h-[240px] min-[600px]:max-h-[300px] min-[1185px]:max-h-[360px] w-auto max-w-full object-contain select-none pointer-events-none"
+              />
             </div>
           </div>
         </div>

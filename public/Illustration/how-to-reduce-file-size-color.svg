@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-label="Girl squeezing a large round photo into a smaller one">
+<style>
+:root{--ink:#14181f;--paper:#ffffff;--blue:#016df0;--sky:#dbeafe;}
+</style>
+<!-- confetti -->
+<path d="M100 250 l16 20 -16 20 -16 -20 Z" fill="var(--blue)"/>
+<path d="M930 350 l16 20 -16 20 -16 -20 Z" fill="none" stroke="var(--ink)" stroke-width="4" stroke-linejoin="round"/>
+<path d="M120 850 l14 17 -14 17 -14 -17 Z" fill="var(--blue)"/>
+<path d="M910 920 l14 17 -14 17 -14 -17 Z" fill="none" stroke="var(--ink)" stroke-width="4" stroke-linejoin="round"/>
+<circle cx="140" cy="140" r="10" fill="var(--blue)"/>
+<circle cx="890" cy="140" r="10" fill="var(--blue)"/>
+<circle cx="950" cy="550" r="10" fill="var(--blue)"/>
+<circle cx="90" cy="550" r="10" fill="var(--blue)"/>
+<circle cx="80" cy="700" r="12" fill="none" stroke="var(--ink)" stroke-width="4"/>
+<circle cx="960" cy="700" r="12" fill="none" stroke="var(--ink)" stroke-width="4"/>
+<path d="M180 950 h30" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"/>
+<path d="M840 980 h30" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"/>
+<!-- large round photo -->
+<circle cx="640" cy="360" r="280" fill="var(--sky)" stroke="var(--ink)" stroke-width="7"/>
+<g stroke="var(--blue)" stroke-width="12" stroke-linecap="round">
+<line x1="580" y1="230" x2="580" y2="150"/>
+<line x1="580" y1="230" x2="636" y2="174"/>
+<line x1="580" y1="230" x2="660" y2="230"/>
+<line x1="580" y1="230" x2="636" y2="286"/>
+<line x1="580" y1="230" x2="524" y2="286"/>
+<line x1="580" y1="230" x2="500" y2="230"/>
+<line x1="580" y1="230" x2="524" y2="174"/>
+</g>
+<circle cx="580" cy="230" r="62" fill="var(--blue)" stroke="var(--ink)" stroke-width="4"/>
+<path d="M420 520 L510 390 L600 480 L700 300 L800 470 L860 520 A280 280 0 0 1 420 520 Z" fill="var(--ink)"/>
+<path d="M485 415 L510 390 L535 415 Z" fill="var(--paper)"/>
+<path d="M675 330 L700 300 L725 330 Z" fill="var(--paper)"/>
+<!-- girl legs + torso (behind balloon edge) -->
+<path d="M130 750 L220 750 L210 1024 L110 1024 Z" fill="var(--ink)"/>
+<path d="M240 750 L340 750 L360 1024 L230 1024 Z" fill="var(--ink)"/>
+<path d="M130 480 Q230 440 330 480 L350 750 L110 750 Z" fill="var(--paper)" stroke="var(--ink)" stroke-width="7" stroke-linejoin="round"/>
+<!-- arms over balloon -->
+<path d="M310 510 L530 600 L550 650 L350 570 Z" fill="var(--paper)" stroke="var(--ink)" stroke-width="6" stroke-linejoin="round"/>
+<path d="M320 580 L530 660 L550 705 L340 640 Z" fill="var(--paper)" stroke="var(--ink)" stroke-width="6" stroke-linejoin="round"/>
+<!-- hands on balloon -->
+<ellipse cx="550" cy="625" rx="30" ry="24" fill="var(--paper)" stroke="var(--ink)" stroke-width="5"/>
+<path d="M538 620 v16 M552 620 v16" stroke="var(--ink)" stroke-width="3.5" stroke-linecap="round"/>
+<ellipse cx="550" cy="690" rx="30" ry="24" fill="var(--paper)" stroke="var(--ink)" stroke-width="5"/>
+<path d="M538 685 v16 M552 685 v16" stroke="var(--ink)" stroke-width="3.5" stroke-linecap="round"/>
+<!-- girl head -->
+<circle cx="140" cy="380" r="18" fill="var(--paper)" stroke="var(--ink)" stroke-width="5"/>
+<circle cx="230" cy="360" r="95" fill="var(--paper)" stroke="var(--ink)" stroke-width="7"/>
+<path d="M135 360 Q130 260 230 255 Q330 260 325 360 Q300 300 230 300 Q160 300 135 360 Z" fill="var(--ink)"/>
+<path d="M140 320 C80 300 60 220 100 180 C130 155 160 180 155 230 C150 270 145 300 140 320 Z" fill="var(--ink)"/>
+<circle cx="200" cy="370" r="7" fill="var(--ink)"/>
+<circle cx="260" cy="370" r="7" fill="var(--ink)"/>
+<path d="M210 410 Q230 425 250 410" fill="none" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"/>
+<!-- small round photo -->
+<circle cx="850" cy="730" r="140" fill="var(--sky)" stroke="var(--ink)" stroke-width="7"/>
+<g stroke="var(--blue)" stroke-width="9" stroke-linecap="round">
+<line x1="820" y1="675" x2="820" y2="625"/>
+<line x1="820" y1="675" x2="855" y2="640"/>
+<line x1="820" y1="675" x2="870" y2="675"/>
+<line x1="820" y1="675" x2="855" y2="710"/>
+<line x1="820" y1="675" x2="785" y2="710"/>
+<line x1="820" y1="675" x2="770" y2="675"/>
+<line x1="820" y1="675" x2="785" y2="640"/>
+</g>
+<circle cx="820" cy="675" r="32" fill="var(--blue)" stroke="var(--ink)" stroke-width="3.5"/>
+<path d="M730 800 L790 710 L850 760 L910 700 L970 800 A140 140 0 0 1 730 800 Z" fill="var(--ink)"/>
+<path d="M895 720 L910 700 L925 720 Z" fill="var(--paper)"/>
+<!-- inward arrows = compress -->
+<path d="M540 902 L480 872 L480 888 L420 888 L420 916 L480 916 L480 932 Z" fill="var(--blue)" stroke="var(--ink)" stroke-width="4" stroke-linejoin="round"/>
+<path d="M610 902 L670 872 L670 888 L730 888 L730 916 L670 916 L670 932 Z" fill="var(--blue)" stroke="var(--ink)" stroke-width="4" stroke-linejoin="round"/>
+</svg>
