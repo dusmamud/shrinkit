@@ -372,41 +372,13 @@ export default function ShrinkItApp({ locale }: ShrinkItAppProps) {
             onChange={patchSettings}
             disabled={running}
             originalSize={items[0]?.dims}
+            onProcess={runAll}
+            processing={running}
+            queuedCount={queuedCount}
+            itemCount={items.length}
+            onClear={clearAll}
+            onAbort={() => abortRef.current?.abort()}
           />
-
-          <div className="mx-auto mt-6 w-full max-w-[1100px]">
-            <button
-              type="button"
-              data-testid="process-button"
-              onClick={runAll}
-              disabled={running || queuedCount === 0}
-              className="w-full rounded-[6px] bg-[#007bff] py-4 text-base font-bold text-white transition hover:bg-[#0257bf] disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              {running
-                ? t(locale, "settings.processing")
-                : items.length > 1
-                  ? t(locale, "settings.process_many")
-                  : t(locale, "settings.process_one")}
-            </button>
-            <div className="mt-3 flex justify-center gap-3">
-              {running && (
-                <button
-                  type="button"
-                  onClick={() => abortRef.current?.abort()}
-                  className="inline-flex items-center gap-2 rounded-[6px] border border-[#667085] px-5 py-2 text-sm font-normal text-black transition hover:border-[#d33] hover:text-[#d33]"
-                >
-                  <Stop size={15} weight="fill" /> {t(locale, "settings.stop")}
-                </button>
-              )}
-              <button
-                type="button"
-                onClick={clearAll}
-                className="inline-flex items-center gap-2 rounded-[6px] border border-[#667085] px-5 py-2 text-sm font-normal text-black transition hover:border-[#d33] hover:text-[#d33]"
-              >
-                <Trash size={15} /> {t(locale, "result.clear")}
-              </button>
-            </div>
-          </div>
 
           <div className="mx-auto w-full max-w-[1100px]">
             <ResultPanel

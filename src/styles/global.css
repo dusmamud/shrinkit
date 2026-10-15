@@ -111,68 +111,385 @@ body {
 /* Mobile label collapse for the size/resolution rows */
 @media (max-width: 576px) {
   .lbl-full {
-    display: none;
-  }
-}
-/* Narrow phones: size row becomes a tidy grid —
-   W/H inputs + lock on one row, unit dropdown full-width below. */
-@media (max-width: 576px) {
-  .size-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr auto;
-    grid-template-areas:
-      "w h lock"
-      "unit unit unit";
-    align-items: center;
-    justify-items: center;
-    row-gap: 0.9rem;
-    column-gap: 0.5rem;
-  }
-  .size-row .size-group-w {
-    grid-area: w;
-    justify-self: end;
-  }
-  .size-row .size-group-h {
-    grid-area: h;
-    justify-self: start;
-  }
-  .size-row .size-group-w label,
-  .size-row .size-group-h label {
-    width: auto;
-  }
-  .size-row .size-lock {
-    grid-area: lock;
-  }
-  .size-row .size-unit {
-    grid-area: unit;
-    width: 100%;
-    max-width: 300px;
-  }
-  .size-row .size-unit select {
-    width: 100%;
-  }
-  .size-row > * {
-    min-width: 0;
+    display: none !important;
   }
 }
 @media (min-width: 577px) {
   .lbl-short {
-    display: none;
+    display: none !important;
   }
 }
 
-/* ReduceImages-style Format & Quality area mobile layout */
-@media (max-width: 576px) {
-  .format-quality-area {
-    padding: 0 0.5rem;
+/* Authentic reduceimages.com styling for Choose new size and format */
+#resize-form-offline {
+  background-color: #fff;
+  margin: 15px 0;
+}
+#resize-form-offline .resize-form-container {
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 5px 2%;
+}
+#resize-form-offline .title {
+  font-size: 1.875rem;
+  font-weight: 500;
+  margin: 0 0 1.5em 0;
+  text-align: center;
+  color: #000;
+}
+#resize-form-offline .size-form-area {
+  max-width: 485px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#resize-form-offline .size-form-area table {
+  border-collapse: collapse;
+}
+#resize-form-offline .size-form-area .label_cell {
+  text-align: right;
+  vertical-align: middle;
+  padding-right: 15px;
+}
+#resize-form-offline .size-form-area .label_cell > div {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 50px;
+  margin: 18px 0;
+}
+#resize-form-offline .size-form-area label {
+  margin-right: 0px;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #000;
+  line-height: normal;
+}
+#resize-form-offline .size-form-area .lock_and_units_area {
+  text-align: left;
+  width: 320px;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+#resize-form-offline .size-form-area .lock_and_units_area > div {
+  display: inline-block;
+  vertical-align: middle;
+}
+#resize-form-offline .size-form-area .inputs_col {
+  display: inline-block;
+  vertical-align: middle;
+}
+#resize-form-offline .size-form-area .inputs_col input {
+  width: 72px;
+  height: 50px;
+  font-size: 1.25em;
+  font-weight: 300;
+  margin: 18px 0px;
+  padding: 4px 5px 0px 5px;
+  text-align: center;
+  display: block;
+  border: 1px solid #667085;
+  border-radius: 6px;
+  color: #1d2939;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+#resize-form-offline .size-form-area .inputs_col input:focus {
+  border-color: #016df0;
+}
+
+/* Lock aspect bracket line */
+#resize-form-offline .lock-aspect {
+  cursor: pointer;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 0px;
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+#resize-form-offline .lock-aspect .lock-line {
+  height: 17px;
+  width: 35px;
+  border-color: #1d2939;
+  border-style: solid;
+  border-width: 1px;
+  border-left: none;
+  transition: border-color 0.2s ease;
+}
+#resize-form-offline .lock-aspect .lock-line.top {
+  border-bottom: none;
+  border-radius: 0 4px 0 0;
+}
+#resize-form-offline .lock-aspect .lock-line.bottom {
+  border-top: none;
+  border-radius: 0 0 4px 0;
+}
+#resize-form-offline .lock-aspect .lock-container {
+  position: relative;
+  left: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 0;
+}
+#resize-form-offline .lock-aspect .lock-container svg {
+  display: block;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+#resize-form-offline .lock-aspect.closed .lock.opened {
+  display: none;
+}
+#resize-form-offline .lock-aspect.opened .lock.closed {
+  display: none;
+}
+#resize-form-offline .lock-aspect.opened .lock-line {
+  border-color: transparent !important;
+}
+#resize-form-offline .lock-aspect.opened .lock.opened {
+  opacity: 0.7;
+}
+
+#resize-form-offline .lock_horizontal_divider {
+  display: inline-block;
+  width: 30px;
+  height: 1px;
+  background-color: #1d2939;
+  margin: 0px;
+  vertical-align: middle;
+}
+#resize-form-offline .pixels_or_percent {
+  display: inline-block;
+  vertical-align: middle;
+}
+#resize-form-offline .pixels_or_percent select {
+  width: 160px;
+  height: 50px;
+  font-size: 1rem;
+  text-transform: capitalize;
+  cursor: pointer;
+  border: 1px solid #667085;
+  border-radius: 6px;
+  text-align: center;
+  color: #1d2939;
+  background: #fff;
+  outline: none;
+  padding: 0 10px;
+  transition: border-color 0.15s ease;
+}
+#resize-form-offline .pixels_or_percent select:focus {
+  border-color: #016df0;
+}
+
+/* Resolution row */
+#resize-form-offline #resolution_row .label_and_field_cell {
+  text-align: right;
+  padding-right: 15px;
+  vertical-align: middle;
+}
+#resize-form-offline #resolution_row label {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #000;
+}
+#resize-form-offline #resolution_row .resolution_input_container {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+}
+#resize-form-offline #resolution_row input {
+  width: 95px;
+  height: 50px;
+  font-size: 1.25em;
+  font-weight: 300;
+  text-align: center;
+  padding-right: 34px;
+  border: 1px solid #667085;
+  border-radius: 6px;
+  color: #1d2939;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+#resize-form-offline #resolution_row input:focus {
+  border-color: #016df0;
+}
+#resize-form-offline #resolution_row #dpi_unit_overlay {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.75em;
+  color: #667085;
+  pointer-events: none;
+}
+
+/* Separator line */
+#resize-form-offline .separator {
+  display: block;
+  width: 100%;
+  max-width: 650px;
+  border-top: 1px solid #eaecf0;
+  margin: 28px auto;
+}
+
+/* Format, Quality, Background row */
+#resize-form-offline .format-quality-area {
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px;
+}
+#resize-form-offline .format-quality-area > div {
+  text-align: left;
+}
+#resize-form-offline .format-quality-area label {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #000;
+  margin-bottom: 8px;
+  display: block;
+}
+#resize-form-offline .format-quality-area select {
+  width: 130px;
+  height: 50px;
+  font-size: 1rem;
+  border: 1px solid #667085;
+  border-radius: 6px;
+  color: #1d2939;
+  background: #fff;
+  cursor: pointer;
+  text-align: center;
+  outline: none;
+  padding: 0 10px;
+  transition: border-color 0.15s ease;
+}
+#resize-form-offline .format-quality-area select:focus {
+  border-color: #016df0;
+}
+#resize-form-offline .format-quality-area .quality_box {
+  position: relative;
+  display: inline-block;
+}
+#resize-form-offline .format-quality-area .quality_box input {
+  width: 95px;
+  height: 50px;
+  font-size: 1.25em;
+  font-weight: 300;
+  border: 1px solid #667085;
+  border-radius: 6px;
+  text-align: center;
+  color: #1d2939;
+  background: #fff;
+  outline: none;
+  padding-right: 30px;
+  transition: border-color 0.15s ease;
+}
+#resize-form-offline .format-quality-area .quality_box input:focus {
+  border-color: #016df0;
+}
+#resize-form-offline .format-quality-area .quality_box .percent_overlay {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.85em;
+  color: #667085;
+  pointer-events: none;
+}
+#resize-form-offline .format-quality-area .background_buttons {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  height: 50px;
+}
+#resize-form-offline .format-quality-area .background_button {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+#resize-form-offline .format-quality-area .background_button:hover {
+  transform: scale(1.08);
+}
+#resize-form-offline .format-quality-area .white_background {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.2);
+}
+#resize-form-offline .format-quality-area .black_background {
+  background-color: #000000;
+  border: 1px solid #000;
+  box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.2);
+}
+#resize-form-offline .format-quality-area .background_button.selected {
+  border: 3px solid #016df0 !important;
+}
+
+/* Submit button container */
+#resize-form-submit-container {
+  text-align: center;
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+#offline-submit-button {
+  display: inline-block;
+  background-color: #016df0;
+  color: #fff;
+  font-size: 1.125rem !important;
+  font-weight: bold !important;
+  padding: 16px 50px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+  line-height: normal;
+  box-shadow: 0 2px 8px rgba(1, 109, 240, 0.25);
+}
+#offline-submit-button:hover {
+  background-color: #0257bf;
+  transform: translateY(-1px);
+}
+#offline-submit-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Responsive adjustments matching reduceimages.com */
+@media screen and (max-width: 600px) {
+  #resize-form-offline .size-form-area select {
+    width: 120px !important;
   }
-  .format-quality-area .format-col,
-  .format-quality-area .quality-col {
-    align-items: center;
+  #resize-form-offline .lock_horizontal_divider {
+    width: 15px !important;
   }
-  .format-quality-area .background-col {
-    width: 100%;
-    align-items: center;
+  #resize-form-offline .lock-aspect .lock-line {
+    width: 25px !important;
+  }
+  #resize-form-offline .size-form-area .lock_and_units_area {
+    width: auto !important;
+  }
+  #resize-form-offline .format-quality-area {
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+}
+@media screen and (max-width: 400px) {
+  #resize-form-offline .lock_horizontal_divider {
+    width: 8px !important;
+  }
+  #resize-form-offline .lock-aspect .lock-line {
+    width: 18px !important;
   }
 }
 
