@@ -253,10 +253,17 @@ export default function SettingsPanel({
 
             {/* Bracket + Blue Circular Lock Badge + Unit Dropdown */}
             <div className="flex items-center">
-              {/* Precision Bracket SVG (50px top + 16px gap + 50px bottom = 116px total) */}
-              <div className="relative h-[116px] w-[50px] sm:w-[58px] flex-shrink-0">
+              {/* Precision Bracket Container (50px top + 16px gap + 50px bottom = 116px total) */}
+              <div
+                style={{
+                  position: "relative",
+                  width: "58px",
+                  height: "116px",
+                  flexShrink: 0,
+                }}
+              >
                 <svg
-                  width="100%"
+                  width="58"
                   height="116"
                   viewBox="0 0 58 116"
                   className="overflow-visible"
@@ -298,7 +305,19 @@ export default function SettingsPanel({
                   )}
                   data-tip={t(locale, "settings.lock_tip")}
                   onClick={toggleLock}
-                  className={`absolute left-[13px] top-[45px] z-10 flex h-[26px] w-[26px] items-center justify-center rounded-full transition-transform active:scale-95 ${
+                  style={{
+                    position: "absolute",
+                    left: "13px",
+                    top: "45px",
+                    width: "26px",
+                    height: "26px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderRadius: "50%",
+                    zIndex: 10,
+                  }}
+                  className={`transition-transform active:scale-95 ${
                     locked
                       ? "bg-[#016df0] text-white shadow-sm"
                       : "bg-[#667085] text-white opacity-80"

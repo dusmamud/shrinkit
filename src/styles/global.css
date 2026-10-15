@@ -138,66 +138,7 @@ body {
 }
 
 
-/* Lock aspect bracket line */
-#resize-form-offline .lock-aspect {
-  cursor: pointer;
-  display: inline-block;
-  vertical-align: middle;
-  margin-left: 0px;
-  background: transparent;
-  border: none;
-  padding: 0;
-}
-#resize-form-offline .lock-aspect .lock-line {
-  height: 17px;
-  width: 35px;
-  border-color: #1d2939;
-  border-style: solid;
-  border-width: 1px;
-  border-left: none;
-  transition: border-color 0.2s ease;
-}
-#resize-form-offline .lock-aspect .lock-line.top {
-  border-bottom: none;
-  border-radius: 0 4px 0 0;
-}
-#resize-form-offline .lock-aspect .lock-line.bottom {
-  border-top: none;
-  border-radius: 0 0 4px 0;
-}
-#resize-form-offline .lock-aspect .lock-container {
-  position: relative;
-  left: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2px 0;
-}
-#resize-form-offline .lock-aspect .lock-container svg {
-  display: block;
-  transition: opacity 0.2s ease, transform 0.2s ease;
-}
-#resize-form-offline .lock-aspect.closed .lock.opened {
-  display: none;
-}
-#resize-form-offline .lock-aspect.opened .lock.closed {
-  display: none;
-}
-#resize-form-offline .lock-aspect.opened .lock-line {
-  border-color: transparent !important;
-}
-#resize-form-offline .lock-aspect.opened .lock.opened {
-  opacity: 0.7;
-}
-
-#resize-form-offline .lock_horizontal_divider {
-  display: inline-block;
-  width: 30px;
-  height: 1px;
-  background-color: #1d2939;
-  margin: 0px;
-  vertical-align: middle;
-}
+/* Authentic reduceimages.com styling for Choose new size and format */
 #resize-form-offline .pixels_or_percent {
   display: inline-block;
   vertical-align: middle;
