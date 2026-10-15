@@ -340,11 +340,27 @@ export async function processImageBytes(
     } else {
       await resizer.resize(resizeInput, dst, resizeOpts);
     }
-  } catch (err) {
-    throw new ProcessError(
-      "encode-failed",
-      `Resizing failed: ${err instanceof Error ? err.message : "unknown error"}.`,
-    );
+  } catch (picaErr) {
+    // Resilient fallback: If pica fails (e.g. Brave Shields / privacy extensions block
+    // or randomize getImageData, or WebAssembly is restricted), use high-quality native
+    // Canvas 2D image scaling so resizing never fails in any browser.
+    try {
+      dstCtx.imageSmoothingEnabled = true;
+      dstCtx.imageSmoothingQuality = "high";
+      if (mode === "fit") {
+        const fitted = fitDims(srcW, srcH, target.width, target.height);
+        const dx = Math.round((target.width - fitted.width) / 2);
+        const dy = Math.round((target.height - fitted.height) / 2);
+        dstCtx.drawImage(resizeInput, dx, dy, fitted.width, fitted.height);
+      } else {
+        dstCtx.drawImage(resizeInput, 0, 0, target.width, target.height);
+      }
+    } catch (fallbackErr) {
+      throw new ProcessError(
+        "encode-failed",
+        `Resizing failed: ${fallbackErr instanceof Error ? fallbackErr.message : picaErr instanceof Error ? picaErr.message : "unknown error"}.`,
+      );
+    }
   } finally {
     if (resizeInput instanceof ImageBitmap) resizeInput.close();
   }

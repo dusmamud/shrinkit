@@ -1,10 +1,9 @@
 /* ShrinkIt service worker — offline support.
  *
- * Everything the app does is local, so a simple cache-first strategy for
- * same-origin GET requests is enough to make the whole tool work offline
- * after the first visit. No analytics, no tracking, nothing phoned home.
+ * Uses a network-first strategy for dynamic updates during development & production,
+ * falling back to cache when offline.
  */
-const CACHE = "shrinkit-v1";
+const CACHE = "shrinkit-v2";
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -31,11 +30,11 @@ self.addEventListener("fetch", (event) => {
   // Only handle same-origin traffic; let everything else pass through.
   if (url.origin !== self.location.origin) return;
 
+  // Network-first strategy: always fetch the latest content when online,
+  // update the cache in the background, and fallback to cache if offline.
   event.respondWith(
-    caches.match(request, { ignoreSearch: false }).then((cached) => {
-      if (cached) return cached;
-      return fetch(request).then((response) => {
-        // Cache successful, cacheable responses for offline use.
+    fetch(request)
+      .then((response) => {
         if (
           response &&
           response.status === 200 &&
@@ -45,7 +44,7 @@ self.addEventListener("fetch", (event) => {
           caches.open(CACHE).then((cache) => cache.put(request, copy));
         }
         return response;
-      });
-    }),
+      })
+      .catch(() => caches.match(request, { ignoreSearch: false })),
   );
 });

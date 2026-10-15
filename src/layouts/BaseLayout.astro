@@ -62,9 +62,22 @@ const canonical = `${site}${localizedPath(path, locale)}`;
     <Footer locale={locale} />
     <script is:inline>
       if ("serviceWorker" in navigator) {
-        window.addEventListener("load", function () {
-          navigator.serviceWorker.register("/sw.js").catch(function () {});
-        });
+        if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
+          navigator.serviceWorker.getRegistrations().then(function (registrations) {
+            for (var reg of registrations) {
+              reg.unregister();
+            }
+          });
+          if ("caches" in window) {
+            caches.keys().then(function (names) {
+              for (var name of names) caches.delete(name);
+            });
+          }
+        } else {
+          window.addEventListener("load", function () {
+            navigator.serviceWorker.register("/sw.js").catch(function () {});
+          });
+        }
       }
     </script>
   </body>

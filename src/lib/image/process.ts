@@ -90,16 +90,25 @@ export class ImageProcessor {
       return processImageBytes(bytes, file.name, settings, signal);
     }
     const id = this.nextId++;
-    return new Promise<ProcessedImage>((resolve, reject) => {
-      this.pending.set(id, { resolve, reject });
-      const onAbort = () => {
-        this.pending.delete(id);
-        reject(new ProcessError("aborted", "Processing was cancelled."));
-      };
-      signal?.addEventListener("abort", onAbort, { once: true });
-      const buffer = bytes.buffer as ArrayBuffer;
-      worker.postMessage({ id, fileName: file.name, data: buffer, settings }, [buffer]);
-    });
+    try {
+      return await new Promise<ProcessedImage>((resolve, reject) => {
+        this.pending.set(id, { resolve, reject });
+        const onAbort = () => {
+          this.pending.delete(id);
+          reject(new ProcessError("aborted", "Processing was cancelled."));
+        };
+        signal?.addEventListener("abort", onAbort, { once: true });
+        // Send a clone of the buffer so bytes stays intact in case fallback is needed
+        const buffer = bytes.slice().buffer as ArrayBuffer;
+        worker.postMessage({ id, fileName: file.name, data: buffer, settings }, [buffer]);
+      });
+    } catch (workerErr) {
+      if (workerErr instanceof ProcessError && workerErr.code === "aborted") {
+        throw workerErr;
+      }
+      console.warn("[ShrinkIt] Background worker encountered an error, falling back to main-thread:", workerErr);
+      return processImageBytes(bytes, file.name, settings, signal);
+    }
   }
 
   terminate(): void {

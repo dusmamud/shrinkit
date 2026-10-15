@@ -158,9 +158,9 @@ export default function SettingsPanel({
   return (
     <section
       aria-label={t(locale, "settings.title")}
-      className="mx-auto mt-8 w-full max-w-[1100px] bg-white px-4"
+      className="resize-form-container mx-auto mt-8 w-full max-w-[1100px] bg-white px-4"
     >
-      <h2 className="text-center text-[1.875rem] font-medium text-black">
+      <h2 className="title text-center text-[1.875rem] font-medium text-black">
         {t(locale, "settings.title")}
       </h2>
 
@@ -264,11 +264,14 @@ export default function SettingsPanel({
         </div>
       </div>
 
+      {/* Separator */}
+      <div className="separator my-6 mx-auto max-w-[650px] border-t border-[#e5e7eb]" />
+
       {/* (c) Resize-mode row — slides open when the lock is off and W≠H */}
       <div className={`mode-row${showModes ? " open" : ""}`} aria-hidden={!showModes}>
         <div>
           <div
-            className="flex items-stretch justify-center gap-2 sm:gap-4"
+            className="flex items-stretch justify-center gap-2 sm:gap-4 pb-6"
             role="radiogroup"
             aria-label={t(locale, "settings.resize_mode")}
           >
@@ -305,97 +308,111 @@ export default function SettingsPanel({
               );
             })}
           </div>
+          <div className="separator mb-6 mx-auto max-w-[650px] border-t border-[#e5e7eb]" />
         </div>
       </div>
 
-      {/* (d) Format / Quality / Background row */}
-      <div className="mt-6 flex flex-wrap items-start justify-center gap-x-10 gap-y-5">
-        <div className="flex items-center gap-3">
-          <label
-            htmlFor="set-format"
-            className="cursor-help text-base font-normal text-black underline decoration-dotted underline-offset-4"
-            data-tip={t(locale, "settings.format_tip")}
-          >
-            {t(locale, "settings.format")}
-          </label>
-          <div className="relative" data-tip={t(locale, "settings.format_tip")}>
-            <select
-              id="set-format"
-              data-testid="format-select"
-              value={settings.format}
-              disabled={disabled}
-              onChange={(e) => onChange({ format: e.target.value as OutputFormat })}
-              className="h-[50px] cursor-pointer appearance-none rounded-[6px] border border-[#667085] bg-white pl-3 pr-9 text-base font-light text-black outline-none transition focus:border-[#016df0] disabled:opacity-50"
-            >
-              {FORMATS.map((f) => (
-                <option key={f} value={f}>
-                  {f.toUpperCase()}
-                </option>
-              ))}
-            </select>
-            <Chevron />
-          </div>
-        </div>
-
-        {qualityApplies && (
-          <div className="flex items-center gap-3" data-tip={t(locale, "settings.quality_tip")}>
+      {/* (d) Format / Quality / Background row — ReduceImages layout */}
+      <div className="format-quality-area mx-auto max-w-[650px]">
+        <div className="flex flex-wrap items-start justify-center gap-x-12 gap-y-5">
+          {/* Format column */}
+          <div className="format-col flex flex-col items-center sm:items-start" data-tip={t(locale, "settings.format_tip")}>
             <label
-              htmlFor="set-quality"
-              className="cursor-help text-base font-normal text-black underline decoration-dotted underline-offset-4"
+              htmlFor="set-format"
+              className="cursor-help text-base font-normal text-black mb-2 underline decoration-dotted underline-offset-4"
             >
-              {t(locale, "settings.quality")}
+              {t(locale, "settings.format")}
             </label>
             <div className="relative">
-              <input
-                id="set-quality"
-                data-testid="quality-input"
-                type="number"
-                min="0"
-                max="100"
-                step="1"
-                value={qualityNum}
+              <select
+                id="set-format"
+                data-testid="format-select"
+                value={settings.format}
                 disabled={disabled}
-                onChange={(e) => onChange({ quality: e.target.value })}
-                className={`${numInputCls} w-[95px] pr-9`}
-              />
-              <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[0.75em] font-light text-[#667085]">
-                %
-              </span>
+                onChange={(e) => onChange({ format: e.target.value as OutputFormat })}
+                className="h-[50px] w-[130px] cursor-pointer appearance-none rounded-[6px] border border-[#667085] bg-white pl-3 pr-9 text-base font-light text-black outline-none transition focus:border-[#016df0] disabled:opacity-50"
+              >
+                {FORMATS.map((f) => (
+                  <option key={f} value={f}>
+                    {f === "jpeg" ? "JPG" : f.toUpperCase()}
+                  </option>
+                ))}
+              </select>
+              <Chevron />
             </div>
           </div>
-        )}
 
-        <div className="flex items-center gap-3">
-          <span id="bg-label" className="text-base font-normal text-black">
-            {t(locale, "settings.background")}
-          </span>
-          <div className="flex items-center gap-2.5" role="radiogroup" aria-labelledby="bg-label">
-            {(["white", "black"] as const).map((c) => {
-              const selected = settings.background === c;
-              return (
-                <button
-                  key={c}
-                  type="button"
-                  role="radio"
-                  aria-checked={selected}
-                  data-testid={`bg-${c}`}
-                  aria-label={t(locale, c === "white" ? "settings.bg_white" : "settings.bg_black")}
-                  data-tip={t(locale, "settings.background_tip")}
+          {/* Quality column */}
+          {qualityApplies && (
+            <div
+              className="quality-col flex flex-col items-center sm:items-start"
+              data-tip={t(locale, "settings.quality_tip")}
+            >
+              <label
+                htmlFor="set-quality"
+                className="cursor-help text-base font-normal text-black mb-2 underline decoration-dotted underline-offset-4"
+              >
+                {t(locale, "settings.quality")}
+              </label>
+              <div className="relative">
+                <input
+                  id="set-quality"
+                  data-testid="quality-input"
+                  type="number"
+                  min="0"
+                  max="100"
+                  step="1"
+                  value={qualityNum}
                   disabled={disabled}
-                  onClick={() => onChange({ background: c })}
-                  className={[
-                    "h-[35px] w-[35px] rounded-full border transition",
-                    c === "white" ? "border-[#667085] bg-white" : "border-black bg-black",
-                    selected ? "ring-[3px] ring-[#016df0] ring-offset-2" : "hover:scale-105",
-                  ].join(" ")}
+                  onChange={(e) => onChange({ quality: e.target.value })}
+                  className={`${numInputCls} w-[95px] pr-9`}
                 />
-              );
-            })}
+                <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[0.75em] font-light text-[#667085]">
+                  %
+                </span>
+              </div>
+            </div>
+          )}
+
+          {/* Background column */}
+          <div
+            className="background-col flex flex-col items-center sm:items-start"
+            data-tip={t(locale, "settings.background_tip")}
+          >
+            <span id="bg-label" className="text-base font-normal text-black mb-2">
+              {t(locale, "settings.background")}
+            </span>
+            <div
+              className="flex h-[50px] items-center gap-3"
+              role="radiogroup"
+              aria-labelledby="bg-label"
+            >
+              {(["white", "black"] as const).map((c) => {
+                const selected = settings.background === c;
+                return (
+                  <button
+                    key={c}
+                    type="button"
+                    role="radio"
+                    aria-checked={selected}
+                    data-testid={`bg-${c}`}
+                    aria-label={t(locale, c === "white" ? "settings.bg_white" : "settings.bg_black")}
+                    disabled={disabled}
+                    onClick={() => onChange({ background: c })}
+                    className={[
+                      "h-[35px] w-[35px] rounded-full border transition",
+                      c === "white" ? "border-[#667085] bg-white" : "border-black bg-black",
+                      selected ? "ring-[3px] ring-[#016df0] ring-offset-2" : "hover:scale-105 shadow-[0_1px_5px_rgba(0,0,0,0.2)]",
+                    ].join(" ")}
+                  />
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
 
-      {/* EXIF preference (kept from the previous version — privacy feature) */}
+      {/* EXIF preference */}
       <label className="mx-auto mt-6 flex max-w-xl cursor-pointer items-start gap-3 rounded-[6px] border border-[#d7dee9] p-3 transition hover:border-[#52a0ff]">
         <input
           type="checkbox"

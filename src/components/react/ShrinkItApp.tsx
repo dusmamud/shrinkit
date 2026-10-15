@@ -248,6 +248,7 @@ export default function ShrinkItApp({ locale }: ShrinkItAppProps) {
             ),
           );
         } catch (err) {
+          console.error(`[ShrinkIt] Error processing ${item.file.name}:`, err);
           setItems((prev) =>
             prev.map((i) =>
               i.id === item.id

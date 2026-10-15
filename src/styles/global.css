@@ -161,6 +161,21 @@ body {
   }
 }
 
+/* ReduceImages-style Format & Quality area mobile layout */
+@media (max-width: 576px) {
+  .format-quality-area {
+    padding: 0 0.5rem;
+  }
+  .format-quality-area .format-col,
+  .format-quality-area .quality-col {
+    align-items: center;
+  }
+  .format-quality-area .background-col {
+    width: 100%;
+    align-items: center;
+  }
+}
+
 /* Two-line filename clamp */
 .clamp-2 {
   display: -webkit-box;
