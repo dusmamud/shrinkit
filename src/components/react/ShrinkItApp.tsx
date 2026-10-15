@@ -84,12 +84,28 @@ export default function ShrinkItApp({ locale }: ShrinkItAppProps) {
   const [items, setItems] = useState<QueueItem[]>([]);
   const [running, setRunning] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
+  const [failedFiles, setFailedFiles] = useState<string[]>([]);
+  const [browserSupported, setBrowserSupported] = useState(true);
   const [zipping, setZipping] = useState(false);
 
   const processorRef = useRef<ImageProcessor | null>(null);
   const abortRef = useRef<AbortController | null>(null);
   const itemsRef = useRef<QueueItem[]>([]);
   itemsRef.current = items;
+
+  useEffect(() => {
+    // Check browser canvas & file support (matching reduceimages.com isBrowserSupported)
+    try {
+      const canvas = document.createElement("canvas");
+      const canvasOk = !!(canvas.getContext && canvas.getContext("2d"));
+      const fileOk = typeof window !== "undefined" && typeof window.FileReader !== "undefined";
+      if (!canvasOk || !fileOk) {
+        setBrowserSupported(false);
+      }
+    } catch {
+      setBrowserSupported(false);
+    }
+  }, []);
 
   useEffect(() => {
     const onPaste = (e: ClipboardEvent) => {
@@ -118,21 +134,30 @@ export default function ShrinkItApp({ locale }: ShrinkItAppProps) {
   const addFiles = useCallback(
     (files: File[]) => {
       setFormError(null);
+      setFailedFiles([]);
       const accepted: File[] = [];
-      let rejected: string | null = null;
+      const rejectedNames: string[] = [];
       for (const f of files) {
         if (!isSupportedInputFileName(f.name)) {
-          rejected = t(locale, "errors.unsupported", { name: f.name });
+          rejectedNames.push(f.name);
           continue;
         }
         accepted.push(f);
+      }
+      if (rejectedNames.length > 0) {
+        setFailedFiles(rejectedNames);
+        setFormError(
+          rejectedNames.length === 1
+            ? t(locale, "errors.unsupported", { name: rejectedNames[0] })
+            : "Some selected images are not supported. Please select JPG, PNG, BMP, WebP or GIF images only."
+        );
       }
       let fresh: QueueItem[] = [];
       setItems((prev) => {
         const room = MAX_BATCH - prev.length;
         const take = accepted.slice(0, Math.max(0, room));
         if (accepted.length > take.length) {
-          rejected = t(locale, "errors.too_many", { max: MAX_BATCH });
+          setFormError(t(locale, "errors.too_many", { max: MAX_BATCH }));
         }
         fresh = take.map((file) => ({
           id: nextId(),
@@ -143,7 +168,7 @@ export default function ShrinkItApp({ locale }: ShrinkItAppProps) {
         }));
         return [...prev, ...fresh];
       });
-      // Fill in dimensions asynchronously for the thumbnail strip.
+      // Fill in dimensions asynchronously for thumbnail strip and calculations.
       for (const item of fresh) {
         void probeDims(item.file).then((dims) => {
           if (dims) {
@@ -151,7 +176,6 @@ export default function ShrinkItApp({ locale }: ShrinkItAppProps) {
           }
         });
       }
-      if (rejected) setFormError(rejected);
     },
     [locale],
   );
@@ -178,6 +202,7 @@ export default function ShrinkItApp({ locale }: ShrinkItAppProps) {
     });
     setRunning(false);
     setFormError(null);
+    setFailedFiles([]);
   }, []);
 
   const toProcessSettings = useCallback((): ProcessSettings => {
@@ -297,6 +322,34 @@ export default function ShrinkItApp({ locale }: ShrinkItAppProps) {
 
   return (
     <div className="mx-auto w-full max-w-[1100px] px-4">
+      {!browserSupported && (
+        <div
+          id="unsupported_browser_message"
+          role="alert"
+          className="mx-auto mb-6 rounded-[6px] border border-[#f5c6cb] bg-[#f8d7da] p-4 text-center text-sm font-medium text-[#721c24]"
+        >
+          Your browser is not supported. Please use{" "}
+          <a
+            href="https://www.google.com/chrome"
+            className="font-bold underline transition hover:text-black"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Google Chrome
+          </a>{" "}
+          or{" "}
+          <a
+            href="http://mozilla.org/firefox/new"
+            className="font-bold underline transition hover:text-black"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Firefox
+          </a>
+          .
+        </div>
+      )}
+
       <Dropzone
         locale={locale}
         onFiles={addFiles}
@@ -304,6 +357,11 @@ export default function ShrinkItApp({ locale }: ShrinkItAppProps) {
         onRemove={removeItem}
         processing={running}
         error={formError}
+        failedFiles={failedFiles}
+        onDismissError={() => {
+          setFormError(null);
+          setFailedFiles([]);
+        }}
       />
 
       {items.length > 0 && (
@@ -313,6 +371,7 @@ export default function ShrinkItApp({ locale }: ShrinkItAppProps) {
             settings={settings}
             onChange={patchSettings}
             disabled={running}
+            originalSize={items[0]?.dims}
           />
 
           <div className="mx-auto mt-6 w-full max-w-[1100px]">

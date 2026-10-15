@@ -18,6 +18,69 @@ export interface TargetSize {
   height: number;
 }
 
+/** Round to two decimal places (matching reduceimages.com) */
+export function roundToTwoDecimals(num: number): number {
+  return Math.round((num + Number.EPSILON) * 100) / 100;
+}
+
+/**
+ * Return default width/height values when switching units (matching reduceimages.com: setWidthAndHeightForNewUnits).
+ */
+export function getDefaultDimensionsForUnit(
+  unit: SizeUnit,
+  original: OriginalSize,
+  dpi = 72,
+): { width: string; height: string } {
+  if (unit === "percent") {
+    return { width: "70", height: "70" };
+  }
+  if (unit === "pixels") {
+    return {
+      width: String(Math.max(1, Math.round(original.width))),
+      height: String(Math.max(1, Math.round(original.height))),
+    };
+  }
+  const effectiveDpi = Number.isFinite(dpi) && dpi > 0 ? dpi : 72;
+  if (unit === "cm") {
+    const dotsPerCm = effectiveDpi / CM_PER_INCH;
+    return {
+      width: String(roundToTwoDecimals(original.width / dotsPerCm)),
+      height: String(roundToTwoDecimals(original.height / dotsPerCm)),
+    };
+  }
+  if (unit === "inches") {
+    return {
+      width: String(roundToTwoDecimals(original.width / effectiveDpi)),
+      height: String(roundToTwoDecimals(original.height / effectiveDpi)),
+    };
+  }
+  return { width: "70", height: "70" };
+}
+
+/**
+ * Proportional dimension calculation when aspect ratio is locked (matching reduceimages.com: updateWidthHeight).
+ */
+export function calculateProportionalDimension(
+  changedField: "width" | "height",
+  newValue: number,
+  unit: SizeUnit,
+  original: OriginalSize,
+): number {
+  if (unit === "percent") {
+    return newValue;
+  }
+  if (unit === "pixels") {
+    if (changedField === "width") {
+      return Math.max(1, Math.round((original.height * newValue) / original.width));
+    }
+    return Math.max(1, Math.round((original.width * newValue) / original.height));
+  }
+  if (changedField === "width") {
+    return Math.max(0.01, roundToTwoDecimals((original.height * newValue) / original.width));
+  }
+  return Math.max(0.01, roundToTwoDecimals((original.width * newValue) / original.height));
+}
+
 /**
  * Convert a user-entered width/height pair in the given unit into
  * concrete output pixels, based on the original image dimensions and DPI.

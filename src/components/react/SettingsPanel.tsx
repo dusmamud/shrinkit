@@ -2,7 +2,12 @@ import { useState } from "react";
 import { Lock, LockOpen } from "@phosphor-icons/react";
 import { t, type MessageKey } from "../../lib/i18n";
 import type { Locale } from "../../lib/locales";
-import type { SizeUnit } from "../../lib/image/units";
+import {
+  type SizeUnit,
+  type OriginalSize,
+  getDefaultDimensionsForUnit,
+  calculateProportionalDimension,
+} from "../../lib/image/units";
 import type { OutputFormat } from "../../lib/image/filenames";
 import type { ResizeMode } from "../../lib/image/engine";
 
@@ -23,6 +28,7 @@ interface SettingsPanelProps {
   settings: SettingsState;
   onChange: (patch: Partial<SettingsState>) => void;
   disabled: boolean;
+  originalSize?: OriginalSize | null;
 }
 
 const UNITS: SizeUnit[] = ["percent", "pixels", "cm", "inches"];
@@ -112,23 +118,32 @@ export default function SettingsPanel({
   settings,
   onChange,
   disabled,
+  originalSize,
 }: SettingsPanelProps) {
+  const original: OriginalSize =
+    originalSize && originalSize.width > 0 && originalSize.height > 0
+      ? originalSize
+      : { width: 1920, height: 1080 };
+
   const [locked, setLocked] = useState(true);
 
   const qualityApplies = settings.format === "jpeg" || settings.format === "webp";
+  const resolutionApplies = settings.format !== "gif";
   const qualityNum = Math.min(100, Math.max(0, Number(settings.quality) || 0));
   const w = Number(settings.width);
   const h = Number(settings.height);
   const showModes =
     !locked && Number.isFinite(w) && Number.isFinite(h) && w > 0 && h > 0 && w !== h;
 
+  const isWidthInvalid = settings.width.trim() !== "" && (!Number.isFinite(w) || w <= 0);
+  const isHeightInvalid = settings.height.trim() !== "" && (!Number.isFinite(h) || h <= 0);
+
   const setWidth = (value: string) => {
     if (locked) {
       const nw = Number(value);
-      const ch = Number(settings.height);
-      const cw = Number(settings.width);
-      if (Number.isFinite(nw) && nw > 0 && Number.isFinite(ch) && Number.isFinite(cw) && cw > 0) {
-        onChange({ width: value, height: String(Math.max(1, Math.round((nw * ch) / cw))) });
+      if (Number.isFinite(nw) && nw > 0) {
+        const nh = calculateProportionalDimension("width", nw, settings.unit, original);
+        onChange({ width: value, height: String(nh) });
         return;
       }
     }
@@ -138,21 +153,46 @@ export default function SettingsPanel({
   const setHeight = (value: string) => {
     if (locked) {
       const nh = Number(value);
-      const ch = Number(settings.height);
-      const cw = Number(settings.width);
-      if (
-        Number.isFinite(nh) &&
-        nh > 0 &&
-        Number.isFinite(ch) &&
-        ch > 0 &&
-        Number.isFinite(cw) &&
-        cw > 0
-      ) {
-        onChange({ height: value, width: String(Math.max(1, Math.round((nh * cw) / ch))) });
+      if (Number.isFinite(nh) && nh > 0) {
+        const nw = calculateProportionalDimension("height", nh, settings.unit, original);
+        onChange({ height: value, width: String(nw) });
         return;
       }
     }
     onChange({ height: value });
+  };
+
+  const toggleLock = () => {
+    const nextLocked = !locked;
+    setLocked(nextLocked);
+    if (nextLocked) {
+      // Re-locking re-syncs height to width based on original aspect ratio (reduceimages.com switchLock)
+      const nw = Number(settings.width);
+      if (Number.isFinite(nw) && nw > 0) {
+        const nh = calculateProportionalDimension("width", nw, settings.unit, original);
+        onChange({ height: String(nh) });
+      }
+    }
+  };
+
+  const handleUnitChange = (newUnit: SizeUnit) => {
+    const def = getDefaultDimensionsForUnit(newUnit, original, Number(settings.dpi) || 72);
+    onChange({ unit: newUnit, width: def.width, height: def.height });
+  };
+
+  const handleFormatChange = (newFormat: OutputFormat) => {
+    if (newFormat === "jpeg") {
+      onChange({
+        format: newFormat,
+        quality: settings.quality && settings.quality !== "100" ? settings.quality : "90",
+      });
+    } else if (newFormat === "png") {
+      onChange({ format: newFormat, quality: "100" });
+    } else if (newFormat === "gif") {
+      onChange({ format: newFormat, dpi: "72" });
+    } else {
+      onChange({ format: newFormat });
+    }
   };
 
   return (
@@ -180,7 +220,7 @@ export default function SettingsPanel({
             value={settings.width}
             disabled={disabled}
             onChange={(e) => setWidth(e.target.value)}
-            className={`${numInputCls} w-[72px]`}
+            className={`${numInputCls} w-[72px] ${isWidthInvalid ? "border-[#d33] focus:border-[#d33]" : ""}`}
           />
         </div>
         <div className="size-group-h flex items-center gap-3">
@@ -197,7 +237,7 @@ export default function SettingsPanel({
             value={settings.height}
             disabled={disabled}
             onChange={(e) => setHeight(e.target.value)}
-            className={`${numInputCls} w-[72px]`}
+            className={`${numInputCls} w-[72px] ${isHeightInvalid ? "border-[#d33] focus:border-[#d33]" : ""}`}
           />
         </div>
         <button
@@ -207,7 +247,7 @@ export default function SettingsPanel({
           aria-label={t(locale, locked ? "settings.unlock_aspect" : "settings.lock_aspect")}
           data-tip={t(locale, "settings.lock_tip")}
           disabled={disabled}
-          onClick={() => setLocked((v) => !v)}
+          onClick={toggleLock}
           className="size-lock inline-flex h-[50px] w-[50px] items-center justify-center rounded-[6px] border border-[#667085] text-[#1d2939] transition hover:border-[#016df0] hover:text-[#016df0] disabled:opacity-50"
         >
           {locked ? <Lock size={22} /> : <LockOpen size={22} />}
@@ -219,7 +259,7 @@ export default function SettingsPanel({
             aria-label={t(locale, "settings.unit")}
             value={settings.unit}
             disabled={disabled}
-            onChange={(e) => onChange({ unit: e.target.value as SizeUnit })}
+            onChange={(e) => handleUnitChange(e.target.value as SizeUnit)}
             className="h-[50px] w-[160px] cursor-pointer appearance-none rounded-[6px] border border-[#667085] bg-white pl-3 pr-9 text-base font-light text-black outline-none transition focus:border-[#016df0] disabled:opacity-50"
           >
             {UNITS.map((u) => (
@@ -232,37 +272,39 @@ export default function SettingsPanel({
         </div>
       </div>
 
-      {/* (b) Resolution row */}
-      <div className="mt-5 flex items-center justify-center gap-3">
-        <label
-          htmlFor="set-dpi"
-          className="w-20 text-right text-base font-normal text-black"
-          data-tip={t(locale, "settings.resolution_tip")}
-        >
-          <span className="lbl-full cursor-help underline decoration-dotted underline-offset-4">
-            {t(locale, "settings.resolution")}
-          </span>
-          <span className="lbl-short cursor-help underline decoration-dotted underline-offset-4">
-            {t(locale, "settings.res_short")}
-          </span>
-        </label>
-        <div className="relative" data-tip={t(locale, "settings.resolution_tip")}>
-          <input
-            id="set-dpi"
-            data-testid="dpi-input"
-            type="number"
-            min="1"
-            step="1"
-            value={settings.dpi}
-            disabled={disabled}
-            onChange={(e) => onChange({ dpi: e.target.value })}
-            className={`${numInputCls} w-[95px] pr-9`}
-          />
-          <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[0.75em] font-light text-[#667085]">
-            DPI
-          </span>
+      {/* (b) Resolution row - hidden when format is GIF */}
+      {resolutionApplies && (
+        <div className="mt-5 flex items-center justify-center gap-3">
+          <label
+            htmlFor="set-dpi"
+            className="w-20 text-right text-base font-normal text-black"
+            data-tip={t(locale, "settings.resolution_tip")}
+          >
+            <span className="lbl-full cursor-help underline decoration-dotted underline-offset-4">
+              {t(locale, "settings.resolution")}
+            </span>
+            <span className="lbl-short cursor-help underline decoration-dotted underline-offset-4">
+              {t(locale, "settings.res_short")}
+            </span>
+          </label>
+          <div className="relative" data-tip={t(locale, "settings.resolution_tip")}>
+            <input
+              id="set-dpi"
+              data-testid="dpi-input"
+              type="number"
+              min="1"
+              step="1"
+              value={settings.dpi}
+              disabled={disabled}
+              onChange={(e) => onChange({ dpi: e.target.value })}
+              className={`${numInputCls} w-[95px] pr-9`}
+            />
+            <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[0.75em] font-light text-[#667085]">
+              DPI
+            </span>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Separator */}
       <div className="separator my-6 mx-auto max-w-[650px] border-t border-[#e5e7eb]" />
@@ -329,7 +371,7 @@ export default function SettingsPanel({
                 data-testid="format-select"
                 value={settings.format}
                 disabled={disabled}
-                onChange={(e) => onChange({ format: e.target.value as OutputFormat })}
+                onChange={(e) => handleFormatChange(e.target.value as OutputFormat)}
                 className="h-[50px] w-[130px] cursor-pointer appearance-none rounded-[6px] border border-[#667085] bg-white pl-3 pr-9 text-base font-light text-black outline-none transition focus:border-[#016df0] disabled:opacity-50"
               >
                 {FORMATS.map((f) => (

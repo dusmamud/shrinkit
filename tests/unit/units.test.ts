@@ -1,5 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { toPixels, percentOf, CM_PER_INCH } from "../../src/lib/image/units";
+import {
+  toPixels,
+  percentOf,
+  CM_PER_INCH,
+  roundToTwoDecimals,
+  getDefaultDimensionsForUnit,
+  calculateProportionalDimension,
+} from "../../src/lib/image/units";
 
 describe("toPixels", () => {
   const original = { width: 1920, height: 1080 };
@@ -68,5 +75,33 @@ describe("percentOf", () => {
   });
   it("returns 0 for degenerate originals", () => {
     expect(percentOf(100, 0)).toBe(0);
+  });
+});
+
+describe("roundToTwoDecimals & unit defaults & proportional math", () => {
+  const original = { width: 1920, height: 1080 };
+
+  it("getDefaultDimensionsForUnit matches reduceimages.com logic", () => {
+    expect(getDefaultDimensionsForUnit("percent", original)).toEqual({ width: "70", height: "70" });
+    expect(getDefaultDimensionsForUnit("pixels", original)).toEqual({ width: "1920", height: "1080" });
+    // at 72 DPI: 1920 / 72 = 26.67 inches, 1080 / 72 = 15 inches
+    expect(getDefaultDimensionsForUnit("inches", original, 72)).toEqual({ width: "26.67", height: "15" });
+    // at 72 DPI: dots_per_cm = 72 / 2.54 = 28.346...
+    // 1920 / 28.346... = 67.73 cm, 1080 / 28.346... = 38.1 cm
+    expect(getDefaultDimensionsForUnit("cm", original, 72)).toEqual({ width: "67.73", height: "38.1" });
+  });
+
+  it("calculateProportionalDimension keeps aspect ratio exact", () => {
+    // percent: width 50 -> height 50
+    expect(calculateProportionalDimension("width", 50, "percent", original)).toBe(50);
+    expect(calculateProportionalDimension("height", 30, "percent", original)).toBe(30);
+
+    // pixels: width 960 -> height 540
+    expect(calculateProportionalDimension("width", 960, "pixels", original)).toBe(540);
+    // pixels: height 540 -> width 960
+    expect(calculateProportionalDimension("height", 540, "pixels", original)).toBe(960);
+
+    // inches / cm: width 13.33 -> height 7.5
+    expect(calculateProportionalDimension("width", 13.335, "inches", original)).toBe(7.5);
   });
 });

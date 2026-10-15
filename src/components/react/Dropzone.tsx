@@ -12,6 +12,8 @@ interface DropzoneProps {
   onRemove: (id: string) => void;
   processing: boolean;
   error: string | null;
+  failedFiles?: string[];
+  onDismissError?: () => void;
 }
 
 /** Original upload-arrow mark drawn for ShrinkIt. */
@@ -38,6 +40,8 @@ export default function Dropzone({
   onRemove,
   processing,
   error,
+  failedFiles,
+  onDismissError,
 }: DropzoneProps) {
   const [dragging, setDragging] = useState(false);
   const dragDepth = useRef(0);
@@ -174,12 +178,37 @@ export default function Dropzone({
 
       {error && (
         <div
+          id="error_message_offline"
           role="alert"
-          className="mx-auto mt-8 flex max-w-xl items-center justify-center gap-2 rounded-[6px] bg-[#d33] px-4 py-3 text-sm font-normal text-white"
+          className="mx-auto mt-8 flex max-w-xl items-start gap-3 rounded-[6px] border border-[#f5c6cb] bg-[#f8d7da] p-4 text-left text-sm text-[#721c24] shadow-sm transition"
           onClick={(e) => e.stopPropagation()}
         >
-          <WarningCircle size={18} weight="fill" className="shrink-0" />
-          {error}
+          <WarningCircle size={22} weight="fill" className="shrink-0 text-[#d33] mt-0.5" />
+          <div className="flex-1">
+            <div className="font-semibold text-black">
+              {failedFiles && failedFiles.length > 0
+                ? "Some selected images are not supported. Please select JPG, PNG, BMP, WebP or GIF images only."
+                : error}
+            </div>
+            {failedFiles && failedFiles.length > 0 && (
+              <div id="failedFilesList" className="mt-1 font-mono text-xs text-[#a94442]">
+                {failedFiles.join(", ")}
+              </div>
+            )}
+            {failedFiles && failedFiles.length > 0 && error && !error.includes(failedFiles[0]) && (
+              <div className="mt-1 text-xs text-[#721c24]">{error}</div>
+            )}
+          </div>
+          {onDismissError && (
+            <button
+              type="button"
+              onClick={onDismissError}
+              aria-label="Dismiss error"
+              className="text-[#721c24] hover:text-black transition"
+            >
+              <X size={16} weight="bold" />
+            </button>
+          )}
         </div>
       )}
     </div>
