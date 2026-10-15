@@ -138,6 +138,16 @@ body {
 }
 
 
+/* Hide number input spinners to match reduceimages.com clean look */
+#resize-form-offline input[type="number"]::-webkit-inner-spin-button,
+#resize-form-offline input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+#resize-form-offline input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 /* Authentic reduceimages.com styling for Choose new size and format */
 #resize-form-offline .pixels_or_percent {
   display: inline-block;

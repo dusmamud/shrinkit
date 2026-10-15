@@ -169,10 +169,25 @@ export default function ShrinkItApp({ locale }: ShrinkItAppProps) {
         return [...prev, ...fresh];
       });
       // Fill in dimensions asynchronously for thumbnail strip and calculations.
-      for (const item of fresh) {
+      for (let idx = 0; idx < fresh.length; idx++) {
+        const item = fresh[idx];
+        const isFirst = itemsRef.current.length === 0 && idx === 0;
         void probeDims(item.file).then((dims) => {
           if (dims) {
             setItems((prev) => prev.map((i) => (i.id === item.id ? { ...i, dims } : i)));
+            if (isFirst) {
+              setSettings((prev) => {
+                if (prev.unit !== "percent") {
+                  const def = getDefaultDimensionsForUnit(
+                    prev.unit,
+                    dims,
+                    Number(prev.dpi) || 72,
+                  );
+                  return { ...prev, width: def.width, height: def.height };
+                }
+                return prev;
+              });
+            }
           }
         });
       }
