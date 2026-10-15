@@ -220,14 +220,14 @@ after each fix.
 
 ### Static quality gates — PASS (2026-10-09 ~06:40 IST)
 
-| Gate             | Command                  | Result                        |
-| ---------------- | ------------------------ | ----------------------------- |
-| TypeScript       | `npx tsc --noEmit`       | clean, 0 errors               |
+| Gate             | Command                  | Result                                                         |
+| ---------------- | ------------------------ | -------------------------------------------------------------- |
+| TypeScript       | `npx tsc --noEmit`       | clean, 0 errors                                                |
 | ESLint           | `npx eslint .`           | 0 errors, 5 `any` warnings in tests/e2e (pre-existing pattern) |
-| Prettier         | `npx prettier --check .` | all files conform             |
-| Unit tests       | `npx vitest run`         | 50/50 passed                  |
-| E2E (Playwright) | `npx playwright test`    | 23/23 passed (qa 14, responsive 3, shrink 6) |
-| Production build | `npm run build`          | success — 13 pages, sitemap   |
+| Prettier         | `npx prettier --check .` | all files conform                                              |
+| Unit tests       | `npx vitest run`         | 50/50 passed                                                   |
+| E2E (Playwright) | `npx playwright test`    | 23/23 passed (qa 14, responsive 3, shrink 6)                   |
+| Production build | `npm run build`          | success — 13 pages, sitemap                                    |
 
 ### Not verifiable in this sandbox
 

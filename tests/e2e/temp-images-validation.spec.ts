@@ -3,7 +3,8 @@ import { gotoApp } from "./helpers";
 import path from "path";
 import fs from "fs";
 
-const tempDir = "C:/Users/HP/.gemini/antigravity-ide/brain/1b1b2c1c-0598-4042-bd88-bdbfc72ff98d/scratch/temp_test_images";
+const tempDir =
+  "C:/Users/HP/.gemini/antigravity-ide/brain/1b1b2c1c-0598-4042-bd88-bdbfc72ff98d/scratch/temp_test_images";
 const logoPng = path.resolve(tempDir, "logo-1024.png");
 const generatedPhoto = path.resolve(tempDir, "generated_photo.jpg");
 

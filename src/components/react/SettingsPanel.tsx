@@ -285,14 +285,7 @@ export default function SettingsPanel({
                     strokeWidth="1.2"
                   />
                   {/* Horizontal Line to Unit Select (Y=58 is exact midpoint) */}
-                  <line
-                    x1="39"
-                    y1="58"
-                    x2="58"
-                    y2="58"
-                    stroke="#1d2939"
-                    strokeWidth="1.2"
-                  />
+                  <line x1="39" y1="58" x2="58" y2="58" stroke="#1d2939" strokeWidth="1.2" />
                 </svg>
 
                 {/* Clickable Blue Circle Badge exactly centered at (26, 58) */}
@@ -300,10 +293,7 @@ export default function SettingsPanel({
                   type="button"
                   data-testid="aspect-lock"
                   aria-pressed={locked}
-                  aria-label={t(
-                    locale,
-                    locked ? "settings.unlock_aspect" : "settings.lock_aspect",
-                  )}
+                  aria-label={t(locale, locked ? "settings.unlock_aspect" : "settings.lock_aspect")}
                   data-tip={t(locale, "settings.lock_tip")}
                   onClick={toggleLock}
                   style={{
@@ -434,9 +424,7 @@ export default function SettingsPanel({
                   onClick={() => onChange({ resizeMode: m })}
                   className={[
                     "flex w-24 flex-col items-center gap-1.5 rounded-[6px] px-2 pb-2 pt-3 transition sm:w-28 sm:px-3",
-                    selected
-                      ? "scale-[1.04] border-b-4 border-[#42c3ac]"
-                      : "hover:bg-[#fafcff]",
+                    selected ? "scale-[1.04] border-b-4 border-[#42c3ac]" : "hover:bg-[#fafcff]",
                   ].join(" ")}
                 >
                   <ModeDiagram mode={m} />
@@ -444,9 +432,7 @@ export default function SettingsPanel({
                     <span
                       className={[
                         "inline-block h-3.5 w-3.5 rounded-full border-2",
-                        selected
-                          ? "border-[#007bff] bg-[#007bff]"
-                          : "border-[#667085] bg-white",
+                        selected ? "border-[#007bff] bg-[#007bff]" : "border-[#667085] bg-white",
                       ].join(" ")}
                       aria-hidden="true"
                     />
@@ -461,7 +447,10 @@ export default function SettingsPanel({
         {/* (b) Format / Quality / Background row — Exact ReduceImages layout */}
         <div className="format-quality-area mt-8 flex flex-wrap items-center justify-center gap-6 sm:gap-10">
           {/* Format */}
-          <div className="format flex flex-col items-start" data-tip={t(locale, "settings.format_tip")}>
+          <div
+            className="format flex flex-col items-start"
+            data-tip={t(locale, "settings.format_tip")}
+          >
             <label htmlFor="set-format" className="mb-2 text-[1.15rem] font-medium text-[#000]">
               {t(locale, "settings.format")}
             </label>
@@ -483,7 +472,11 @@ export default function SettingsPanel({
 
           {/* Quality */}
           {qualityApplies && (
-            <div id="sector_calidad" className="flex flex-col items-start" data-tip={t(locale, "settings.quality_tip")}>
+            <div
+              id="sector_calidad"
+              className="flex flex-col items-start"
+              data-tip={t(locale, "settings.quality_tip")}
+            >
               <label htmlFor="set-quality" className="mb-2 text-[1.15rem] font-medium text-[#000]">
                 {t(locale, "settings.quality")}
               </label>
@@ -508,7 +501,11 @@ export default function SettingsPanel({
           )}
 
           {/* Background */}
-          <div id="sector_background" className="flex flex-col items-start" data-tip={t(locale, "settings.background_tip")}>
+          <div
+            id="sector_background"
+            className="flex flex-col items-start"
+            data-tip={t(locale, "settings.background_tip")}
+          >
             <label className="mb-2 text-[1.15rem] font-medium text-[#000]">
               {t(locale, "settings.background")}
             </label>

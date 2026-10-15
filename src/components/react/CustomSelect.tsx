@@ -43,9 +43,7 @@ export default function CustomSelect<T extends string = string>({
   const listboxId = `listbox-${selectId}`;
 
   const selectedIndex = options.findIndex((opt) => opt.value === value);
-  const [highlightedIndex, setHighlightedIndex] = useState(
-    selectedIndex >= 0 ? selectedIndex : 0,
-  );
+  const [highlightedIndex, setHighlightedIndex] = useState(selectedIndex >= 0 ? selectedIndex : 0);
 
   const selectedOption = options.find((opt) => opt.value === value) || options[0];
 
@@ -235,7 +233,12 @@ export default function CustomSelect<T extends string = string>({
                   )}
                 </span>
                 {isSelected && (
-                  <Check size={16} weight="bold" className="shrink-0 text-[#016df0]" aria-hidden="true" />
+                  <Check
+                    size={16}
+                    weight="bold"
+                    className="shrink-0 text-[#016df0]"
+                    aria-hidden="true"
+                  />
                 )}
               </li>
             );

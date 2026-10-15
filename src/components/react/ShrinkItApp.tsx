@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Stop, Trash } from "@phosphor-icons/react";
 import JSZip from "jszip";
 import { t } from "../../lib/i18n";
 import {
@@ -171,7 +170,7 @@ export default function ShrinkItApp({ locale }: ShrinkItAppProps) {
         setFormError(
           rejectedNames.length === 1
             ? t(locale, "errors.unsupported", { name: rejectedNames[0] })
-            : "Some selected images are not supported. Please select JPG, PNG, BMP, WebP or GIF images only."
+            : "Some selected images are not supported. Please select JPG, PNG, BMP, WebP or GIF images only.",
         );
       }
       const room = MAX_BATCH - itemsRef.current.length;
@@ -198,11 +197,7 @@ export default function ShrinkItApp({ locale }: ShrinkItAppProps) {
             if (isFirst) {
               setSettings((prev) => {
                 if (prev.unit !== "percent") {
-                  const def = getDefaultDimensionsForUnit(
-                    prev.unit,
-                    dims,
-                    Number(prev.dpi) || 72,
-                  );
+                  const def = getDefaultDimensionsForUnit(prev.unit, dims, Number(prev.dpi) || 72);
                   return { ...prev, width: def.width, height: def.height };
                 }
                 return prev;

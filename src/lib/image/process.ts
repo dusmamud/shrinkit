@@ -106,7 +106,10 @@ export class ImageProcessor {
       if (workerErr instanceof ProcessError && workerErr.code === "aborted") {
         throw workerErr;
       }
-      console.warn("[ShrinkIt] Background worker encountered an error, falling back to main-thread:", workerErr);
+      console.warn(
+        "[ShrinkIt] Background worker encountered an error, falling back to main-thread:",
+        workerErr,
+      );
       return processImageBytes(bytes, file.name, settings, signal);
     }
   }

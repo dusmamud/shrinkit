@@ -3,7 +3,6 @@ import {
   toPixels,
   percentOf,
   CM_PER_INCH,
-  roundToTwoDecimals,
   getDefaultDimensionsForUnit,
   calculateProportionalDimension,
 } from "../../src/lib/image/units";
@@ -83,12 +82,21 @@ describe("roundToTwoDecimals & unit defaults & proportional math", () => {
 
   it("getDefaultDimensionsForUnit matches reduceimages.com logic", () => {
     expect(getDefaultDimensionsForUnit("percent", original)).toEqual({ width: "70", height: "70" });
-    expect(getDefaultDimensionsForUnit("pixels", original)).toEqual({ width: "1920", height: "1080" });
+    expect(getDefaultDimensionsForUnit("pixels", original)).toEqual({
+      width: "1920",
+      height: "1080",
+    });
     // at 72 DPI: 1920 / 72 = 26.67 inches, 1080 / 72 = 15 inches
-    expect(getDefaultDimensionsForUnit("inches", original, 72)).toEqual({ width: "26.67", height: "15" });
+    expect(getDefaultDimensionsForUnit("inches", original, 72)).toEqual({
+      width: "26.67",
+      height: "15",
+    });
     // at 72 DPI: dots_per_cm = 72 / 2.54 = 28.346...
     // 1920 / 28.346... = 67.73 cm, 1080 / 28.346... = 38.1 cm
-    expect(getDefaultDimensionsForUnit("cm", original, 72)).toEqual({ width: "67.73", height: "38.1" });
+    expect(getDefaultDimensionsForUnit("cm", original, 72)).toEqual({
+      width: "67.73",
+      height: "38.1",
+    });
   });
 
   it("calculateProportionalDimension keeps aspect ratio exact", () => {
