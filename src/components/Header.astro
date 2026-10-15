@@ -20,28 +20,13 @@ const links = [
 <header class="bg-[#fafcff]">
   <div class="mx-auto flex max-w-[1075px] items-center justify-between px-4 py-4">
     <a href={home} class="flex items-center gap-2.5" aria-label={t(locale, "site.name")}>
-      <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
-        <rect width="34" height="34" rx="7" fill="#007bff"></rect>
-        <path
-          d="M11 23V11h12"
-          stroke="#fff"
-          stroke-width="2.6"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          fill="none"></path>
-        <path
-          d="M11 11l9.5 9.5"
-          stroke="#fff"
-          stroke-width="2.6"
-          stroke-linecap="round"></path>
-        <path
-          d="M15.5 20.5h5v-5"
-          stroke="#fff"
-          stroke-width="2.6"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          fill="none"></path>
-      </svg>
+      <img
+        src="/favicon.svg"
+        alt="ShrinkIt Logo"
+        width="34"
+        height="34"
+        class="h-[34px] w-[34px] rounded-[7px] object-contain shadow-xs"
+      />
       <span class="text-[1.35rem] font-medium tracking-tight text-black">ShrinkIt</span>
     </a>
 
@@ -97,7 +82,16 @@ const links = [
   aria-label="Menu"
 >
   <div class="flex items-center justify-between px-4 py-4">
-    <span class="text-[1.35rem] font-medium tracking-tight text-black">ShrinkIt</span>
+    <a href={home} class="flex items-center gap-2.5" aria-label={t(locale, "site.name")}>
+      <img
+        src="/favicon.svg"
+        alt="ShrinkIt Logo"
+        width="30"
+        height="30"
+        class="h-[30px] w-[30px] rounded-[6px] object-contain shadow-xs"
+      />
+      <span class="text-[1.35rem] font-medium tracking-tight text-black">ShrinkIt</span>
+    </a>
     <button
       type="button"
       id="nav-close"
