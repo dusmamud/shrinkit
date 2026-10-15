@@ -1,6 +1,6 @@
 ---
 import { t } from "../lib/i18n";
-import type { Locale } from "../lib/locale";
+import type { Locale } from "../lib/locales";
 
 interface Props {
   locale: Locale;
@@ -8,109 +8,178 @@ interface Props {
 const { locale } = Astro.props;
 ---
 
-<div id="how-it-works">
-  {/* Row 1 — doodle left, text right */}
-  <section class="bg-[#fafcff] py-[4.375rem]">
-    <div
-      class="mx-auto flex max-w-[1075px] flex-col items-center gap-10 px-4 min-[1185px]:flex-row min-[1185px]:gap-16"
-    >
-      <div class="flex w-full justify-center min-[1185px]:w-1/2" aria-hidden="true">
-        <svg
-          width="300"
-          height="240"
-          viewBox="0 0 300 240"
-          fill="none"
-          role="img"
-          aria-label="Pixel grid illustration"
-        >
-          <rect x="30" y="30" width="180" height="180" rx="10" stroke="#1d2939" stroke-width="3" />
-          <g stroke="#007bff" stroke-width="2">
-            <path d="M90 30v180M150 30v180M30 90h180M30 150h180" />
-          </g>
-          <rect x="150" y="150" width="60" height="60" fill="#42c3ac" opacity="0.55" />
-          <rect x="30" y="30" width="60" height="60" fill="#007bff" opacity="0.25" />
-          <path
-            d="M30 228h180"
-            stroke="#1d2939"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-dasharray="1 8"
-          />
-          <path d="M238 96v48M244 96l-6-9-6 9M244 144l-6 9-6-9" stroke="#1d2939" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-          <path d="M96 238h48M96 232l-9 6 9 6M144 232l9 6-9 6" stroke="#1d2939" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-          <circle cx="262" cy="52" r="16" stroke="#007bff" stroke-width="3" />
-          <path d="M256 52h12M262 46v12" stroke="#007bff" stroke-width="3" stroke-linecap="round" />
-        </svg>
-      </div>
-      <div class="w-full min-[1185px]:max-w-[35.625rem]">
-        <h3 class="text-[2.5rem] font-normal leading-tight text-black">
-          {t(locale, "info1.title")}
-        </h3>
-        <p class="mt-5 text-[1.0625rem] font-light leading-relaxed text-[#1d2939]">
-          {t(locale, "info1.p1")}
-        </p>
-        <p class="mt-4 text-[1.0625rem] font-light leading-relaxed text-[#1d2939]">
-          {t(locale, "info1.p2")}
-        </p>
-        <p class="mt-4 text-[1.0625rem] font-light leading-relaxed text-[#1d2939]">
-          {t(locale, "info1.p3")}
-        </p>
-      </div>
-    </div>
-  </section>
+<div id="how-it-works" class="home-info-container info remove-overflow-x bg-[#fafcff] py-[3.125rem] min-[1185px]:py-[4.375rem] mt-5">
+  <div class="container-fluid mx-auto px-4">
+    <div class="home-info-swiper-container relative">
+      <!-- Slides wrapper: horizontal swipe on mobile (<1185px), stacked column on desktop (>=1185px) -->
+      <div
+        id="info-swiper-wrapper"
+        class="swiper-wrapper flex flex-row overflow-x-auto min-[1185px]:overflow-visible min-[1185px]:flex-col snap-x snap-mandatory min-[1185px]:snap-none scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      >
+        <!-- Slide 1: What is an image file size? -->
+        <div class="swiper-slide w-full flex-shrink-0 snap-center min-[1185px]:snap-align-none">
+          <div class="home-info-block flex flex-col min-[1185px]:flex-row items-center justify-center max-w-[1075px] mx-auto min-[1185px]:gap-16 mb-0 min-[1185px]:mb-[4.0625rem]">
+            <!-- Illustration (on top for mobile, on left for desktop) -->
+            <div class="illustration-col flex items-center justify-center w-full min-[1185px]:w-1/2 p-4 min-[1185px]:p-8">
+              <svg
+                width="300"
+                height="240"
+                viewBox="0 0 300 240"
+                fill="none"
+                role="img"
+                aria-label="Pixel grid illustration"
+                class="max-h-[220px] min-[600px]:max-h-[300px] w-auto"
+              >
+                <rect x="30" y="30" width="180" height="180" rx="10" stroke="#1d2939" stroke-width="3" />
+                <g stroke="#007bff" stroke-width="2">
+                  <path d="M90 30v180M150 30v180M30 90h180M30 150h180" />
+                </g>
+                <rect x="150" y="150" width="60" height="60" fill="#42c3ac" opacity="0.55" />
+                <rect x="30" y="30" width="60" height="60" fill="#007bff" opacity="0.25" />
+                <path
+                  d="M30 228h180"
+                  stroke="#1d2939"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-dasharray="1 8"
+                />
+                <path d="M238 96v48M244 96l-6-9-6 9M244 144l-6 9-6-9" stroke="#1d2939" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M96 238h48M96 232l-9 6 9 6M144 232l9 6-9 6" stroke="#1d2939" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                <circle cx="262" cy="52" r="16" stroke="#007bff" stroke-width="3" />
+                <path d="M256 52h12M262 46v12" stroke="#007bff" stroke-width="3" stroke-linecap="round" />
+              </svg>
+            </div>
 
-  {/* Row 2 — text left, doodle right */}
-  <section class="bg-[#fafcff] py-[4.375rem]">
-    <div
-      class="mx-auto flex max-w-[1075px] flex-col items-center gap-10 px-4 min-[1185px]:flex-row min-[1185px]:gap-16"
-    >
-      <div class="w-full min-[1185px]:max-w-[35.625rem]">
-        <h3 class="text-[2.5rem] font-normal leading-tight text-black">
-          {t(locale, "info2.title")}
-        </h3>
-        <p class="mt-5 text-[1.0625rem] font-light leading-relaxed text-[#1d2939]">
-          {t(locale, "info2.p1")}
-        </p>
-        <p class="mt-4 text-[1.0625rem] font-light leading-relaxed text-[#1d2939]">
-          {t(locale, "info2.p2")}
-        </p>
-        <p class="mt-4 text-[1.0625rem] font-light leading-relaxed text-[#1d2939]">
-          {t(locale, "info2.p3")}
-        </p>
+            <!-- Text Content -->
+            <div class="text-col flex items-center w-full min-[1185px]:max-w-[35.625rem] px-4 min-[1185px]:px-0">
+              <div class="w-[90%] min-[1185px]:w-full mx-auto">
+                <h3 class="home-info-section-title text-[1.875rem] min-[700px]:text-[2.5rem] font-normal leading-tight text-black pb-5">
+                  {t(locale, "info1.title")}
+                </h3>
+                <div class="section-paragraph-font text-[1.0625rem] font-light leading-relaxed text-[#1d2939] space-y-4">
+                  <p>{t(locale, "info1.p1")}</p>
+                  <p>{t(locale, "info1.p2")}</p>
+                  <p>{t(locale, "info1.p3")}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 2: How can I reduce my image's file size? -->
+        <div class="swiper-slide w-full flex-shrink-0 snap-center min-[1185px]:snap-align-none">
+          <div class="home-info-block flex flex-col min-[1185px]:flex-row items-center justify-center max-w-[1075px] mx-auto min-[1185px]:gap-16">
+            <!-- Text Content (on bottom for mobile via order-2, on left for desktop via order-1) -->
+            <div class="text-col order-2 min-[1185px]:order-1 flex items-center w-full min-[1185px]:max-w-[35.625rem] px-4 min-[1185px]:px-0">
+              <div class="w-[90%] min-[1185px]:w-full mx-auto">
+                <h3 class="home-info-section-title text-[1.875rem] min-[700px]:text-[2.5rem] font-normal leading-tight text-black pb-5">
+                  {t(locale, "info2.title")}
+                </h3>
+                <div class="section-paragraph-font text-[1.0625rem] font-light leading-relaxed text-[#1d2939] space-y-4">
+                  <p>{t(locale, "info2.p1")}</p>
+                  <p>{t(locale, "info2.p2")}</p>
+                  <p>{t(locale, "info2.p3")}</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Illustration (on top for mobile via order-1, on right for desktop via order-2) -->
+            <div class="illustration-col order-1 min-[1185px]:order-2 flex items-center justify-center w-full min-[1185px]:w-1/2 p-4 min-[1185px]:p-8">
+              <svg
+                width="300"
+                height="240"
+                viewBox="0 0 300 240"
+                fill="none"
+                role="img"
+                aria-label="Shrinking illustration"
+                class="max-h-[220px] min-[600px]:max-h-[300px] w-auto"
+              >
+                <rect x="24" y="60" width="120" height="120" rx="10" stroke="#1d2939" stroke-width="3" />
+                <g stroke="#007bff" stroke-width="2">
+                  <path d="M64 60v120M104 60v120M24 100h120M24 140h120" />
+                </g>
+                <path
+                  d="M168 118h44m0 0-10-10m10 10-10 10"
+                  stroke="#42c3ac"
+                  stroke-width="4"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <rect x="228" y="92" width="52" height="52" rx="8" stroke="#1d2939" stroke-width="3" />
+                <path d="M241 92v52M254 92v52M228 105h52M228 118h52M228 131h52" stroke="#007bff" stroke-width="1.6" />
+                <path
+                  d="M60 200c14-10 26 6 40-4s26 6 40-4"
+                  stroke="#42c3ac"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-dasharray="1 9"
+                />
+                <circle cx="252" cy="170" r="14" stroke="#007bff" stroke-width="3" />
+                <path d="M246 170l4.5 4.5L259 166" stroke="#007bff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="flex w-full justify-center min-[1185px]:w-1/2" aria-hidden="true">
-        <svg
-          width="300"
-          height="240"
-          viewBox="0 0 300 240"
-          fill="none"
-          role="img"
-          aria-label="Shrinking illustration"
-        >
-          <rect x="24" y="60" width="120" height="120" rx="10" stroke="#1d2939" stroke-width="3" />
-          <g stroke="#007bff" stroke-width="2">
-            <path d="M64 60v120M104 60v120M24 100h120M24 140h120" />
-          </g>
-          <path
-            d="M168 118h44m0 0-10-10m10 10-10 10"
-            stroke="#42c3ac"
-            stroke-width="4"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-          <rect x="228" y="92" width="52" height="52" rx="8" stroke="#1d2939" stroke-width="3" />
-          <path d="M241 92v52M254 92v52M228 105h52M228 118h52M228 131h52" stroke="#007bff" stroke-width="1.6" />
-          <path
-            d="M60 200c14-10 26 6 40-4s26 6 40-4"
-            stroke="#42c3ac"
-            stroke-width="3"
-            stroke-linecap="round"
-            stroke-dasharray="1 9"
-          />
-          <circle cx="252" cy="170" r="14" stroke="#007bff" stroke-width="3" />
-          <path d="M246 170l4.5 4.5L259 166" stroke="#007bff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
+
+      <!-- Pagination Bullets (Mobile only: <1185px) -->
+      <div class="swiper-pagination flex min-[1185px]:hidden justify-center items-center gap-2.5 mt-8" aria-label="Slide pagination">
+        <button
+          type="button"
+          class="swiper-bullet h-[14px] w-[14px] rounded-full bg-[#93b4e6] transition-all cursor-pointer"
+          data-slide="0"
+          aria-label="Slide 1"
+          aria-current="true"
+        ></button>
+        <button
+          type="button"
+          class="swiper-bullet h-[14px] w-[14px] rounded-full bg-[#d9e2ef] transition-all cursor-pointer"
+          data-slide="1"
+          aria-label="Slide 2"
+          aria-current="false"
+        ></button>
       </div>
     </div>
-  </section>
+  </div>
 </div>
+
+<script>
+  function setupInfoSwiper() {
+    const wrapper = document.getElementById("info-swiper-wrapper");
+    const bullets = document.querySelectorAll<HTMLButtonElement>(".swiper-bullet");
+    if (!wrapper || bullets.length === 0) return;
+
+    bullets.forEach((bullet) => {
+      bullet.addEventListener("click", () => {
+        const index = Number(bullet.getAttribute("data-slide"));
+        const slideWidth = wrapper.clientWidth;
+        wrapper.scrollTo({ left: index * slideWidth, behavior: "smooth" });
+      });
+    });
+
+    wrapper.addEventListener(
+      "scroll",
+      () => {
+        const slideWidth = wrapper.clientWidth;
+        if (slideWidth <= 0) return;
+        const activeIndex = Math.round(wrapper.scrollLeft / slideWidth);
+
+        bullets.forEach((b, i) => {
+          if (i === activeIndex) {
+            b.classList.remove("bg-[#d9e2ef]");
+            b.classList.add("bg-[#93b4e6]");
+            b.setAttribute("aria-current", "true");
+          } else {
+            b.classList.remove("bg-[#93b4e6]");
+            b.classList.add("bg-[#d9e2ef]");
+            b.setAttribute("aria-current", "false");
+          }
+        });
+      },
+      { passive: true }
+    );
+  }
+
+  setupInfoSwiper();
+  document.addEventListener("astro:page-load", setupInfoSwiper);
+</script>

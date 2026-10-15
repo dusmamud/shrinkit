@@ -500,3 +500,26 @@ body {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+/* Home Info Swiper edge fade cues on mobile (< 1185px) matching reduceimages.com */
+@media screen and (max-width: 1184px) {
+  .home-info-swiper-container::before,
+  .home-info-swiper-container::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 2rem;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5;
+  }
+  .home-info-swiper-container::before {
+    left: 0;
+    background: linear-gradient(to right, rgba(250, 252, 255, 0.8), transparent);
+  }
+  .home-info-swiper-container::after {
+    right: 0;
+    background: linear-gradient(to left, rgba(250, 252, 255, 0.8), transparent);
+  }
+}
+
