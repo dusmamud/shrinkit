@@ -303,11 +303,6 @@ export async function processImageBytes(
   const dst = makeCanvas(target.width, target.height);
   const dstCtx = get2d(dst);
   let flattened = false;
-  if (!keepAlpha) {
-    dstCtx.fillStyle = settings.background === "black" ? "#000000" : "#ffffff";
-    dstCtx.fillRect(0, 0, target.width, target.height);
-    flattened = true;
-  }
 
   const mode: ResizeMode = settings.mode ?? "stretch";
   let resizeInput: ImageBitmap | AnyCanvas = source;
@@ -323,14 +318,14 @@ export async function processImageBytes(
 
   const resizer = createResizer();
   const resizeOpts = {
-    alpha: keepAlpha,
+    alpha: true,
     unsharpAmount: 80,
     unsharpRadius: 0.6,
     unsharpThreshold: 2,
   };
   try {
     if (mode === "fit") {
-      // Resize to fit inside the box, then letterbox onto the background.
+      // Resize to fit inside the box, then letterbox onto the destination canvas.
       const fitted = fitDims(srcW, srcH, target.width, target.height);
       const tmp = makeCanvas(fitted.width, fitted.height);
       await resizer.resize(resizeInput, tmp, resizeOpts);
@@ -366,21 +361,36 @@ export async function processImageBytes(
   }
   throwIfAborted(signal);
 
+  // Formats like JPEG do not support transparency. Browsers default transparent pixels
+  // (alpha = 0) to black (#000000) during native JPEG encoding.
+  // Composite dst on top of a solid background canvas to guarantee the chosen
+  // background color (white or black) is honored.
+  let renderCanvas: AnyCanvas = dst;
+  if (!keepAlpha) {
+    const flatCanvas = makeCanvas(target.width, target.height);
+    const flatCtx = get2d(flatCanvas);
+    flatCtx.fillStyle = settings.background === "black" ? "#000000" : "#ffffff";
+    flatCtx.fillRect(0, 0, target.width, target.height);
+    flatCtx.drawImage(dst, 0, 0);
+    renderCanvas = flatCanvas;
+    flattened = true;
+  }
+
   const quality = Math.min(100, Math.max(0, Math.round(settings.quality))) / 100;
   let encoded: Uint8Array;
   try {
     switch (settings.format) {
       case "jpeg":
-        encoded = await blobToBytes(await canvasToBlob(dst, "image/jpeg", quality));
+        encoded = await blobToBytes(await canvasToBlob(renderCanvas, "image/jpeg", quality));
         break;
       case "webp":
-        encoded = await blobToBytes(await canvasToBlob(dst, "image/webp", quality));
+        encoded = await blobToBytes(await canvasToBlob(renderCanvas, "image/webp", quality));
         break;
       case "png":
-        encoded = await blobToBytes(await canvasToBlob(dst, "image/png"));
+        encoded = await blobToBytes(await canvasToBlob(renderCanvas, "image/png"));
         break;
       case "gif":
-        encoded = await encodeGif(dst, target.width, target.height);
+        encoded = await encodeGif(renderCanvas, target.width, target.height);
         break;
     }
   } catch (err) {

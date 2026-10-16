@@ -207,13 +207,12 @@ test("6. quality actually changes JPEG output size", async ({ page }) => {
 });
 
 test("7. background swatch ring + transparent PNG flattens to chosen color", async ({ page }) => {
+  // 1. White background (default) + transparent PNG flattens to white
   await upload(page, transparent);
-  // Ring appears on the selected swatch.
-  await page.getByTestId("bg-black").click();
-  await expect(page.getByTestId("bg-black")).toHaveClass(/ring-\[3px\]/);
-  const panel = await processAndWaitPanel(page);
-  const outPath = await downloadFirst(page, panel, /\.jpg$/);
-  const corner = await page.evaluate(async (b64: string) => {
+  await expect(page.getByTestId("bg-white")).toHaveClass(/ring-\[3px\]/);
+  let panel = await processAndWaitPanel(page);
+  let outPath = await downloadFirst(page, panel, /\.jpg$/);
+  let corner = await page.evaluate(async (b64: string) => {
     const bin = atob(b64);
     const raw = new Uint8Array(bin.length);
     for (let i = 0; i < bin.length; i++) raw[i] = bin.charCodeAt(i);
@@ -226,7 +225,33 @@ test("7. background swatch ring + transparent PNG flattens to chosen color", asy
     const d = ctx.getImageData(3, 3, 1, 1).data;
     return [d[0], d[1], d[2]];
   }, fs.readFileSync(outPath).toString("base64"));
-  // JPEG of a flattened transparent image on black: corner ~black.
+  // JPEG of a flattened transparent image on white: corner must be white (> 240).
+  expect(corner[0]).toBeGreaterThan(240);
+  expect(corner[1]).toBeGreaterThan(240);
+  expect(corner[2]).toBeGreaterThan(240);
+  fs.unlinkSync(outPath);
+
+  // 2. Black background clicked + transparent PNG flattens to black
+  await gotoApp(page, "/");
+  await page.getByTestId("file-input").setInputFiles(transparent);
+  await page.getByTestId("bg-black").click();
+  await expect(page.getByTestId("bg-black")).toHaveClass(/ring-\[3px\]/);
+  panel = await processAndWaitPanel(page);
+  outPath = await downloadFirst(page, panel, /\.jpg$/);
+  corner = await page.evaluate(async (b64: string) => {
+    const bin = atob(b64);
+    const raw = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) raw[i] = bin.charCodeAt(i);
+    const bmp = await createImageBitmap(new Blob([raw.buffer as ArrayBuffer]));
+    const c = document.createElement("canvas");
+    c.width = bmp.width;
+    c.height = bmp.height;
+    const ctx = c.getContext("2d")!;
+    ctx.drawImage(bmp, 0, 0);
+    const d = ctx.getImageData(3, 3, 1, 1).data;
+    return [d[0], d[1], d[2]];
+  }, fs.readFileSync(outPath).toString("base64"));
+  // JPEG of a flattened transparent image on black: corner ~black (< 40).
   expect(corner[0]).toBeLessThan(40);
   expect(corner[1]).toBeLessThan(40);
   expect(corner[2]).toBeLessThan(40);
