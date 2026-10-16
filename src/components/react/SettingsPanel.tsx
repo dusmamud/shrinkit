@@ -630,9 +630,7 @@ export default function SettingsPanel({
                     } ${
                       selected
                         ? "ring-[3px] ring-taccent border-[3px] border-taccent"
-                        : c === "white"
-                          ? "border border-[#ddd]"
-                          : "border border-black"
+                        : "border border-tline"
                     }`}
                   />
                 );

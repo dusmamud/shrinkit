@@ -116,7 +116,7 @@ export default function TargetSizeApp({
               className={`rounded-full px-4 py-1.5 text-sm font-medium transition cursor-pointer ${
                 targetKb === kb
                   ? "bg-taccent text-white shadow-sm scale-105"
-                  : "border border-tinputline bg-tsurface text-tink hover:border-taccent hover:bg-tsurface2"
+                  : "border border-tline bg-tsurface text-tink hover:border-taccent hover:bg-tsurface2"
               }`}
             >
               &lt; {kb} KB
@@ -130,7 +130,7 @@ export default function TargetSizeApp({
               max="50000"
               value={targetKb}
               onChange={(e) => handleTargetChange(Math.max(5, Number(e.target.value) || 5))}
-              className="h-[36px] w-[75px] rounded-[6px] border border-tinputline bg-tinputbg px-2 text-center text-sm font-medium text-tink outline-none focus:border-taccent"
+              className="h-[36px] w-[75px] rounded-[6px] border border-tline bg-tinputbg px-2 text-center text-sm font-medium text-tink outline-none focus:border-taccent"
             />
             <span className="text-xs font-semibold text-tink">KB</span>
           </div>
@@ -143,7 +143,7 @@ export default function TargetSizeApp({
           onDragOver={(e) => e.preventDefault()}
           onDrop={handleDrop}
           onClick={() => fileInputRef.current?.click()}
-          className="relative flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-tinputline bg-tsurface p-10 text-center transition hover:border-taccent hover:bg-tsurface2 cursor-pointer shadow-sm"
+          className="relative flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-tline bg-tsurface p-10 text-center transition hover:border-taccent hover:bg-tsurface2 cursor-pointer shadow-sm"
         >
           <input
             ref={fileInputRef}
@@ -165,10 +165,10 @@ export default function TargetSizeApp({
         </div>
       ) : (
         /* Result & Comparison Card */
-        <div className="rounded-2xl border border-tinputline bg-tsurface p-6 sm:p-8 shadow-sm">
+        <div className="rounded-2xl border border-tline bg-tsurface p-6 sm:p-8 shadow-sm">
           <div className="flex flex-col md:flex-row items-center gap-8">
             {/* Image Preview */}
-            <div className="relative w-full max-w-[280px] shrink-0 overflow-hidden rounded-xl border border-tinputline bg-tsurface2 shadow-inner aspect-square flex items-center justify-center">
+            <div className="relative w-full max-w-[280px] shrink-0 overflow-hidden rounded-xl border border-tline bg-tsurface2 shadow-inner aspect-square flex items-center justify-center">
               {result?.dataUrl ? (
                 <img
                   src={result.dataUrl}
@@ -192,7 +192,7 @@ export default function TargetSizeApp({
 
             {/* Metrics & Actions */}
             <div className="flex-1 w-full space-y-4">
-              <div className="flex items-center justify-between border-b border-tinputline pb-3">
+              <div className="flex items-center justify-between border-b border-tline pb-3">
                 <span className="text-sm font-semibold text-tink truncate max-w-[200px]">
                   {selectedFile.name}
                 </span>
@@ -208,7 +208,7 @@ export default function TargetSizeApp({
 
               {/* Size Comparison Badge */}
               {result && (
-                <div className="grid grid-cols-2 gap-3 rounded-xl bg-tsurface2 p-4 border border-tinputline">
+                <div className="grid grid-cols-2 gap-3 rounded-xl bg-tsurface2 p-4 border border-tline">
                   <div>
                     <span className="block text-xs text-tmuted">Original File</span>
                     <span className="text-base font-semibold text-tink">
@@ -255,7 +255,7 @@ export default function TargetSizeApp({
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
-                  className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-tinputline px-4 py-3 text-sm font-medium text-tink hover:bg-tsurface2 transition cursor-pointer"
+                  className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-tline px-4 py-3 text-sm font-medium text-tink hover:bg-tsurface2 transition cursor-pointer"
                 >
                   <FileArrowDown size={18} />
                   <span>Change Photo</span>
@@ -274,7 +274,7 @@ export default function TargetSizeApp({
       )}
 
       {/* SEO & FAQ Information Section */}
-      <div className="mt-16 rounded-2xl border border-tinputline bg-tsurface p-8">
+      <div className="mt-16 rounded-2xl border border-tline bg-tsurface p-8">
         <h2 className="text-xl font-bold text-tink mb-4">Why use ShrinkIt Exact KB Compressor?</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm text-tmuted">
           <div>

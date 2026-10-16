@@ -96,7 +96,7 @@ export default function SocialResizerApp() {
               className={`rounded-xl px-3.5 py-2 text-xs font-medium transition cursor-pointer border flex flex-col items-center ${
                 selectedPreset.id === preset.id
                   ? "border-taccent bg-taccent/10 text-taccent font-semibold shadow-sm ring-1 ring-taccent"
-                  : "border-tinputline bg-tsurface text-tink hover:border-taccent/50 hover:bg-tsurface2"
+                  : "border-tline bg-tsurface text-tink hover:border-taccent/50 hover:bg-tsurface2"
               }`}
             >
               <span>{preset.name}</span>
@@ -111,7 +111,7 @@ export default function SocialResizerApp() {
       {/* Fit vs Crop Mode Switcher */}
       <div className="mb-8 flex items-center justify-center gap-3">
         <span className="text-xs font-medium text-tmuted">Mode:</span>
-        <div className="inline-flex rounded-lg border border-tinputline bg-tsurface p-1">
+        <div className="inline-flex rounded-lg border border-tline bg-tsurface p-1">
           <button
             type="button"
             onClick={() => handleFitModeChange("crop-fill")}
@@ -143,7 +143,7 @@ export default function SocialResizerApp() {
       {!selectedFile ? (
         <div
           onClick={() => fileInputRef.current?.click()}
-          className="relative flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-tinputline bg-tsurface p-10 text-center transition hover:border-taccent hover:bg-tsurface2 cursor-pointer shadow-sm"
+          className="relative flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-tline bg-tsurface p-10 text-center transition hover:border-taccent hover:bg-tsurface2 cursor-pointer shadow-sm"
         >
           <input
             ref={fileInputRef}
@@ -165,10 +165,10 @@ export default function SocialResizerApp() {
         </div>
       ) : (
         /* Result Preview Card */
-        <div className="rounded-2xl border border-tinputline bg-tsurface p-6 sm:p-8 shadow-sm">
+        <div className="rounded-2xl border border-tline bg-tsurface p-6 sm:p-8 shadow-sm">
           <div className="flex flex-col md:flex-row items-center gap-8">
             {/* Social Photo Preview Frame */}
-            <div className="relative shrink-0 overflow-hidden rounded-xl border border-tinputline bg-tsurface2 shadow-inner flex items-center justify-center max-w-[320px] max-h-[320px]">
+            <div className="relative shrink-0 overflow-hidden rounded-xl border border-tline bg-tsurface2 shadow-inner flex items-center justify-center max-w-[320px] max-h-[320px]">
               {result?.dataUrl ? (
                 <img
                   src={result.dataUrl}
@@ -186,7 +186,7 @@ export default function SocialResizerApp() {
 
             {/* Specifications & Actions */}
             <div className="flex-1 w-full space-y-4">
-              <div className="flex items-center justify-between border-b border-tinputline pb-3">
+              <div className="flex items-center justify-between border-b border-tline pb-3">
                 <span className="text-sm font-semibold text-tink truncate max-w-[220px]">
                   {selectedFile.name}
                 </span>
@@ -200,7 +200,7 @@ export default function SocialResizerApp() {
                 </button>
               </div>
 
-              <div className="space-y-2 rounded-xl bg-tsurface2 p-4 border border-tinputline text-xs">
+              <div className="space-y-2 rounded-xl bg-tsurface2 p-4 border border-tline text-xs">
                 <div className="flex justify-between">
                   <span className="text-tmuted">Platform:</span>
                   <span className="font-semibold text-tink">{selectedPreset.name}</span>
@@ -233,7 +233,7 @@ export default function SocialResizerApp() {
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
-                  className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-tinputline px-4 py-3 text-sm font-medium text-tink hover:bg-tsurface2 transition cursor-pointer"
+                  className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-tline px-4 py-3 text-sm font-medium text-tink hover:bg-tsurface2 transition cursor-pointer"
                 >
                   <FileArrowDown size={18} />
                   <span>Choose Another Photo</span>

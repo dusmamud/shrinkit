@@ -99,7 +99,7 @@ export default function ComparisonSliderApp() {
       {!selectedFile ? (
         <div
           onClick={() => fileInputRef.current?.click()}
-          className="relative flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-tinputline bg-tsurface p-12 text-center transition hover:border-taccent hover:bg-tsurface2 cursor-pointer shadow-sm"
+          className="relative flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-tline bg-tsurface p-12 text-center transition hover:border-taccent hover:bg-tsurface2 cursor-pointer shadow-sm"
         >
           <input
             ref={fileInputRef}
@@ -117,9 +117,9 @@ export default function ComparisonSliderApp() {
           <p className="text-xs text-tmuted">Instant side-by-side interactive visual comparison.</p>
         </div>
       ) : (
-        <div className="rounded-2xl border border-tinputline bg-tsurface p-6 sm:p-8 shadow-sm">
+        <div className="rounded-2xl border border-tline bg-tsurface p-6 sm:p-8 shadow-sm">
           {/* Top Control Bar */}
-          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-tinputline pb-4 mb-6">
+          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-tline pb-4 mb-6">
             <div className="flex items-center gap-3">
               <span className="text-sm font-semibold text-tink truncate max-w-[200px]">
                 {selectedFile.name}
@@ -151,11 +151,11 @@ export default function ComparisonSliderApp() {
 
           {/* Size Metric Badges */}
           <div className="grid grid-cols-2 gap-4 mb-6 text-center">
-            <div className="rounded-xl bg-tsurface2 p-3 border border-tinputline">
+            <div className="rounded-xl bg-tsurface2 p-3 border border-tline">
               <span className="block text-xs text-tmuted">Original (Left)</span>
               <span className="text-base font-bold text-tink">{formatBytes(originalSize)}</span>
             </div>
-            <div className="rounded-xl bg-tsurface2 p-3 border border-tinputline">
+            <div className="rounded-xl bg-tsurface2 p-3 border border-tline">
               <span className="block text-xs text-tmuted">Compressed (Right)</span>
               <span className="text-base font-bold text-taccent">
                 {formatBytes(compressedSize)}
@@ -178,7 +178,7 @@ export default function ComparisonSliderApp() {
             onTouchStart={() => (isDraggingRef.current = true)}
             onTouchEnd={() => (isDraggingRef.current = false)}
             onTouchMove={handleMouseMove}
-            className="relative select-none overflow-hidden rounded-xl border border-tinputline bg-tsurface2 shadow-inner aspect-[16/10] max-h-[500px] flex items-center justify-center cursor-ew-resize"
+            className="relative select-none overflow-hidden rounded-xl border border-tline bg-tsurface2 shadow-inner aspect-[16/10] max-h-[500px] flex items-center justify-center cursor-ew-resize"
           >
             {/* Compressed / Processed Layer (Background) */}
             {compressedUrl && (
@@ -233,7 +233,7 @@ export default function ComparisonSliderApp() {
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-tinputline px-4 py-2.5 text-xs font-medium text-tink hover:bg-tsurface2 transition cursor-pointer"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-tline px-4 py-2.5 text-xs font-medium text-tink hover:bg-tsurface2 transition cursor-pointer"
             >
               <FileArrowDown size={16} />
               <span>Choose Another Photo</span>

@@ -86,7 +86,7 @@ export default function PassportPhotoApp() {
               className={`flex flex-col items-center p-3 rounded-xl border text-center transition cursor-pointer ${
                 selectedSpec.id === spec.id
                   ? "border-taccent bg-taccent/10 text-taccent font-semibold shadow-sm ring-1 ring-taccent"
-                  : "border-tinputline bg-tsurface text-tink hover:border-taccent/50 hover:bg-tsurface2"
+                  : "border-tline bg-tsurface text-tink hover:border-taccent/50 hover:bg-tsurface2"
               }`}
             >
               <span className="text-sm font-bold">{spec.country}</span>
@@ -103,7 +103,7 @@ export default function PassportPhotoApp() {
       {!selectedFile ? (
         <div
           onClick={() => fileInputRef.current?.click()}
-          className="relative flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-tinputline bg-tsurface p-10 text-center transition hover:border-taccent hover:bg-tsurface2 cursor-pointer shadow-sm"
+          className="relative flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-tline bg-tsurface p-10 text-center transition hover:border-taccent hover:bg-tsurface2 cursor-pointer shadow-sm"
         >
           <input
             ref={fileInputRef}
@@ -125,10 +125,10 @@ export default function PassportPhotoApp() {
         </div>
       ) : (
         /* Result Preview Card */
-        <div className="rounded-2xl border border-tinputline bg-tsurface p-6 sm:p-8 shadow-sm">
+        <div className="rounded-2xl border border-tline bg-tsurface p-6 sm:p-8 shadow-sm">
           <div className="flex flex-col md:flex-row items-center gap-8">
             {/* Passport Photo Preview Frame */}
-            <div className="relative shrink-0 overflow-hidden rounded-lg border-4 border-white shadow-lg bg-white flex items-center justify-center max-w-[240px]">
+            <div className="relative shrink-0 overflow-hidden rounded-lg border-4 border-tsurface shadow-lg bg-tsurface flex items-center justify-center max-w-[240px]">
               {result?.dataUrl ? (
                 <img
                   src={result.dataUrl}
@@ -154,7 +154,7 @@ export default function PassportPhotoApp() {
 
             {/* Specifications & Download Actions */}
             <div className="flex-1 w-full space-y-4">
-              <div className="flex items-center justify-between border-b border-tinputline pb-3">
+              <div className="flex items-center justify-between border-b border-tline pb-3">
                 <span className="text-sm font-semibold text-tink truncate max-w-[220px]">
                   {selectedFile.name}
                 </span>
@@ -168,7 +168,7 @@ export default function PassportPhotoApp() {
                 </button>
               </div>
 
-              <div className="space-y-2 rounded-xl bg-tsurface2 p-4 border border-tinputline text-xs">
+              <div className="space-y-2 rounded-xl bg-tsurface2 p-4 border border-tline text-xs">
                 <div className="flex justify-between">
                   <span className="text-tmuted">Physical Size:</span>
                   <span className="font-semibold text-tink">
@@ -208,7 +208,7 @@ export default function PassportPhotoApp() {
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
-                  className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-tinputline px-4 py-3 text-sm font-medium text-tink hover:bg-tsurface2 transition cursor-pointer"
+                  className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-tline px-4 py-3 text-sm font-medium text-tink hover:bg-tsurface2 transition cursor-pointer"
                 >
                   <FileArrowDown size={18} />
                   <span>Upload Different Photo</span>
@@ -227,7 +227,7 @@ export default function PassportPhotoApp() {
       )}
 
       {/* Guidelines Box */}
-      <div className="mt-12 rounded-2xl border border-tinputline bg-tsurface p-6 sm:p-8">
+      <div className="mt-12 rounded-2xl border border-tline bg-tsurface p-6 sm:p-8">
         <h2 className="text-lg font-bold text-tink mb-3">Official Photo Guidelines Checklist</h2>
         <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm text-tmuted list-disc list-inside">
           <li>Look straight into the camera with a neutral facial expression.</li>
