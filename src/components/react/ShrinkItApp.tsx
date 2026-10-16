@@ -113,6 +113,7 @@ export default function ShrinkItApp({ locale }: ShrinkItAppProps) {
   const abortRef = useRef<AbortController | null>(null);
   const itemsRef = useRef<QueueItem[]>([]);
   itemsRef.current = items;
+  const resultRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Check browser canvas & file support (matching reduceimages.com isBrowserSupported)
@@ -320,6 +321,18 @@ export default function ShrinkItApp({ locale }: ShrinkItAppProps) {
     } finally {
       setRunning(false);
       abortRef.current = null;
+      // Auto smooth scroll to the results section (matching ReduceImages behavior)
+      window.requestAnimationFrame(() => {
+        setTimeout(() => {
+          if (resultRef.current) {
+            const prefersReduced =
+              typeof window !== "undefined" &&
+              window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+            const top = resultRef.current.getBoundingClientRect().top + window.scrollY - 30;
+            window.scrollTo({ top, behavior: prefersReduced ? "auto" : "smooth" });
+          }
+        }, 120);
+      });
     }
   }, [locale, running, toProcessSettings]);
 
@@ -410,7 +423,7 @@ export default function ShrinkItApp({ locale }: ShrinkItAppProps) {
             onAbort={() => abortRef.current?.abort()}
           />
 
-          <div className="mx-auto w-full max-w-[1100px]">
+          <div ref={resultRef} className="mx-auto w-full max-w-[1100px] scroll-mt-8">
             <ResultPanel
               locale={locale}
               items={items}

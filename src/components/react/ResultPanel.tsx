@@ -69,39 +69,70 @@ export default function ResultPanel({
       </h3>
 
       {!multi && (
-        <div className="mt-5 space-y-3">
+        <div className="mt-5 space-y-4">
           {done.map((item) => (
             <div
               key={item.id}
               data-testid={`result-row-${item.id}`}
-              className="flex items-center gap-3 rounded-[4px] border border-[#eee] bg-white p-3"
+              className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 rounded-[8px] border border-[#eaecf0] bg-white p-4 sm:p-5 shadow-xs"
             >
-              <FileImage size={28} className="shrink-0 text-[#016df0]" weight="light" />
-              <div className="min-w-0 flex-1">
+              {/* Image Preview Thumbnail */}
+              {item.resultUrl ? (
+                <button
+                  type="button"
+                  onClick={() => onDownload(item)}
+                  title={t(locale, "result.download")}
+                  className="group relative flex h-24 w-24 sm:h-28 sm:w-28 shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-[8px] border border-[#d0d5dd] bg-[#fafcff] p-1.5 transition hover:border-[#016df0] hover:shadow-sm"
+                >
+                  <img
+                    src={item.resultUrl}
+                    alt={item.result!.fileName}
+                    className="h-full w-full object-contain transition duration-200 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                  <span className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 transition group-hover:opacity-100 rounded-[8px]">
+                    <Download size={22} className="text-white drop-shadow-sm" weight="bold" />
+                  </span>
+                </button>
+              ) : (
+                <div className="flex h-24 w-24 sm:h-28 sm:w-28 shrink-0 items-center justify-center rounded-[8px] border border-[#eaecf0] bg-[#fafcff]">
+                  <FileImage size={40} className="text-[#016df0]" weight="light" />
+                </div>
+              )}
+
+              {/* Details */}
+              <div className="min-w-0 flex-1 text-center sm:text-left">
                 <p
-                  className="truncate text-sm font-normal text-black"
+                  className="truncate text-base font-semibold text-black"
                   title={item.result!.fileName}
                 >
                   {item.result!.fileName}
                 </p>
-                <SizeLine locale={locale} item={item} />
+                <div className="mt-1">
+                  <SizeLine locale={locale} item={item} />
+                </div>
               </div>
-              <button
-                type="button"
-                data-testid={`download-${item.id}`}
-                onClick={() => onDownload(item)}
-                className="shrink-0 text-sm font-medium text-[#016df0] hover:underline"
-              >
-                {t(locale, "result.download")}
-              </button>
-              <button
-                type="button"
-                onClick={() => onRemove(item.id)}
-                aria-label={`${t(locale, "result.remove")}: ${item.file.name}`}
-                className="shrink-0 rounded-full p-1.5 text-[#667085] transition hover:bg-red-50 hover:text-[#d33]"
-              >
-                <Trash size={16} />
-              </button>
+
+              {/* Action Buttons */}
+              <div className="flex w-full sm:w-auto items-center justify-center gap-2">
+                <button
+                  type="button"
+                  data-testid={`download-${item.id}`}
+                  onClick={() => onDownload(item)}
+                  className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-[6px] bg-[#016df0] px-5 py-2.5 text-sm font-semibold text-white shadow-xs transition hover:bg-[#0257bf] active:scale-[0.98]"
+                >
+                  <Download size={16} weight="bold" />
+                  {t(locale, "result.download")}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onRemove(item.id)}
+                  aria-label={`${t(locale, "result.remove")}: ${item.file.name}`}
+                  className="shrink-0 rounded-full p-2 text-[#667085] transition hover:bg-red-50 hover:text-[#d33]"
+                >
+                  <Trash size={18} />
+                </button>
+              </div>
             </div>
           ))}
         </div>
