@@ -8,6 +8,4 @@ src/paraglide/
 test-results/
 playwright-report/
 *.log
-.DS_Store
-shrinkit-extension/
-.shrinkit-extension
+.DS_Store
