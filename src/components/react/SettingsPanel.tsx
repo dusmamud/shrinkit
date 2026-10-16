@@ -623,7 +623,7 @@ export default function SettingsPanel({
                     )}
                     disabled={disabled}
                     onClick={() => onChange({ background: c })}
-                    className={`h-[35px] w-[35px] rounded-full transition-transform hover:scale-105 ${
+                    className={`background_button h-[35px] w-[35px] rounded-full transition-transform hover:scale-105 ${
                       c === "white"
                         ? "bg-white shadow-[0px_1px_5px_0px_rgba(0,0,0,0.2)]"
                         : "bg-black shadow-[0px_1px_5px_0px_rgba(0,0,0,0.2)]"
