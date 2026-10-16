@@ -3,10 +3,13 @@ import { gotoApp } from "./helpers";
 import path from "path";
 import fs from "fs";
 
-const tempDir =
-  "C:/Users/HP/.gemini/antigravity-ide/brain/1b1b2c1c-0598-4042-bd88-bdbfc72ff98d/scratch/temp_test_images";
-const logoPng = path.resolve(tempDir, "logo-1024.png");
-const generatedPhoto = path.resolve(tempDir, "generated_photo.jpg");
+import os from "os";
+
+const here = import.meta.dirname;
+const logoPng = path.resolve(here, "fixtures/logo-1024.png");
+const generatedPhoto = path.resolve(here, "fixtures/generated_photo.jpg");
+const tempDir = path.resolve(os.tmpdir(), "shrinkit-test-downloads");
+fs.mkdirSync(tempDir, { recursive: true });
 
 test.describe("Real Image Testing with Public PNG & Generated Photo", () => {
   test("1. logo-1024.png: upload, custom select unit to pixels, 512x512 resize, format to WebP, and process", async ({

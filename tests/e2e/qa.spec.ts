@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page, type Locator } from "@playwright/test";
 import path from "path";
 import fs from "fs";
 import { gotoApp } from "./helpers";
@@ -14,20 +14,20 @@ const huge = path.resolve(here, "fixtures/huge.jpg"); // 17000×100 (over side l
  * Real pipeline in headless Chromium, no mocks.
  */
 
-async function upload(page: any, files: string | string[]) {
+async function upload(page: Page, files: string | string[]) {
   await gotoApp(page, "/");
   await page.getByTestId("file-input").setInputFiles(files);
   await expect(page.getByTestId("process-button")).toBeEnabled({ timeout: 20_000 });
 }
 
-async function processAndWaitPanel(page: any, timeout = 90_000) {
+async function processAndWaitPanel(page: Page, timeout = 90_000) {
   await page.getByTestId("process-button").click();
   const panel = page.getByTestId("result-panel");
   await expect(panel).toContainText("Your image has been resized!", { timeout });
   return panel;
 }
 
-async function downloadFirst(page: any, panel: any, ext: RegExp) {
+async function downloadFirst(page: Page, panel: Locator, ext: RegExp) {
   const btn = panel.getByRole("button", { name: "Download image" }).first();
   await expect(btn).toBeVisible({ timeout: 60_000 });
   const dlPromise = page.waitForEvent("download", { timeout: 30_000 });
