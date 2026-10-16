@@ -99,7 +99,7 @@ export default function Dropzone({
           rx="14"
           fill="none"
           stroke="var(--t-dash)"
-          strokeWidth={dragging ? 3 : 2}
+          strokeWidth={dragging ? 3.5 : 2}
           strokeDasharray="6 10"
           strokeLinecap="round"
           style={{ width: "calc(100% - 4px)", height: "calc(100% - 4px)" }}
