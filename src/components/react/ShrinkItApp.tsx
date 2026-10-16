@@ -210,7 +210,7 @@ export default function ShrinkItApp({ locale }: ShrinkItAppProps) {
         setFormError(
           rejectedNames.length === 1
             ? t(locale, "errors.unsupported", { name: rejectedNames[0] })
-            : "Some selected images are not supported. Please select JPG, PNG, BMP, WebP or GIF images only.",
+            : t(locale, "errors.unsupported_many"),
         );
       }
       const room = MAX_BATCH - itemsRef.current.length;
@@ -410,7 +410,7 @@ export default function ShrinkItApp({ locale }: ShrinkItAppProps) {
           role="alert"
           className="mx-auto mb-6 rounded-[6px] border border-[#f5c6cb] bg-[#f8d7da] p-4 text-center text-sm font-medium text-[#721c24]"
         >
-          Your browser is not supported. Please use{" "}
+          {t(locale, "errors.browser_unsupported")}{" "}
           <a
             href="https://www.google.com/chrome"
             className="font-bold underline transition hover:text-black"
@@ -419,7 +419,7 @@ export default function ShrinkItApp({ locale }: ShrinkItAppProps) {
           >
             Google Chrome
           </a>{" "}
-          or{" "}
+          {t(locale, "errors.browser_unsupported_or")}{" "}
           <a
             href="http://mozilla.org/firefox/new"
             className="font-bold underline transition hover:text-black"

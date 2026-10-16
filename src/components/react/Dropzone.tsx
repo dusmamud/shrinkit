@@ -189,9 +189,7 @@ export default function Dropzone({
           <WarningCircle size={22} weight="fill" className="shrink-0 text-white mt-0.5" />
           <div className="flex-1">
             <div className="font-semibold text-white">
-              {failedFiles && failedFiles.length > 1
-                ? "Some selected images are not supported. Please select JPG, PNG, BMP, WebP or GIF images only."
-                : error}
+              {failedFiles && failedFiles.length > 1 ? t(locale, "errors.unsupported_many") : error}
             </div>
             {failedFiles && failedFiles.length > 0 && (
               <div id="failedFilesList" className="mt-1 font-mono text-xs text-[#a94442]">
@@ -206,7 +204,7 @@ export default function Dropzone({
             <button
               type="button"
               onClick={onDismissError}
-              aria-label="Dismiss error"
+              aria-label={t(locale, "errors.dismiss")}
               className="text-[#721c24] hover:text-black transition"
             >
               <X size={16} weight="bold" />

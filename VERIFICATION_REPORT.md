@@ -233,3 +233,53 @@ after each fix.
 
 Visual design review on a real display/GPU, Safari/Firefox, real-phone EXIF
 photos, Cloudflare Pages deploy — need the maintainer's machine/browser.
+
+## 2026-10-16 — Cross-verification of maintainer commits 1b58f59..ad13518 (17 commits, pulled from origin/main)
+
+Read-only cross-verification by the parent agent. No source changes were made
+to the maintainer's work except the i18n fix documented below.
+
+### What was verified (fresh build from current source)
+
+| Gate             | Command                  | Result                                                  |
+| ---------------- | ------------------------ | ------------------------------------------------------- |
+| TypeScript       | `npx tsc --noEmit`       | clean, 0 errors                                         |
+| ESLint           | `npx eslint .`           | 0 errors, 5 `any` warnings in tests/e2e (pre-existing)  |
+| Prettier         | `npx prettier --check .` | all files conform                                       |
+| Unit tests       | `npx vitest run`         | 52/52 passed (50 prior + 2 new units tests)             |
+| E2E (Playwright) | `npx playwright test`    | 23/23 real tests passed (qa 14, responsive 3, shrink 6) |
+| Production build | `npm run build`          | success — 13 pages, sitemap                             |
+
+### Important verification finding: stale `dist/` caused false failures
+
+The first Playwright run reported 3 failures. Investigation showed `dist/`
+was built 2026-10-09 06:40 (before the maintainer's 17 commits) and still
+contained the old bundle (with `lbl-short`). Playwright's `webServer`
+reuses the existing `dist/` preview, so the tests ran against stale code.
+After `npm run build` from current source, all 23 real tests passed.
+Lesson: always rebuild `dist/` before trusting Playwright results.
+
+### The 2 remaining e2e failures are environmental, not app bugs
+
+`tests/e2e/temp-images-validation.spec.ts` hardcodes a Windows path on the
+maintainer's own laptop
+(`C:/Users/HP/.gemini/antigravity-ide/.../scratch/temp_test_images/`
+`logo-1024.png`, `generated_photo.jpg`). Those files do not exist in this
+sandbox (or in CI), so both tests fail at file upload. They pass only on
+the maintainer's machine. Consider committing permanent fixtures or
+skipping the spec when the files are absent.
+
+### i18n fix (2026-10-16, the only source change in this pass)
+
+Cross-verification found 4 hardcoded user-facing English strings in the
+maintainer's commits, now routed through Paraglide with en/es/pt
+translations (new keys: `errors.unsupported_many`, `errors.dismiss`,
+`errors.browser_unsupported`, `errors.browser_unsupported_or`):
+
+- `Dropzone.tsx` — multi-file unsupported error + "Dismiss error" aria-label
+- `ShrinkItApp.tsx` — multi-file unsupported error + browser-unsupported
+  banner text ("Your browser is not supported. Please use … or …")
+
+After the fix: `npx paraglide-js compile` re-ran (generated output is
+gitignored), tsc clean, prettier clean, vitest 52/52, Playwright 23/23
+real tests passed on a fresh build. No other source files were touched.
