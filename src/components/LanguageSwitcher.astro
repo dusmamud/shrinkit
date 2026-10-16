@@ -13,7 +13,7 @@ const { locale, path } = Astro.props;
   <span class="sr-only">Language</span>
   <select
     data-testid="language-switcher"
-    class="cursor-pointer appearance-none rounded-[6px] border border-[#d7dee9] bg-white py-2 pl-3 pr-8 text-xs font-normal text-black outline-none transition hover:border-[#52a0ff]"
+    class="cursor-pointer appearance-none rounded-[6px] border border-tdivider bg-tsurface py-2 pl-3 pr-8 text-xs font-normal text-tink outline-none transition hover:border-taccent"
     onchange="window.location.href = this.value"
   >
     {locales.map((l) => (

@@ -111,5 +111,11 @@
   "site.description": "ShrinkIt is a free online image resizer: shrink, compress and convert JPG, PNG, GIF and WebP images entirely in your browser. No sign-up, no uploads, no watermarks.",
   "site.name": "ShrinkIt",
   "site.tagline": "Free online image resizer — private by design.",
+  "theme.choose": "Choose theme",
+  "theme.dark": "Dark",
+  "theme.label": "Theme",
+  "theme.light": "Light",
+  "theme.system": "System",
+  "theme.system_tip": "Follow your device setting",
   "result.larger": "larger"
 }

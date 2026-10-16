@@ -111,5 +111,11 @@
   "site.description": "O ShrinkIt é um redimensionador de imagens online gratuito: reduza, comprima e converta imagens JPG, PNG, GIF e WebP inteiramente no seu navegador. Sem cadastro, sem uploads, sem marcas d'água.",
   "site.name": "ShrinkIt",
   "site.tagline": "Redimensionador de imagens online gratuito — privado por design.",
+  "theme.choose": "Escolher tema",
+  "theme.dark": "Escuro",
+  "theme.label": "Tema",
+  "theme.light": "Claro",
+  "theme.system": "Sistema",
+  "theme.system_tip": "Seguir a configuração do dispositivo",
   "result.larger": "maior"
 }

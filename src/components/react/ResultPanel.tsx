@@ -77,9 +77,9 @@ function SizeLine({ locale, item }: { locale: Locale; item: QueueItem }) {
   if (!r) return null;
   const saved = percentSaved(r.originalBytes, r.outputBytes);
   return (
-    <p className="text-xs font-light text-[#667085]">
+    <p className="text-xs font-light text-tmuted">
       {r.width}×{r.height} · {formatBytes(r.outputBytes)}{" "}
-      <span className={saved >= 0 ? "text-[#0a7d4f]" : "text-[#b7791f]"}>
+      <span className={saved >= 0 ? "text-tsuccess" : "text-twarning"}>
         {saved >= 0
           ? `${saved}% ${t(locale, "result.saved")}`
           : `+${Math.abs(saved)}% ${t(locale, "result.larger")}`}
@@ -118,10 +118,10 @@ export default function ResultPanel({
   return (
     <section
       data-testid="result-panel"
-      className="mt-8 rounded-[4px] border border-[#ddd] bg-[#fcfcfc] p-6"
+      className="mt-8 rounded-[4px] border border-tlinemid bg-tsectionbg p-6"
       aria-live="polite"
     >
-      <h3 className="text-center text-[1.5rem] font-medium text-black">
+      <h3 className="text-center text-[1.5rem] font-medium text-tink">
         {t(locale, "result.title")}
       </h3>
 
@@ -131,7 +131,7 @@ export default function ResultPanel({
             <div
               key={item.id}
               data-testid={`result-row-${item.id}`}
-              className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 rounded-[8px] border border-[#eaecf0] bg-white p-4 sm:p-5 shadow-xs"
+              className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 rounded-[8px] border border-tlinesoft bg-tsurface p-4 sm:p-5 shadow-xs"
             >
               {/* Image Preview Thumbnail */}
               {item.resultUrl ? (
@@ -139,7 +139,7 @@ export default function ResultPanel({
                   type="button"
                   onClick={() => onDownload(item)}
                   title={t(locale, "result.download")}
-                  className="group relative flex h-24 w-24 sm:h-28 sm:w-28 shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-[8px] border border-[#d0d5dd] bg-[#fafcff] p-1.5 transition hover:border-[#016df0] hover:shadow-sm"
+                  className="group relative flex h-24 w-24 sm:h-28 sm:w-28 shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-[8px] border border-tline checkerboard bg-tthumb p-1.5 transition hover:border-taccent hover:shadow-sm"
                 >
                   <img
                     src={item.resultUrl}
@@ -152,15 +152,15 @@ export default function ResultPanel({
                   </span>
                 </button>
               ) : (
-                <div className="flex h-24 w-24 sm:h-28 sm:w-28 shrink-0 items-center justify-center rounded-[8px] border border-[#eaecf0] bg-[#fafcff]">
-                  <FileImage size={40} className="text-[#016df0]" weight="light" />
+                <div className="flex h-24 w-24 sm:h-28 sm:w-28 shrink-0 items-center justify-center rounded-[8px] border border-tlinesoft bg-tthumb">
+                  <FileImage size={40} className="text-taccent" weight="light" />
                 </div>
               )}
 
               {/* Details */}
               <div className="min-w-0 flex-1 text-center sm:text-left">
                 <p
-                  className="truncate text-base font-semibold text-black"
+                  className="truncate text-base font-semibold text-tink"
                   title={item.result!.fileName}
                 >
                   {item.result!.fileName}
@@ -182,8 +182,8 @@ export default function ResultPanel({
                   }
                   className={`inline-flex items-center justify-center gap-1.5 rounded-[6px] border px-3.5 py-2.5 text-sm font-semibold transition active:scale-[0.98] ${
                     copiedId === item.id
-                      ? "border-[#0a7d4f] bg-[#e6f4ea] text-[#0a7d4f]"
-                      : "border-[#d0d5dd] bg-white text-[#344054] hover:bg-[#f9fafb] hover:border-[#016df0] hover:text-[#016df0]"
+                      ? "border-tsuccessline bg-tsuccessbg text-tsuccess"
+                      : "border-tline bg-tsurface text-toptiontext hover:bg-thoverbg hover:border-taccent hover:text-taccent"
                   }`}
                 >
                   {copiedId === item.id ? (
@@ -204,7 +204,7 @@ export default function ResultPanel({
                   type="button"
                   data-testid={`download-${item.id}`}
                   onClick={() => onDownload(item)}
-                  className="inline-flex items-center justify-center gap-2 rounded-[6px] bg-[#016df0] px-5 py-2.5 text-sm font-semibold text-white shadow-xs transition hover:bg-[#0257bf] active:scale-[0.98]"
+                  className="inline-flex items-center justify-center gap-2 rounded-[6px] bg-tbtna px-5 py-2.5 text-sm font-semibold text-white shadow-xs transition hover:bg-[#0257bf] active:scale-[0.98]"
                 >
                   <Download size={16} weight="bold" />
                   {t(locale, "result.download")}
@@ -215,7 +215,7 @@ export default function ResultPanel({
                   type="button"
                   onClick={() => onRemove(item.id)}
                   aria-label={`${t(locale, "result.remove")}: ${item.file.name}`}
-                  className="shrink-0 rounded-full p-2 text-[#667085] transition hover:bg-red-50 hover:text-[#d33]"
+                  className="shrink-0 rounded-full p-2 text-tmuted transition hover:bg-ttrashhover hover:text-terror"
                 >
                   <Trash size={18} />
                 </button>
@@ -232,35 +232,37 @@ export default function ResultPanel({
               <div
                 key={item.id}
                 data-testid={`result-card-${item.id}`}
-                className="relative rounded-[4px] border border-[#eee] bg-white p-3 text-center"
+                className="relative rounded-[4px] border border-tlinefaint bg-tsurface p-3 text-center"
               >
                 <button
                   type="button"
                   onClick={() => onRemove(item.id)}
                   aria-label={`${t(locale, "result.remove")}: ${item.file.name}`}
-                  className="absolute right-1 top-1 rounded-full bg-white/90 p-1 text-[#667085] shadow-sm transition hover:text-[#d33]"
+                  className="absolute right-1 top-1 rounded-full bg-tsurface/90 p-1 text-tmuted shadow-sm transition hover:text-terror"
                 >
                   <Trash size={14} />
                 </button>
                 {item.resultUrl ? (
-                  <img
-                    src={item.resultUrl}
-                    alt={item.result!.fileName}
-                    className="mx-auto max-h-[155px] object-contain"
-                    loading="lazy"
-                  />
+                  <div className="checkerboard bg-tthumb">
+                    <img
+                      src={item.resultUrl}
+                      alt={item.result!.fileName}
+                      className="mx-auto max-h-[155px] object-contain"
+                      loading="lazy"
+                    />
+                  </div>
                 ) : (
-                  <div className="mx-auto flex max-h-[155px] min-h-[100px] items-center justify-center bg-[#fafcff]">
-                    <FileImage size={40} className="text-[#016df0]" weight="light" />
+                  <div className="mx-auto flex max-h-[155px] min-h-[100px] items-center justify-center bg-tthumb">
+                    <FileImage size={40} className="text-taccent" weight="light" />
                   </div>
                 )}
                 <p
-                  className="clamp-2 mt-2 text-xs font-normal text-black"
+                  className="clamp-2 mt-2 text-xs font-normal text-tink"
                   title={item.result!.fileName}
                 >
                   {item.result!.fileName}
                 </p>
-                <p className="mt-0.5 text-[11px] font-light text-[#667085]">
+                <p className="mt-0.5 text-[11px] font-light text-tmuted">
                   {formatBytes(item.result!.outputBytes)}
                 </p>
                 <div className="mt-2 flex items-center gap-1.5">
@@ -273,8 +275,8 @@ export default function ResultPanel({
                     }
                     className={`inline-flex items-center justify-center rounded-[6px] border p-2 text-sm font-medium transition active:scale-[0.98] ${
                       copiedId === item.id
-                        ? "border-[#0a7d4f] bg-[#e6f4ea] text-[#0a7d4f]"
-                        : "border-[#d0d5dd] bg-white text-[#344054] hover:bg-[#f9fafb] hover:border-[#016df0] hover:text-[#016df0]"
+                        ? "border-tsuccessline bg-tsuccessbg text-tsuccess"
+                        : "border-tline bg-tsurface text-toptiontext hover:bg-thoverbg hover:border-taccent hover:text-taccent"
                     }`}
                   >
                     {copiedId === item.id ? (
@@ -287,7 +289,7 @@ export default function ResultPanel({
                     type="button"
                     data-testid={`download-${item.id}`}
                     onClick={() => onDownload(item)}
-                    className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-[6px] border border-[#1a7af7] px-3 py-2 text-sm font-medium text-[#1a7af7] transition hover:bg-[#1a7af7] hover:text-white"
+                    className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-[6px] border border-taccent2 px-3 py-2 text-sm font-medium text-taccent2 transition hover:bg-taccent2 hover:text-white"
                   >
                     <Download size={15} weight="bold" />
                     {t(locale, "result.download")}
@@ -301,7 +303,7 @@ export default function ResultPanel({
             data-testid="download-zip"
             onClick={onDownloadZip}
             disabled={zipping}
-            className="mt-6 w-full rounded-[6px] bg-[#007bff] py-4 text-base font-bold text-white transition hover:bg-[#0257bf] disabled:opacity-50"
+            className="mt-6 w-full rounded-[6px] bg-tbtnb py-4 text-base font-bold text-white transition hover:bg-[#0257bf] disabled:opacity-50"
           >
             <Download size={17} weight="bold" className="mr-2 inline" />
             {t(locale, "result.download_all")}
@@ -315,7 +317,7 @@ export default function ResultPanel({
             <p
               key={item.id}
               role="alert"
-              className="flex items-center gap-2 rounded-[4px] bg-[#d33]/10 px-4 py-2.5 text-sm font-normal text-[#d33]"
+              className="flex items-center gap-2 rounded-[4px] bg-terror/10 px-4 py-2.5 text-sm font-normal text-terror"
             >
               <WarningCircle size={17} weight="fill" className="shrink-0" />
               <span className="truncate font-medium">{item.file.name}:</span> {item.error}

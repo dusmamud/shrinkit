@@ -172,8 +172,8 @@ export default function CustomSelect<T extends string = string>({
         aria-label={ariaLabel}
         disabled={disabled}
         onClick={() => !disabled && setIsOpen((prev) => !prev)}
-        className={`group relative flex h-[50px] items-center justify-between rounded-[8px] border bg-white px-3.5 sm:px-4 text-[0.875rem] sm:text-[1rem] font-medium text-[#1d2939] transition-all duration-150 outline-none select-none cursor-pointer hover:border-[#016df0] hover:bg-[#fafcff] focus:border-[#016df0] focus:ring-2 focus:ring-[#016df0]/20 disabled:cursor-not-allowed disabled:opacity-60 ${
-          isOpen ? "border-[#016df0] ring-2 ring-[#016df0]/20 shadow-xs" : "border-[#667085]"
+        className={`group relative flex h-[50px] items-center justify-between rounded-[8px] border bg-tsurface px-3.5 sm:px-4 text-[0.875rem] sm:text-[1rem] font-medium text-tink2 transition-all duration-150 outline-none select-none cursor-pointer hover:border-taccent hover:bg-tsurface2 focus:border-taccent focus:ring-2 focus:ring-taccent/20 disabled:cursor-not-allowed disabled:opacity-60 ${
+          isOpen ? "border-taccent ring-2 ring-taccent/20 shadow-xs" : "border-tinputline"
         } ${triggerClassName}`}
       >
         <span
@@ -186,8 +186,8 @@ export default function CustomSelect<T extends string = string>({
         <CaretDown
           size={16}
           weight="bold"
-          className={`ml-2 shrink-0 text-[#667085] transition-transform duration-200 group-hover:text-[#016df0] ${
-            isOpen ? "rotate-180 text-[#016df0]" : ""
+          className={`ml-2 shrink-0 text-tmuted transition-transform duration-200 group-hover:text-taccent ${
+            isOpen ? "rotate-180 text-taccent" : ""
           }`}
           aria-hidden="true"
         />
@@ -201,7 +201,7 @@ export default function CustomSelect<T extends string = string>({
           role="listbox"
           tabIndex={-1}
           aria-label={ariaLabel}
-          className={`absolute z-50 mt-1.5 min-w-full w-max max-w-[240px] overflow-hidden rounded-[10px] border border-[#eaecf0] bg-white py-1.5 shadow-xl transition-all duration-150 animate-in fade-in-0 zoom-in-95 ${
+          className={`absolute z-50 mt-1.5 min-w-full w-max max-w-[240px] overflow-hidden rounded-[10px] border border-tlinesoft bg-tsurface py-1.5 shadow-xl transition-all duration-150 animate-in fade-in-0 zoom-in-95 ${
             align === "right" ? "right-0" : "left-0"
           }`}
         >
@@ -218,16 +218,16 @@ export default function CustomSelect<T extends string = string>({
                 onMouseEnter={() => setHighlightedIndex(idx)}
                 className={`relative flex items-center justify-between gap-3 px-3.5 py-2.5 text-[0.875rem] sm:text-[0.9375rem] capitalize cursor-pointer transition-colors select-none ${
                   isSelected
-                    ? "bg-[#eaf3ff] font-semibold text-[#016df0]"
+                    ? "bg-tselbg font-semibold text-tseltext"
                     : isHighlighted
-                      ? "bg-[#f8f9fa] text-[#1d2939]"
-                      : "text-[#344054]"
+                      ? "bg-tselhover text-tink2"
+                      : "text-toptiontext"
                 }`}
               >
                 <span className="flex items-center gap-2 truncate">
                   <span>{option.label}</span>
                   {option.badge && (
-                    <span className="rounded-full bg-[#e0eafe] px-1.5 py-0.5 text-[0.6875rem] font-medium text-[#016df0]">
+                    <span className="rounded-full bg-tbadgebg px-1.5 py-0.5 text-[0.6875rem] font-medium text-tbadgetext">
                       {option.badge}
                     </span>
                   )}
@@ -236,7 +236,7 @@ export default function CustomSelect<T extends string = string>({
                   <Check
                     size={16}
                     weight="bold"
-                    className="shrink-0 text-[#016df0]"
+                    className="shrink-0 text-taccent"
                     aria-hidden="true"
                   />
                 )}

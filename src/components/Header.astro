@@ -17,7 +17,7 @@ const links = [
 ];
 ---
 
-<header class="bg-[#fafcff]">
+<header class="bg-tband">
   <div class="mx-auto flex max-w-[1075px] items-center justify-between px-4 py-4">
     <a href={home} class="flex items-center gap-2.5" aria-label={t(locale, "site.name")}>
       <img
@@ -27,7 +27,7 @@ const links = [
         height="34"
         class="h-[34px] w-[34px] object-contain"
       />
-      <span class="text-[1.35rem] font-medium tracking-tight text-black">ShrinkIt</span>
+      <span class="text-[1.35rem] font-medium tracking-tight text-tink">ShrinkIt</span>
     </a>
 
     {/* Desktop nav */}
@@ -35,10 +35,10 @@ const links = [
       {
         links.map((l, i) => (
           <>
-            {i > 0 && <span class="mx-4 h-5 w-px bg-[#d7dee9]" aria-hidden="true" />}
+            {i > 0 && <span class="mx-4 h-5 w-px bg-tdivider" aria-hidden="true" />}
             <a
               href={l.href}
-              class="text-[14px] font-normal tracking-[1.17px] text-black transition-colors hover:text-[#016df0]"
+              class="text-[14px] font-normal tracking-[1.17px] text-tink transition-colors hover:text-taccent"
             >
               {l.label}
             </a>
@@ -47,11 +47,30 @@ const links = [
       }
       <a
         href={`${home}#tool`}
-        class="ml-8 inline-flex h-[42px] items-center rounded-[6px] bg-[#007bff] px-6 text-[14px] font-bold text-white transition-colors hover:bg-[#0257bf]"
+        class="ml-8 inline-flex h-[42px] items-center rounded-[6px] bg-tbtnb px-6 text-[14px] font-bold text-white transition-colors hover:bg-[#0257bf]"
       >
         {t(locale, "nav.resize")}
       </a>
-      <span class="ml-4">
+      <span class="ml-4 inline-flex items-center gap-2">
+        <label class="relative inline-flex items-center">
+          <span class="sr-only">{t(locale, "theme.choose")}</span>
+          <select
+            data-testid="theme-select"
+            class="cursor-pointer appearance-none rounded-[6px] border border-tdivider bg-tsurface py-2 pl-3 pr-8 text-xs font-normal text-tink outline-none transition hover:border-taccent focus-visible:border-taccent"
+          >
+            <option value="light">{t(locale, "theme.light")}</option>
+            <option value="dark">{t(locale, "theme.dark")}</option>
+            <option value="system">{t(locale, "theme.system")}</option>
+          </select>
+          <svg
+            class="pointer-events-none absolute right-2.5 h-3.5 w-3.5 text-slate-400"
+            viewBox="0 0 16 16"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path d="m4 6 4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </label>
         <LanguageSwitcher locale={locale} path={path} />
       </span>
     </nav>
@@ -63,7 +82,7 @@ const links = [
         type="button"
         id="nav-open"
         aria-label="Menu"
-        class="inline-flex h-10 w-10 items-center justify-center rounded-md text-black"
+        class="inline-flex h-10 w-10 items-center justify-center rounded-md text-tink"
       >
         <svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true">
           <path d="M4 8h18M4 13h18M4 18h18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
@@ -76,7 +95,7 @@ const links = [
 {/* Full-screen mobile menu */}
 <div
   id="mobile-menu"
-  class="fixed inset-0 z-[100] hidden flex-col bg-white"
+  class="fixed inset-0 z-[100] hidden flex-col bg-tsurface"
   role="dialog"
   aria-modal="true"
   aria-label="Menu"
@@ -90,13 +109,13 @@ const links = [
         height="30"
         class="h-[30px] w-[30px] object-contain"
       />
-      <span class="text-[1.35rem] font-medium tracking-tight text-black">ShrinkIt</span>
+      <span class="text-[1.35rem] font-medium tracking-tight text-tink">ShrinkIt</span>
     </a>
     <button
       type="button"
       id="nav-close"
       aria-label="Close"
-      class="inline-flex h-10 w-10 items-center justify-center rounded-md text-black"
+      class="inline-flex h-10 w-10 items-center justify-center rounded-md text-tink"
     >
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
@@ -108,7 +127,7 @@ const links = [
       links.map((l) => (
         <a
           href={l.href}
-          class="mobile-link text-xl font-normal tracking-[1.17px] text-black transition-colors hover:text-[#016df0]"
+          class="mobile-link text-xl font-normal tracking-[1.17px] text-tink transition-colors hover:text-taccent"
         >
           {l.label}
         </a>
@@ -116,10 +135,32 @@ const links = [
     }
     <a
       href={`${home}#tool`}
-      class="mobile-link mt-2 inline-flex h-[48px] items-center rounded-[6px] bg-[#007bff] px-8 text-base font-bold text-white transition-colors hover:bg-[#0257bf]"
+      class="mobile-link mt-2 inline-flex h-[48px] items-center rounded-[6px] bg-tbtnb px-8 text-base font-bold text-white transition-colors hover:bg-[#0257bf]"
     >
       {t(locale, "nav.resize")}
     </a>
+    <div class="mt-2 flex items-center gap-3">
+      <span class="text-xl font-normal tracking-[1.17px] text-tink">{t(locale, "theme.label")}</span>
+      <label class="relative inline-flex items-center">
+        <span class="sr-only">{t(locale, "theme.choose")}</span>
+        <select
+          data-testid="theme-select"
+          class="cursor-pointer appearance-none rounded-[6px] border border-tdivider bg-tsurface py-2 pl-3 pr-8 text-xs font-normal text-tink outline-none transition hover:border-taccent focus-visible:border-taccent"
+        >
+          <option value="light">{t(locale, "theme.light")}</option>
+          <option value="dark">{t(locale, "theme.dark")}</option>
+          <option value="system">{t(locale, "theme.system")}</option>
+        </select>
+        <svg
+          class="pointer-events-none absolute right-2.5 h-3.5 w-3.5 text-slate-400"
+          viewBox="0 0 16 16"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path d="m4 6 4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </label>
+    </div>
   </nav>
 </div>
 
@@ -145,5 +186,51 @@ const links = [
         show(false);
       });
     });
+  })();
+</script>
+
+<script is:inline>
+  (function () {
+    var KEY = "shrinkit-theme";
+    var selects = document.querySelectorAll('[data-testid="theme-select"]');
+    function readStored() {
+      try {
+        var v = window.localStorage.getItem(KEY);
+        return v === "light" || v === "dark" || v === "system" ? v : "system";
+      } catch (e) {
+        return "system";
+      }
+    }
+    function effective(stored) {
+      if (stored === "light" || stored === "dark") return stored;
+      return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    function apply(stored) {
+      var eff = effective(stored);
+      document.documentElement.dataset.theme = eff;
+      document.documentElement.style.colorScheme = eff;
+      document.querySelectorAll('meta[name="theme-color"][data-theme-color]').forEach(function (m) {
+        m.setAttribute("content", eff === "dark" ? "#121214" : "#007bff");
+      });
+      selects.forEach(function (s) {
+        s.value = stored;
+      });
+    }
+    selects.forEach(function (s) {
+      s.addEventListener("change", function () {
+        var v = s.value === "light" || s.value === "dark" || s.value === "system" ? s.value : "system";
+        try {
+          window.localStorage.setItem(KEY, v);
+        } catch (e) {}
+        apply(v);
+      });
+    });
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function () {
+      if (readStored() === "system") apply("system");
+    });
+    window.addEventListener("storage", function (e) {
+      if (e.key === KEY) apply(readStored());
+    });
+    apply(readStored());
   })();
 </script>

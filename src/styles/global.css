@@ -15,14 +15,206 @@
   --color-input-border: #667085;
 }
 
+/* Theme tokens: :root = Light, [data-theme="dark"] = Dark 2 (Graphite).
+   Light values equal the pre-theme hardcoded hexes exactly. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+:root {
+  color-scheme: light;
+  --t-page: #ffffff;
+  --t-band: #fafcff;
+  --t-surface: #ffffff;
+  --t-surface-2: #f6faff;
+  --t-ink: #000000;
+  --t-ink-2: #1d2939;
+  --t-muted: #667085;
+  --t-border: #d0d5dd;
+  --t-border-soft: #eaecf0;
+  --t-border-faint: #eeeeee;
+  --t-border-mid: #dddddd;
+  --t-divider: #d7dee9;
+  --t-input-bg: #ffffff;
+  --t-input-border: #667085;
+  --t-accent: #016df0;
+  --t-accent-2: #1a7af7;
+  --t-btn-a: #016df0;
+  --t-btn-b: #007bff;
+  --t-accent-soft: rgba(1, 109, 240, 0.1);
+  --t-dash: #52a0ff;
+  --t-dropzone-bg: #fafcff;
+  --t-thumb-bg: #fafcff;
+  --t-sectionbg: #fcfcfc;
+  --t-error: #d33;
+  --t-error-wash: #fff5f5;
+  --t-error-soft-bg: #fee4e2;
+  --t-error-soft-border: #fecdca;
+  --t-error-soft-text: #d92d20;
+  --t-error-banner-text: #ffffff;
+  --t-error-banner-dim: rgba(255, 255, 255, 0.8);
+  --t-success-bg: #e6f4ea;
+  --t-success-text: #0a7d4f;
+  --t-success-border: #0a7d4f;
+  --t-warning-text: #b7791f;
+  --t-teal: #42c3ac;
+  --t-tooltip-bg: #323232;
+  --t-tooltip-text: #ecf0f1;
+  --t-tooltip-border: transparent;
+  --t-pill-bg: #eef4ff;
+  --t-pill-text: #016df0;
+  --t-pill-border: #d0e1fd;
+  --t-select-selected-bg: #eaf3ff;
+  --t-select-selected-text: #016df0;
+  --t-badge-bg: #e0eafe;
+  --t-badge-text: #016df0;
+  --t-select-hover-bg: #f8f9fa;
+  --t-hoverbg: #f9fafb;
+  --t-trash-hover: #fef2f2;
+  --t-option-text: #344054;
+  --t-swiper-active: #93b4e6;
+  --t-swiper-inactive: #d9e2ef;
+  --t-fade: rgba(250, 252, 255, 0.8);
+  --t-shadow: rgba(16, 24, 40, 0.06);
+  --t-banner-bg: #f8d7da;
+  --t-banner-border: #f5c6cb;
+  --t-banner-text: #721c24;
+  --t-badge-off: #667085;
+  --t-pilldark: #1d2939;
+  --t-thumbshadow: rgba(1, 109, 240, 0.18);
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --t-page: #121214;
+  --t-band: #121214;
+  --t-surface: #1c1c1e;
+  --t-surface-2: #232326;
+  --t-ink: #e5e5ea;
+  --t-ink-2: #d1d1d6;
+  --t-muted: #98989f;
+  --t-border: #2c2c2e;
+  --t-border-soft: #2c2c2e;
+  --t-border-faint: #2c2c2e;
+  --t-border-mid: #2c2c2e;
+  --t-divider: #2c2c2e;
+  --t-input-bg: #2c2c2e;
+  --t-input-border: #48484a;
+  --t-accent: #0a84ff;
+  --t-accent-2: #0a84ff;
+  --t-btn-a: #0071e3;
+  --t-btn-b: #0071e3;
+  --t-accent-soft: rgba(10, 132, 255, 0.16);
+  --t-dash: #0a84ff;
+  --t-dropzone-bg: #1a1a1c;
+  --t-thumb-bg: #1a1a1c;
+  --t-sectionbg: #1c1c1e;
+  --t-error: #ff7a7a;
+  --t-error-wash: #3a1d1d;
+  --t-error-soft-bg: #3d1d1d;
+  --t-error-soft-border: #5a2a2a;
+  --t-error-soft-text: #ff7a7a;
+  --t-error-banner-text: #ffb3b3;
+  --t-error-banner-dim: rgba(255, 179, 179, 0.85);
+  --t-success-bg: #14351f;
+  --t-success-text: #34d399;
+  --t-success-border: #34d399;
+  --t-warning-text: #e6b84d;
+  --t-teal: #2dd4bf;
+  --t-tooltip-bg: #48484a;
+  --t-tooltip-text: #f5f5f7;
+  --t-tooltip-border: #5a5a5e;
+  --t-pill-bg: #1e2f4a;
+  --t-pill-text: #60a5fa;
+  --t-pill-border: #2c4a73;
+  --t-select-selected-bg: #1c2b45;
+  --t-select-selected-text: #60a5fa;
+  --t-badge-bg: #1e2f4a;
+  --t-badge-text: #60a5fa;
+  --t-select-hover-bg: #2c2c2e;
+  --t-hoverbg: #232326;
+  --t-trash-hover: #3a1f23;
+  --t-option-text: #d1d1d6;
+  --t-swiper-active: #0a84ff;
+  --t-swiper-inactive: #3a3a3c;
+  --t-fade: rgba(18, 18, 20, 0.8);
+  --t-shadow: rgba(0, 0, 0, 0.45);
+  --t-banner-bg: #3a1f23;
+  --t-banner-border: #5a2a2a;
+  --t-banner-text: #ffb3b3;
+  --t-badge-off: #48484a;
+  --t-pilldark: #2c2c2e;
+  --t-thumbshadow: rgba(10, 132, 255, 0.3);
+}
+
+@theme inline {
+  --color-tpage: var(--t-page);
+  --color-tband: var(--t-band);
+  --color-tsurface: var(--t-surface);
+  --color-tsurface2: var(--t-surface-2);
+  --color-tink: var(--t-ink);
+  --color-tink2: var(--t-ink-2);
+  --color-tmuted: var(--t-muted);
+  --color-tline: var(--t-border);
+  --color-tlinesoft: var(--t-border-soft);
+  --color-tlinefaint: var(--t-border-faint);
+  --color-tlinemid: var(--t-border-mid);
+  --color-tdivider: var(--t-divider);
+  --color-tinputbg: var(--t-input-bg);
+  --color-tinputline: var(--t-input-border);
+  --color-taccent: var(--t-accent);
+  --color-taccent2: var(--t-accent-2);
+  --color-tbtna: var(--t-btn-a);
+  --color-tbtnb: var(--t-btn-b);
+  --color-taccentsoft: var(--t-accent-soft);
+  --color-tdash: var(--t-dash);
+  --color-tdropzone: var(--t-dropzone-bg);
+  --color-tthumb: var(--t-thumb-bg);
+  --color-tsectionbg: var(--t-sectionbg);
+  --color-terror: var(--t-error);
+  --color-terrorwash: var(--t-error-wash);
+  --color-terrorsoft: var(--t-error-soft-bg);
+  --color-terrorsoftline: var(--t-error-soft-border);
+  --color-terrorsofttext: var(--t-error-soft-text);
+  --color-terrbanner: var(--t-error-banner-text);
+  --color-terrbannerdim: var(--t-error-banner-dim);
+  --color-tsuccessbg: var(--t-success-bg);
+  --color-tsuccess: var(--t-success-text);
+  --color-tsuccessline: var(--t-success-border);
+  --color-twarning: var(--t-warning-text);
+  --color-tteal: var(--t-teal);
+  --color-ttipbg: var(--t-tooltip-bg);
+  --color-ttiptext: var(--t-tooltip-text);
+  --color-ttipline: var(--t-tooltip-border);
+  --color-tpillbg: var(--t-pill-bg);
+  --color-tpilltext: var(--t-pill-text);
+  --color-tpillline: var(--t-pill-border);
+  --color-tselbg: var(--t-select-selected-bg);
+  --color-tseltext: var(--t-select-selected-text);
+  --color-tbadgebg: var(--t-badge-bg);
+  --color-tbadgetext: var(--t-badge-text);
+  --color-tselhover: var(--t-select-hover-bg);
+  --color-thoverbg: var(--t-hoverbg);
+  --color-ttrashhover: var(--t-trash-hover);
+  --color-toptiontext: var(--t-option-text);
+  --color-tswiperon: var(--t-swiper-active);
+  --color-tswiperoff: var(--t-swiper-inactive);
+  --color-tfade: var(--t-fade);
+  --color-tshadow: var(--t-shadow);
+  --color-tbannerbg: var(--t-banner-bg);
+  --color-tbannerline: var(--t-banner-border);
+  --color-tbannertext: var(--t-banner-text);
+  --color-tbadgeoff: var(--t-badge-off);
+  --color-tpilldark: var(--t-pilldark);
+  --color-tthumbshadow: var(--t-thumbshadow);
+}
+
 html {
   scroll-behavior: smooth;
 }
 
 body {
   font-family: var(--font-sans);
-  color: var(--color-ink);
-  background: #ffffff;
+  color: var(--t-ink-2);
+  background: var(--t-page);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -37,8 +229,9 @@ body {
   bottom: calc(100% + 8px);
   left: 50%;
   transform: translateX(-50%) translateY(4px);
-  background: #323232;
-  color: #ecf0f1;
+  background: var(--t-tooltip-bg);
+  color: var(--t-tooltip-text);
+  border: 1px solid var(--t-tooltip-border);
   font-size: 0.75rem;
   font-weight: 400;
   line-height: 1.4;
@@ -115,7 +308,7 @@ body {
 
 /* Authentic reduceimages.com styling for Choose new size and format */
 #resize-form-offline {
-  background-color: #fff;
+  background-color: var(--t-surface);
   margin: 15px 0;
 }
 #resize-form-offline .resize-form-container {
@@ -129,7 +322,7 @@ body {
   font-weight: 500;
   margin: 0 0 1.5em 0;
   text-align: center;
-  color: #000;
+  color: var(--t-ink);
 }
 #resize-form-offline .size-form-area {
   max-width: 520px;
@@ -182,7 +375,7 @@ body {
 #resize-form-offline #resolution_row label {
   font-size: 1.2rem;
   font-weight: 500;
-  color: #000;
+  color: var(--t-ink);
 }
 #resize-form-offline #resolution_row .resolution_input_container {
   position: relative;
@@ -196,15 +389,15 @@ body {
   font-weight: 300;
   text-align: center;
   padding-right: 34px;
-  border: 1px solid #667085;
+  border: 1px solid var(--t-input-border);
   border-radius: 6px;
-  color: #1d2939;
-  background: #fff;
+  color: var(--t-ink-2);
+  background: var(--t-input-bg);
   outline: none;
   transition: border-color 0.15s ease;
 }
 #resize-form-offline #resolution_row input:focus {
-  border-color: #016df0;
+  border-color: var(--t-accent);
 }
 #resize-form-offline #resolution_row #dpi_unit_overlay {
   position: absolute;
@@ -212,7 +405,7 @@ body {
   top: 50%;
   transform: translateY(-50%);
   font-size: 0.75em;
-  color: #667085;
+  color: var(--t-muted);
   pointer-events: none;
 }
 
@@ -241,7 +434,7 @@ body {
 #resize-form-offline .format-quality-area label {
   font-size: 1.2rem;
   font-weight: 500;
-  color: #000;
+  color: var(--t-ink);
   margin-bottom: 8px;
   display: block;
 }
@@ -332,7 +525,7 @@ body {
 }
 #offline-submit-button {
   display: inline-block;
-  background-color: #016df0;
+  background-color: var(--t-btn-a);
   color: #fff;
   font-size: 1.125rem !important;
   font-weight: bold !important;
@@ -408,10 +601,161 @@ body {
   }
   .home-info-swiper-container::before {
     left: 0;
-    background: linear-gradient(to right, rgba(250, 252, 255, 0.8), transparent);
+    background: linear-gradient(to right, var(--t-fade), transparent);
   }
   .home-info-swiper-container::after {
     right: 0;
-    background: linear-gradient(to left, rgba(250, 252, 255, 0.8), transparent);
+    background: linear-gradient(to left, var(--t-fade), transparent);
+  }
+}
+
+/* Text selection: accent in both themes */
+::selection {
+  background: var(--t-accent);
+  color: #fff;
+}
+
+/* Transparency indicator — IDENTICAL in both themes by design (not chrome) */
+.checkerboard {
+  background-image: repeating-conic-gradient(#e5e7eb 0% 25%, #ffffff 0% 50%);
+  background-size: 16px 16px;
+}
+
+/* Home Info Swiper pagination bullets (JS toggles .is-active on scroll/click) */
+.swiper-bullet {
+  background: var(--t-swiper-inactive);
+}
+.swiper-bullet.is-active {
+  background: var(--t-swiper-active);
+}
+
+/* Scoped theme transitions (~150ms) on themed surfaces only — no global * rule */
+body,
+header,
+main,
+footer,
+section,
+aside,
+nav {
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  body,
+  header,
+  main,
+  footer,
+  section,
+  aside,
+  nav {
+    transition: none;
+  }
+}
+
+/* Print: force light theme, hide the theme toggle, save ink */
+@media print {
+  :root {
+    color-scheme: light;
+  }
+  /* Re-declare dark vars to their Light values so every token surface prints light */
+  [data-theme="dark"] {
+    color-scheme: light;
+    --t-page: #ffffff;
+    --t-band: #fafcff;
+    --t-surface: #ffffff;
+    --t-surface-2: #f6faff;
+    --t-ink: #000000;
+    --t-ink-2: #1d2939;
+    --t-muted: #667085;
+    --t-border: #d0d5dd;
+    --t-border-soft: #eaecf0;
+    --t-border-faint: #eeeeee;
+    --t-border-mid: #dddddd;
+    --t-divider: #d7dee9;
+    --t-input-bg: #ffffff;
+    --t-input-border: #667085;
+    --t-accent: #016df0;
+    --t-accent-2: #1a7af7;
+    --t-btn-a: #016df0;
+    --t-btn-b: #007bff;
+    --t-accent-soft: rgba(1, 109, 240, 0.1);
+    --t-dash: #52a0ff;
+    --t-dropzone-bg: #fafcff;
+    --t-thumb-bg: #fafcff;
+    --t-sectionbg: #fcfcfc;
+    --t-error: #d33;
+    --t-error-wash: #fff5f5;
+    --t-error-soft-bg: #fee4e2;
+    --t-error-soft-border: #fecdca;
+    --t-error-soft-text: #d92d20;
+    --t-error-banner-text: #ffffff;
+    --t-error-banner-dim: rgba(255, 255, 255, 0.8);
+    --t-success-bg: #e6f4ea;
+    --t-success-text: #0a7d4f;
+    --t-success-border: #0a7d4f;
+    --t-warning-text: #b7791f;
+    --t-teal: #42c3ac;
+    --t-tooltip-bg: #323232;
+    --t-tooltip-text: #ecf0f1;
+    --t-tooltip-border: transparent;
+    --t-pill-bg: #eef4ff;
+    --t-pill-text: #016df0;
+    --t-pill-border: #d0e1fd;
+    --t-select-selected-bg: #eaf3ff;
+    --t-select-selected-text: #016df0;
+    --t-badge-bg: #e0eafe;
+    --t-badge-text: #016df0;
+    --t-select-hover-bg: #f8f9fa;
+    --t-hoverbg: #f9fafb;
+    --t-trash-hover: #fef2f2;
+    --t-option-text: #344054;
+    --t-swiper-active: #93b4e6;
+    --t-swiper-inactive: #d9e2ef;
+    --t-fade: rgba(250, 252, 255, 0.8);
+    --t-shadow: rgba(16, 24, 40, 0.06);
+    --t-banner-bg: #f8d7da;
+    --t-banner-border: #f5c6cb;
+    --t-banner-text: #721c24;
+    --t-badge-off: #667085;
+    --t-pilldark: #1d2939;
+    --t-thumbshadow: rgba(1, 109, 240, 0.18);
+  }
+  body {
+    background: #fff !important;
+    color: #000 !important;
+    print-color-adjust: economy;
+  }
+  [data-testid="theme-select"] {
+    display: none !important;
+  }
+}
+
+/* Windows High Contrast Mode: system colors for controls, inputs, dropzone */
+@media (forced-colors: active) {
+  body {
+    background-color: Canvas;
+    color: CanvasText;
+  }
+  [data-testid="theme-select"],
+  select,
+  button {
+    background-color: ButtonFace;
+    color: ButtonText;
+  }
+  input,
+  textarea {
+    background-color: Canvas;
+    color: CanvasText;
+    border-color: ButtonText;
+  }
+  [data-testid="dropzone"] {
+    background-color: Canvas;
+    color: CanvasText;
+    border-color: ButtonText;
+  }
+  a {
+    color: LinkText;
   }
 }

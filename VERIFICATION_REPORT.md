@@ -283,3 +283,83 @@ translations (new keys: `errors.unsupported_many`, `errors.dismiss`,
 After the fix: `npx paraglide-js compile` re-ran (generated output is
 gitignored), tsc clean, prettier clean, vitest 52/52, Playwright 23/23
 real tests passed on a fresh build. No other source files were touched.
+
+## 2026-10-16 — Dark 2 (Graphite) theme: Light / Dark / System
+
+Implemented per the maintainer's locked decisions: solid buttons in dark
+use Option A (bg `#0071e3`, hover `#0a84ff`; links/accents stay `#0a84ff`);
+info-section SVGs use Option 2 (separate `-dark.svg` files + JS `src` swap,
+`--ink #e5e5ea`, `--paper #e8e8ed`, `--blue #0a84ff`, `--sky` unchanged
+`#dbeafe`); theme toggle is a native `<select>` dropdown (Light / Dark /
+System) in the header next to LanguageSwitcher + inside the mobile menu.
+
+### Architecture
+
+Semantic CSS tokens in `src/styles/global.css` (`:root` = Light with the
+exact pre-theme hexes, `[data-theme="dark"]` = Dark 2), Tailwind v4
+`@theme inline` so utilities emit `var()` directly, `@custom-variant dark`
+so `dark:` follows the toggle (not the OS). Pre-paint inline script in
+`BaseLayout.astro` `<head>` (before the stylesheet) reads
+`localStorage["shrinkit-theme"]` (default `"system"`), resolves via
+`matchMedia("(prefers-color-scheme: dark)")`, sets
+`documentElement.dataset.theme` + `colorScheme` + both `theme-color` metas
+before first paint (no FOUC). Toggle JS is vanilla in `Header.astro`
+(persist, sync both selects, update metas, `matchMedia` listener only when
+effective theme is `system`, `storage` listener for cross-tab sync). React
+never reads theme during render — theming is document-level CSS + vanilla
+JS. Thumbnails gained a checkerboard backdrop (identical in both themes)
+so transparent PNGs stay visible. Error-banner inner text fixed in both
+themes (was already failing contrast in light: `#a94442`/`#721c24` on
+`#d33` → white/`#ffffffcc` in light, `#ffb3b3` in dark; banner bg stays
+`#d33` per the existing e2e assertion). Print forces light; forced-colors
+uses system colors. `color-scheme` set per theme.
+
+### Gates (all green, in order)
+
+| Gate             | Command                                                               | Result                                                                                         |
+| ---------------- | --------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| TypeScript       | `npx tsc --noEmit`                                                    | clean, 0 errors                                                                                |
+| ESLint           | `npx eslint .`                                                        | 0 errors, 5 `any` warnings in tests/e2e (pre-existing)                                         |
+| Prettier         | `npx prettier --check .`                                              | all files conform                                                                              |
+| Unit tests       | `npx vitest run`                                                      | 53/53 passed                                                                                   |
+| E2E theme spec   | `npx playwright test tests/e2e/theme.spec.ts`                         | 15/15 passed (toggle, persistence, system, FOUC, contrast, SVG swap, screenshots, mobile menu) |
+| E2E existing     | `npx playwright test` (qa + shrink + responsive + ux-limits-reresize) | 26/26 passed (23 prior + 3 ux-limits)                                                          |
+| Production build | `npm run build`                                                       | success — 13 pages, sitemap                                                                    |
+
+### Verification notes
+
+- **Test fixes during verification (test-only, 4 cases):** the initial
+  theme-spec run failed 4 tests. Root causes were all in the new spec,
+  not the implementation: (1) the approved 150ms theme transition meant
+  immediate computed-color reads caught mid-transition values — tests now
+  wait for the settled color; (2) the FOUC test's MutationObserver
+  observed `documentElement`, which can be null at init-script time —
+  now observes `document` with `subtree: true`; (3) the mobile
+  screenshot test used the hidden desktop select — now uses the menu
+  select; (4) the body-fg expectation assumed `#e5e5ea`, but body text
+  is `--t-ink-2` (`#d1d1d6`) by design. Settled values were verified
+  exact via live reproduction before fixing the tests.
+- **Visual check (screenshots in `/tmp/qa-shots/`):** light desktop
+  unchanged; dark desktop + dark mobile (390px) fully readable, no
+  overflow, no invisible elements; dark settings panel (inputs, lock
+  bracket, swatches, buttons), dark result panel (checkerboard thumb,
+  Copy/Download), dark error banner, dark info illustrations all
+  verified by reading the screenshots.
+- **Pre-existing observation (NOT a theme regression, out of scope):**
+  a fully-transparent PNG flattened to JPG renders BLACK in both light
+  and dark (verified identical in both themes). The theme work did not
+  touch `engine.ts`; the flatten behavior is pre-existing and left
+  untouched for separate triage.
+- **Deviation:** the pre-paint script's two `theme-color` metas sit
+  immediately BEFORE the script (not after) — the script can only update
+  metas that are already parsed. The script still precedes every
+  stylesheet `<link>`, so FOUC prevention is unaffected.
+
+### Still needs the maintainer's real machine
+
+Safari (macOS + iOS) `prefers-color-scheme` / `color-scheme` rendering /
+FOUC on slow networks, Firefox dark form controls, real-device OS dark
+toggle while the app is open, PWA installed-app theme + status bar,
+`prefers-reduced-motion` + dark combined, VoiceOver/TalkBack with the
+toggle, and aesthetic judgment of the dark illustrations on a real
+display.

@@ -21,15 +21,15 @@ interface DropzoneProps {
 function UploadMark() {
   return (
     <svg width="110" height="110" viewBox="0 0 110 110" fill="none" aria-hidden="true">
-      <path d="M55 80V32" stroke="#016df0" strokeWidth="7" strokeLinecap="round" />
+      <path d="M55 80V32" stroke="var(--t-accent)" strokeWidth="7" strokeLinecap="round" />
       <path
         d="M34 53l21-21 21 21"
-        stroke="#016df0"
+        stroke="var(--t-accent)"
         strokeWidth="7"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <path d="M24 92h62" stroke="#016df0" strokeWidth="7" strokeLinecap="round" />
+      <path d="M24 92h62" stroke="var(--t-accent)" strokeWidth="7" strokeLinecap="round" />
     </svg>
   );
 }
@@ -84,7 +84,7 @@ export default function Dropzone({
         setDragging(false);
         emit(e.dataTransfer.files);
       }}
-      className="relative mx-auto w-full max-w-[1100px] cursor-pointer rounded-[6px] bg-[#fafcff] px-6 py-12 text-center transition"
+      className="relative mx-auto w-full max-w-[1100px] cursor-pointer rounded-[6px] bg-tdropzone px-6 py-12 text-center transition"
     >
       {/* Dashed border drawn as an SVG rect (reference style) */}
       <svg className="pointer-events-none absolute inset-0 h-full w-full" aria-hidden="true">
@@ -93,7 +93,7 @@ export default function Dropzone({
           y="2"
           rx="6"
           fill="none"
-          stroke="#52A0FF"
+          stroke="var(--t-dash)"
           strokeWidth={dragging ? 3.5 : 2}
           strokeDasharray="6 12"
           strokeLinecap="round"
@@ -116,25 +116,25 @@ export default function Dropzone({
       />
 
       {processing && (
-        <div className="absolute left-1/2 top-4 z-10 -translate-x-1/2 whitespace-nowrap rounded-full bg-[#1d2939] px-5 py-2 text-sm font-normal text-white shadow-lg">
+        <div className="absolute left-1/2 top-4 z-10 -translate-x-1/2 whitespace-nowrap rounded-full bg-tpilldark px-5 py-2 text-sm font-normal text-white shadow-lg dark:border dark:border-tinputline">
           <span className="dots">{t(locale, "dropzone.processing")}</span>
         </div>
       )}
 
       <div className="flex flex-col items-center">
         <UploadMark />
-        <p className="mt-6 text-[1.4em] font-medium text-black">
+        <p className="mt-6 text-[1.4em] font-medium text-tink">
           {t(locale, "dropzone.title_a")}{" "}
-          <span className="text-[#016df0] hover:underline">{t(locale, "dropzone.browse")}</span>{" "}
-          <span className="text-sm font-normal text-[#667085] block sm:inline mt-1 sm:mt-0">
+          <span className="text-taccent hover:underline">{t(locale, "dropzone.browse")}</span>{" "}
+          <span className="text-sm font-normal text-tmuted block sm:inline mt-1 sm:mt-0">
             {t(locale, "dropzone.paste_hint")}
           </span>
         </p>
-        <span className="mt-6 inline-block rounded-[6px] bg-[#007bff] px-[30px] py-[18px] text-base font-bold text-white transition hover:bg-[#0257bf]">
+        <span className="mt-6 inline-block rounded-[6px] bg-tbtnb px-[30px] py-[18px] text-base font-bold text-white transition hover:bg-[#0257bf]">
           {t(locale, "dropzone.select")}
         </span>
         <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-[#eef4ff] px-3.5 py-1 text-xs font-medium text-[#016df0] border border-[#d0e1fd]">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-tpillbg px-3.5 py-1 text-xs font-medium text-tpilltext border border-tpillline">
             {t(locale, "dropzone.limits_info")}
           </span>
         </div>
@@ -150,8 +150,8 @@ export default function Dropzone({
             <span
               className={`rounded-full px-3 py-1 text-xs font-semibold border ${
                 items.length >= MAX_BATCH
-                  ? "bg-[#fee4e2] text-[#d92d20] border-[#fecdca]"
-                  : "bg-white text-[#344054] border-[#d0d5dd] shadow-sm"
+                  ? "bg-terrorsoft text-terrorsofttext border-terrorsoftline"
+                  : "bg-tsurface text-toptiontext border-tline shadow-sm"
               }`}
             >
               {items.length >= MAX_BATCH
@@ -164,17 +164,17 @@ export default function Dropzone({
               <div
                 key={item.id}
                 data-testid={`thumb-${item.id}`}
-                className="relative w-[140px] rounded-[6px] border border-[#52a0ff] bg-white transition duration-150 hover:scale-[1.02] hover:shadow-[0_8px_24px_rgba(1,109,240,0.18)]"
+                className="relative w-[140px] rounded-[6px] border border-tdash bg-tsurface transition duration-150 hover:scale-[1.02] hover:shadow-[0_8px_24px_color-mix(in_srgb,var(--t-accent)_18%,transparent)]"
               >
                 <button
                   type="button"
                   onClick={() => onRemove(item.id)}
                   aria-label={`${t(locale, "result.remove")}: ${item.file.name}`}
-                  className="absolute right-1 top-1 z-10 rounded-full bg-white/95 p-1 text-[#667085] shadow-sm transition hover:text-[#d33]"
+                  className="absolute right-1 top-1 z-10 rounded-full bg-tsurface/95 p-1 text-tmuted shadow-sm transition hover:text-terror"
                 >
                   <X size={14} weight="bold" />
                 </button>
-                <div className="flex h-[110px] w-[138px] items-center justify-center overflow-hidden rounded-t-[5px] bg-[#fafcff]">
+                <div className="flex h-[110px] w-[138px] items-center justify-center overflow-hidden rounded-t-[5px] checkerboard bg-tthumb">
                   <img
                     src={item.previewUrl}
                     alt={item.file.name}
@@ -184,12 +184,12 @@ export default function Dropzone({
                 </div>
                 <div className="p-2 text-left">
                   <p
-                    className="clamp-2 text-xs font-normal leading-snug text-black"
+                    className="clamp-2 text-xs font-normal leading-snug text-tink"
                     title={item.file.name}
                   >
                     {item.file.name}
                   </p>
-                  <p className="mt-1 text-[11px] font-light text-[#667085]">
+                  <p className="mt-1 text-[11px] font-light text-tmuted">
                     {item.dims ? `${item.dims.width}×${item.dims.height} · ` : ""}
                     {formatBytes(item.file.size)}
                   </p>
@@ -213,12 +213,12 @@ export default function Dropzone({
               {failedFiles && failedFiles.length > 1 ? t(locale, "errors.unsupported_many") : error}
             </div>
             {failedFiles && failedFiles.length > 0 && (
-              <div id="failedFilesList" className="mt-1 font-mono text-xs text-[#a94442]">
+              <div id="failedFilesList" className="mt-1 font-mono text-xs text-terrbannerdim">
                 {failedFiles.join(", ")}
               </div>
             )}
             {failedFiles && failedFiles.length > 0 && error && !error.includes(failedFiles[0]) && (
-              <div className="mt-1 text-xs text-[#721c24]">{error}</div>
+              <div className="mt-1 text-xs text-terrbannerdim">{error}</div>
             )}
           </div>
           {onDismissError && (
@@ -226,7 +226,7 @@ export default function Dropzone({
               type="button"
               onClick={onDismissError}
               aria-label={t(locale, "errors.dismiss")}
-              className="text-[#721c24] hover:text-black transition"
+              className="text-terrbanner hover:text-black dark:hover:text-white transition"
             >
               <X size={16} weight="bold" />
             </button>

@@ -48,15 +48,23 @@ function ModeDiagram({ mode }: { mode: ResizeMode }) {
   if (mode === "stretch") {
     return (
       <svg width="64" height="44" viewBox="0 0 64 44" fill="none" aria-hidden="true">
-        <rect x="2" y="11" width="22" height="22" rx="2" stroke="#1d2939" strokeWidth="2" />
+        <rect x="2" y="11" width="22" height="22" rx="2" stroke="var(--t-ink-2)" strokeWidth="2" />
         <path
           d="M30 22h10m0 0-3.5-3.5M40 22l-3.5 3.5"
-          stroke="#007bff"
+          stroke="var(--t-accent-2)"
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
-        <rect x="44" y="6" width="18" height="32" rx="2" stroke="#007bff" strokeWidth="2" />
+        <rect
+          x="44"
+          y="6"
+          width="18"
+          height="32"
+          rx="2"
+          stroke="var(--t-accent-2)"
+          strokeWidth="2"
+        />
       </svg>
     );
   }
@@ -69,13 +77,13 @@ function ModeDiagram({ mode }: { mode: ResizeMode }) {
           width="40"
           height="28"
           rx="2"
-          stroke="#1d2939"
+          stroke="var(--t-ink-2)"
           strokeWidth="2"
           strokeDasharray="4 3"
         />
         <path
           d="M12 8V2H6M52 8V2h6M12 36v6H6M52 36v6h6"
-          stroke="#007bff"
+          stroke="var(--t-accent-2)"
           strokeWidth="2.5"
           strokeLinecap="round"
         />
@@ -90,11 +98,11 @@ function ModeDiagram({ mode }: { mode: ResizeMode }) {
         width="52"
         height="36"
         rx="2"
-        stroke="#1d2939"
+        stroke="var(--t-ink-2)"
         strokeWidth="2"
         strokeDasharray="4 3"
       />
-      <rect x="20" y="12" width="24" height="20" rx="2" fill="#007bff" opacity="0.85" />
+      <rect x="20" y="12" width="24" height="20" rx="2" fill="var(--t-accent-2)" opacity="0.85" />
     </svg>
   );
 }
@@ -225,7 +233,7 @@ export default function SettingsPanel({
   return (
     <section id="resize-form-offline" aria-label={t(locale, "settings.title")} className="py-4">
       <div className="resize-form-container table-multi-resize max-w-[650px] mx-auto">
-        <h2 className="title text-center text-[2rem] font-medium text-[#1d2939] mb-8 font-sans">
+        <h2 className="title text-center text-[2rem] font-medium text-tink2 mb-8 font-sans">
           {t(locale, "settings.title")}
         </h2>
 
@@ -238,7 +246,7 @@ export default function SettingsPanel({
               <div className="flex h-[50px] items-center justify-end">
                 <label
                   htmlFor="set-width"
-                  className="lbl-full font-medium text-[0.875rem] sm:text-[1.125rem] text-[#000] whitespace-nowrap"
+                  className="lbl-full font-medium text-[0.875rem] sm:text-[1.125rem] text-tink whitespace-nowrap"
                 >
                   {t(locale, "settings.width")}
                 </label>
@@ -246,7 +254,7 @@ export default function SettingsPanel({
               <div className="flex h-[50px] items-center justify-end">
                 <label
                   htmlFor="set-height"
-                  className="lbl-full font-medium text-[0.875rem] sm:text-[1.125rem] text-[#000] whitespace-nowrap"
+                  className="lbl-full font-medium text-[0.875rem] sm:text-[1.125rem] text-tink whitespace-nowrap"
                 >
                   {t(locale, "settings.height")}
                 </label>
@@ -270,8 +278,8 @@ export default function SettingsPanel({
                 }
                 className={`h-[50px] w-[68px] sm:w-[72px] text-center text-[1.15em] sm:text-[1.25em] font-light rounded-[6px] outline-none transition ${
                   isWidthInvalid
-                    ? "border-2 border-[#d33] bg-[#fff5f5] text-[#d33] focus:border-[#d33]"
-                    : "border border-[#667085] bg-white text-[#1d2939] focus:border-[#016df0]"
+                    ? "border-2 border-terror bg-terrorwash text-terror focus:border-terror"
+                    : "border border-tinputline bg-tinputbg text-tink2 focus:border-taccent"
                 }`}
               />
               <input
@@ -289,8 +297,8 @@ export default function SettingsPanel({
                 }
                 className={`h-[50px] w-[68px] sm:w-[72px] text-center text-[1.15em] sm:text-[1.25em] font-light rounded-[6px] outline-none transition ${
                   isHeightInvalid
-                    ? "border-2 border-[#d33] bg-[#fff5f5] text-[#d33] focus:border-[#d33]"
-                    : "border border-[#667085] bg-white text-[#1d2939] focus:border-[#016df0]"
+                    ? "border-2 border-terror bg-terrorwash text-terror focus:border-terror"
+                    : "border border-tinputline bg-tinputbg text-tink2 focus:border-taccent"
                 }`}
               />
             </div>
@@ -317,18 +325,18 @@ export default function SettingsPanel({
                   <path
                     d="M 0 25 L 18 25 Q 26 25 26 33 L 26 45"
                     fill="none"
-                    stroke={locked ? "#1d2939" : "transparent"}
+                    stroke={locked ? "var(--t-ink-2)" : "transparent"}
                     strokeWidth="1.2"
                   />
                   {/* Bottom Line to Lock Badge (Y=91 is center of bottom input: 50+16+25=91) */}
                   <path
                     d="M 0 91 L 18 91 Q 26 91 26 83 L 26 71"
                     fill="none"
-                    stroke={locked ? "#1d2939" : "transparent"}
+                    stroke={locked ? "var(--t-ink-2)" : "transparent"}
                     strokeWidth="1.2"
                   />
                   {/* Horizontal Line to Unit Select (Y=58 is exact midpoint) */}
-                  <line x1="39" y1="58" x2="58" y2="58" stroke="#1d2939" strokeWidth="1.2" />
+                  <line x1="39" y1="58" x2="58" y2="58" stroke="var(--t-ink-2)" strokeWidth="1.2" />
                 </svg>
 
                 {/* Clickable Blue Circle Badge exactly centered at (26, 58) */}
@@ -353,8 +361,8 @@ export default function SettingsPanel({
                   }}
                   className={`transition-transform active:scale-95 ${
                     locked
-                      ? "bg-[#016df0] text-white shadow-sm"
-                      : "bg-[#667085] text-white opacity-80"
+                      ? "bg-taccent text-white shadow-sm"
+                      : "bg-tbadgeoff text-white opacity-80"
                   }`}
                 >
                   {locked ? (
@@ -366,7 +374,7 @@ export default function SettingsPanel({
                         strokeLinecap="round"
                       />
                       <rect y="5.5" width="12" height="8.5" rx="2" fill="white" />
-                      <circle cx="6" cy="9.75" r="1.2" fill="#016df0" />
+                      <circle cx="6" cy="9.75" r="1.2" fill="var(--t-accent)" />
                     </svg>
                   ) : (
                     <svg width="12" height="14" viewBox="0 0 12 14" fill="none">
@@ -377,7 +385,7 @@ export default function SettingsPanel({
                         strokeLinecap="round"
                       />
                       <rect y="5.5" width="12" height="8.5" rx="2" fill="white" />
-                      <circle cx="6" cy="9.75" r="1.2" fill="#667085" />
+                      <circle cx="6" cy="9.75" r="1.2" fill="var(--t-badge-off)" />
                     </svg>
                   )}
                 </button>
@@ -405,9 +413,9 @@ export default function SettingsPanel({
           {(widthError || heightError) && (
             <div
               role="alert"
-              className="mt-3 flex items-center justify-center gap-1.5 text-xs font-medium text-[#d33]"
+              className="mt-3 flex items-center justify-center gap-1.5 text-xs font-medium text-terror"
             >
-              <WarningCircle size={15} weight="fill" className="shrink-0 text-[#d33]" />
+              <WarningCircle size={15} weight="fill" className="shrink-0 text-terror" />
               <span>{widthError || heightError}</span>
             </div>
           )}
@@ -423,7 +431,7 @@ export default function SettingsPanel({
                 <div className="flex h-[50px] items-center justify-end pr-2.5 sm:pr-4">
                   <label
                     htmlFor="set-dpi"
-                    className="lbl-full font-medium text-[0.875rem] sm:text-[1.125rem] text-[#000] whitespace-nowrap cursor-help underline decoration-dotted underline-offset-4"
+                    className="lbl-full font-medium text-[0.875rem] sm:text-[1.125rem] text-tink whitespace-nowrap cursor-help underline decoration-dotted underline-offset-4"
                   >
                     {t(locale, "settings.resolution")}
                   </label>
@@ -443,13 +451,13 @@ export default function SettingsPanel({
                       title={dpiError || `Allowed: ${DPI_LIMITS.min}–${DPI_LIMITS.max} DPI`}
                       className={`h-[50px] w-[85px] sm:w-[95px] rounded-[6px] pr-8 text-center text-[1.15em] sm:text-[1.25em] font-light outline-none transition ${
                         isDpiInvalid
-                          ? "border-2 border-[#d33] bg-[#fff5f5] text-[#d33] focus:border-[#d33]"
-                          : "border border-[#667085] bg-white text-[#1d2939] focus:border-[#016df0]"
+                          ? "border-2 border-terror bg-terrorwash text-terror focus:border-terror"
+                          : "border border-tinputline bg-tinputbg text-tink2 focus:border-taccent"
                       }`}
                     />
                     <span
                       id="dpi_unit_overlay"
-                      className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-[0.75em] text-[#667085]"
+                      className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-[0.75em] text-tmuted"
                     >
                       DPI
                     </span>
@@ -462,9 +470,9 @@ export default function SettingsPanel({
               {dpiError && (
                 <div
                   role="alert"
-                  className="mt-2 flex items-center justify-center gap-1.5 text-xs font-medium text-[#d33]"
+                  className="mt-2 flex items-center justify-center gap-1.5 text-xs font-medium text-terror"
                 >
-                  <WarningCircle size={14} weight="fill" className="shrink-0 text-[#d33]" />
+                  <WarningCircle size={14} weight="fill" className="shrink-0 text-terror" />
                   <span>{dpiError}</span>
                 </div>
               )}
@@ -496,15 +504,15 @@ export default function SettingsPanel({
                   onClick={() => onChange({ resizeMode: m })}
                   className={[
                     "flex w-24 flex-col items-center gap-1.5 rounded-[6px] px-2 pb-2 pt-3 transition sm:w-28 sm:px-3",
-                    selected ? "scale-[1.04] border-b-4 border-[#42c3ac]" : "hover:bg-[#fafcff]",
+                    selected ? "scale-[1.04] border-b-4 border-tteal" : "hover:bg-tsurface2",
                   ].join(" ")}
                 >
                   <ModeDiagram mode={m} />
-                  <span className="flex items-center gap-1.5 text-sm font-normal text-black">
+                  <span className="flex items-center gap-1.5 text-sm font-normal text-tink">
                     <span
                       className={[
                         "inline-block h-3.5 w-3.5 rounded-full border-2",
-                        selected ? "border-[#007bff] bg-[#007bff]" : "border-[#667085] bg-white",
+                        selected ? "border-taccent2 bg-taccent2" : "border-tinputline bg-tsurface",
                       ].join(" ")}
                       aria-hidden="true"
                     />
@@ -523,7 +531,7 @@ export default function SettingsPanel({
             className="format flex flex-col items-start"
             data-tip={t(locale, "settings.format_tip")}
           >
-            <label htmlFor="set-format" className="mb-2 text-[1.15rem] font-medium text-[#000]">
+            <label htmlFor="set-format" className="mb-2 text-[1.15rem] font-medium text-tink">
               {t(locale, "settings.format")}
             </label>
             <CustomSelect<OutputFormat>
@@ -549,7 +557,7 @@ export default function SettingsPanel({
               className="flex flex-col items-start"
               data-tip={t(locale, "settings.quality_tip")}
             >
-              <label htmlFor="set-quality" className="mb-2 text-[1.15rem] font-medium text-[#000]">
+              <label htmlFor="set-quality" className="mb-2 text-[1.15rem] font-medium text-tink">
                 {t(locale, "settings.quality")}
               </label>
               <div className="relative">
@@ -566,20 +574,20 @@ export default function SettingsPanel({
                   title={qualityError || `Allowed: ${QUALITY_LIMITS.min}–${QUALITY_LIMITS.max}%`}
                   className={`h-[50px] w-[90px] rounded-[6px] pr-7 text-center text-[1.25em] font-light outline-none transition ${
                     isQualityInvalid
-                      ? "border-2 border-[#d33] bg-[#fff5f5] text-[#d33] focus:border-[#d33]"
-                      : "border border-[#667085] bg-white text-[#1d2939] focus:border-[#016df0]"
+                      ? "border-2 border-terror bg-terrorwash text-terror focus:border-terror"
+                      : "border border-tinputline bg-tinputbg text-tink2 focus:border-taccent"
                   }`}
                 />
-                <span className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-[0.85em] text-[#667085]">
+                <span className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-[0.85em] text-tmuted">
                   %
                 </span>
               </div>
               {qualityError && (
                 <div
                   role="alert"
-                  className="mt-1 flex items-center gap-1 text-xs font-medium text-[#d33]"
+                  className="mt-1 flex items-center gap-1 text-xs font-medium text-terror"
                 >
-                  <WarningCircle size={14} weight="fill" className="shrink-0 text-[#d33]" />
+                  <WarningCircle size={14} weight="fill" className="shrink-0 text-terror" />
                   <span>{qualityError}</span>
                 </div>
               )}
@@ -592,7 +600,7 @@ export default function SettingsPanel({
             className="flex flex-col items-start"
             data-tip={t(locale, "settings.background_tip")}
           >
-            <label className="mb-2 text-[1.15rem] font-medium text-[#000]">
+            <label className="mb-2 text-[1.15rem] font-medium text-tink">
               {t(locale, "settings.background")}
             </label>
             <div
@@ -621,7 +629,7 @@ export default function SettingsPanel({
                         : "bg-black shadow-[0px_1px_5px_0px_rgba(0,0,0,0.2)]"
                     } ${
                       selected
-                        ? "ring-[3px] ring-[#016df0] border-[3px] border-[#016df0]"
+                        ? "ring-[3px] ring-taccent border-[3px] border-taccent"
                         : c === "white"
                           ? "border border-[#ddd]"
                           : "border border-black"
@@ -643,7 +651,7 @@ export default function SettingsPanel({
               onClick={onProcess}
               disabled={disabled || processing || itemCount === 0 || Boolean(validationError)}
               title={validationError || undefined}
-              className="inline-block rounded-[6px] bg-[#016df0] px-12 py-3.5 text-[1.125rem] font-bold text-white shadow-sm transition hover:bg-[#0257bf] disabled:cursor-not-allowed disabled:opacity-40"
+              className="inline-block rounded-[6px] bg-tbtna px-12 py-3.5 text-[1.125rem] font-bold text-white shadow-sm transition hover:bg-[#0257bf] disabled:cursor-not-allowed disabled:opacity-40"
             >
               {processing
                 ? t(locale, "settings.processing")
@@ -655,7 +663,7 @@ export default function SettingsPanel({
             {validationError && (
               <p
                 role="alert"
-                className="mt-2 text-xs font-medium text-[#d33] flex items-center justify-center gap-1"
+                className="mt-2 text-xs font-medium text-terror flex items-center justify-center gap-1"
               >
                 <WarningCircle size={14} weight="fill" className="shrink-0" />
                 <span>{validationError}</span>
@@ -668,7 +676,7 @@ export default function SettingsPanel({
                 <button
                   type="button"
                   onClick={onAbort}
-                  className="inline-flex items-center gap-1.5 rounded-[6px] border border-[#667085] px-4 py-1.5 text-xs font-normal text-black transition hover:border-[#d33] hover:text-[#d33]"
+                  className="inline-flex items-center gap-1.5 rounded-[6px] border border-tinputline px-4 py-1.5 text-xs font-normal text-tink transition hover:border-terror hover:text-terror"
                 >
                   <Stop size={14} weight="fill" /> {t(locale, "settings.stop")}
                 </button>
@@ -677,7 +685,7 @@ export default function SettingsPanel({
                 <button
                   type="button"
                   onClick={onClear}
-                  className="inline-flex items-center gap-1.5 rounded-[6px] border border-[#667085] px-4 py-1.5 text-xs font-normal text-black transition hover:border-[#d33] hover:text-[#d33]"
+                  className="inline-flex items-center gap-1.5 rounded-[6px] border border-tinputline px-4 py-1.5 text-xs font-normal text-tink transition hover:border-terror hover:text-terror"
                 >
                   <Trash size={14} /> {t(locale, "result.clear")}
                 </button>
@@ -688,14 +696,14 @@ export default function SettingsPanel({
 
         {/* EXIF preference (subtle clean checkbox below) */}
         <div className="mt-6 flex justify-center">
-          <label className="flex cursor-pointer items-center gap-2.5 text-xs text-[#667085] hover:text-black transition">
+          <label className="flex cursor-pointer items-center gap-2.5 text-xs text-tmuted hover:text-tink transition">
             <input
               type="checkbox"
               data-testid="exif-checkbox"
               checked={settings.preserveExif}
               disabled={disabled}
               onChange={(e) => onChange({ preserveExif: e.target.checked })}
-              className="h-3.5 w-3.5 accent-[#016df0]"
+              className="h-3.5 w-3.5 accent-taccent"
             />
             <span>{t(locale, "settings.preserve_exif")}</span>
           </label>

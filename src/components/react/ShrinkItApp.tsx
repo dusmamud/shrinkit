@@ -455,12 +455,12 @@ export default function ShrinkItApp({ locale }: ShrinkItAppProps) {
         <div
           id="unsupported_browser_message"
           role="alert"
-          className="mx-auto mb-6 rounded-[6px] border border-[#f5c6cb] bg-[#f8d7da] p-4 text-center text-sm font-medium text-[#721c24]"
+          className="mx-auto mb-6 rounded-[6px] border border-tbannerline bg-tbannerbg p-4 text-center text-sm font-medium text-tbannertext"
         >
           {t(locale, "errors.browser_unsupported")}{" "}
           <a
             href="https://www.google.com/chrome"
-            className="font-bold underline transition hover:text-black"
+            className="font-bold underline transition hover:text-tink"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -469,7 +469,7 @@ export default function ShrinkItApp({ locale }: ShrinkItAppProps) {
           {t(locale, "errors.browser_unsupported_or")}{" "}
           <a
             href="http://mozilla.org/firefox/new"
-            className="font-bold underline transition hover:text-black"
+            className="font-bold underline transition hover:text-tink"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -525,7 +525,7 @@ export default function ShrinkItApp({ locale }: ShrinkItAppProps) {
               <button
                 type="button"
                 onClick={clearAll}
-                className="inline-flex items-center gap-2 rounded-[6px] border border-[#1a7af7] px-6 py-2.5 text-sm font-medium text-[#1a7af7] transition hover:bg-[#1a7af7] hover:text-white"
+                className="inline-flex items-center gap-2 rounded-[6px] border border-taccent2 px-6 py-2.5 text-sm font-medium text-taccent2 transition hover:bg-taccent2 hover:text-white"
               >
                 {t(locale, "result.new_image")}
               </button>

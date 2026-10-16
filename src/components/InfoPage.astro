@@ -18,28 +18,28 @@ interface Props {
 const { locale, title, intro, sections, contactEmail } = Astro.props;
 ---
 
-<div class="bg-[#fafcff]">
+<div class="bg-tband">
   <div class="mx-auto max-w-3xl px-4 py-14">
-    <h1 class="text-[2.5rem] font-normal tracking-tight text-black">{title}</h1>
+    <h1 class="text-[2.5rem] font-normal tracking-tight text-tink">{title}</h1>
     {intro && (
-      <p class="mt-4 text-[1.0625rem] font-light leading-relaxed text-[#1d2939]">{intro}</p>
+      <p class="mt-4 text-[1.0625rem] font-light leading-relaxed text-tink2">{intro}</p>
     )}
     {sections && (
       <div class="mt-8 space-y-8">
         {sections.map((s) => (
-          <section class="rounded-[6px] border border-[#d7dee9] bg-white p-6">
-            <h2 class="text-lg font-medium text-black">{s.title}</h2>
-            <p class="mt-2 text-[1.0625rem] font-light leading-relaxed text-[#1d2939]">{s.body}</p>
+          <section class="rounded-[6px] border border-tdivider bg-tsurface p-6">
+            <h2 class="text-lg font-medium text-tink">{s.title}</h2>
+            <p class="mt-2 text-[1.0625rem] font-light leading-relaxed text-tink2">{s.body}</p>
           </section>
         ))}
       </div>
     )}
     {contactEmail && (
-      <p class="mt-8 rounded-[6px] border border-[#52a0ff] bg-white px-5 py-4 text-sm font-light text-[#1d2939]">
+      <p class="mt-8 rounded-[6px] border border-tdash bg-tsurface px-5 py-4 text-sm font-light text-tink2">
         {t(locale, "contact.email_label")}{" "}
         <a
           href={`mailto:${contactEmail}`}
-          class="font-normal text-[#016df0] underline underline-offset-2 hover:text-[#0257bf]"
+          class="font-normal text-taccent underline underline-offset-2 hover:text-[#0257bf]"
         >
           {contactEmail}
         </a>
