@@ -9,12 +9,31 @@ const description =
 ---
 
 <BaseLayout locale={locale} path="/tools/compress-to-50kb" title={title} description={description}>
-  <main class="min-h-[80vh] py-8">
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      name: "Compress Image to 50KB Online Free",
+      url: "https://shrinkit.pages.dev/tools/compress-to-50kb",
+      applicationCategory: "MultimediaApplication",
+      operatingSystem: "Any",
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "USD",
+      },
+      description: description,
+      featureList:
+        "Compress image to 50KB, 100% private in-browser, UPSC photo resizer, SSC photo compressor, IBPS photo compressor, zero server uploads",
+    })}
+  />
+  <div class="min-h-[80vh] py-8">
     <TargetSizeApp
       client:load
       initialTargetKb={50}
       title="Compress Image to 50KB Online"
       subtitle="Guaranteed under 50 KB for UPSC, SSC, IBPS, bank exam forms, and visa uploads. No servers, 100% private."
     />
-  </main>
+  </div>
 </BaseLayout>

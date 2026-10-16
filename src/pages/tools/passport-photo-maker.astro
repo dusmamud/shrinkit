@@ -9,7 +9,26 @@ const description =
 ---
 
 <BaseLayout locale={locale} path="/tools/passport-photo-maker" title={title} description={description}>
-  <main class="min-h-[80vh] py-8">
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      name: "Passport & Visa Photo Maker Online Free",
+      url: "https://shrinkit.pages.dev/tools/passport-photo-maker",
+      applicationCategory: "MultimediaApplication",
+      operatingSystem: "Any",
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "USD",
+      },
+      description: description,
+      featureList:
+        "Passport photo 35x45 mm, 2x2 inch visa photo, India passport photo, US visa photo, 300 DPI generator, pure white background",
+    })}
+  />
+  <div class="min-h-[80vh] py-8">
     <PassportPhotoApp client:load />
-  </main>
+  </div>
 </BaseLayout>

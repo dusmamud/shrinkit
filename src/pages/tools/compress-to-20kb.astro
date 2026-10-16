@@ -9,12 +9,31 @@ const description =
 ---
 
 <BaseLayout locale={locale} path="/tools/compress-to-20kb" title={title} description={description}>
-  <main class="min-h-[80vh] py-8">
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      name: "Compress Signature & Photo to 20KB",
+      url: "https://shrinkit.pages.dev/tools/compress-to-20kb",
+      applicationCategory: "MultimediaApplication",
+      operatingSystem: "Any",
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "USD",
+      },
+      description: description,
+      featureList:
+        "Compress signature to 20KB, SSC signature resizer, UPSC signature resize, 100% private in-browser",
+    })}
+  />
+  <div class="min-h-[80vh] py-8">
     <TargetSizeApp
       client:load
       initialTargetKb={20}
       title="Compress Signature & Photo to 20KB"
       subtitle="Strictly below 20 KB limit for SSC, UPSC, and online job portal signature uploads. Zero server upload."
     />
-  </main>
+  </div>
 </BaseLayout>

@@ -18,6 +18,9 @@ export function localizedPath(path: string, locale: Locale): string {
 
 /** Canonical URL for a page in every locale (for hreflang alternates). */
 export function alternates(site: string, path: string): { locale: Locale; href: string }[] {
+  if (path.startsWith("/tools")) {
+    return [{ locale: DEFAULT_LOCALE, href: `${site}${path}` }];
+  }
   return locales.map((locale) => ({
     locale,
     href: `${site}${localizedPath(path, locale)}`,

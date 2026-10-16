@@ -9,7 +9,26 @@ const description =
 ---
 
 <BaseLayout locale={locale} path="/tools/compare-images" title={title} description={description}>
-  <main class="min-h-[80vh] py-8">
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      name: "Before vs After Image Quality Comparison Tool",
+      url: "https://shrinkit.pages.dev/tools/compare-images",
+      applicationCategory: "MultimediaApplication",
+      operatingSystem: "Any",
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "USD",
+      },
+      description: description,
+      featureList:
+        "Side-by-side image comparison, interactive split comparison slider, visual compression check, Squoosh style preview",
+    })}
+  />
+  <div class="min-h-[80vh] py-8">
     <ComparisonSliderApp client:load />
-  </main>
+  </div>
 </BaseLayout>

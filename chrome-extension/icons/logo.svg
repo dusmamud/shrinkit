@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" fill="none">
+  <defs>
+    <linearGradient id="squeezeBlue" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4AA8FF"/>
+      <stop offset="45%" stop-color="#1E8AFF"/>
+      <stop offset="100%" stop-color="#0B5FFF"/>
+    </linearGradient>
+  </defs>
+  <!-- SQUEEZED IMAGE: wide top + bottom, pinched middle. Centered at (512,512), margins ~152px. -->
+  <path d="M 210 152 L 814 152 Q 862 152 862 200 C 862 300 780 400 732 512 C 780 624 862 724 862 824 Q 862 872 814 872 L 210 872 Q 162 872 162 824 C 162 724 244 624 292 512 C 244 400 162 300 162 200 Q 162 152 210 152 Z" fill="url(#squeezeBlue)"/>
+  <!-- ONE large bold mountain silhouette, white, sits in lower half so pinch stays visible -->
+  <path d="M 280 722 L 475 500 C 495 472 529 472 549 500 L 744 722 Z" fill="#FFFFFF"/>
+</svg>

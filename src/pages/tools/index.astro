@@ -41,7 +41,27 @@ const tools = [
 ---
 
 <BaseLayout locale={locale} path="/tools" title={title} description={description}>
-  <main class="mx-auto max-w-5xl px-4 py-12 sm:px-6">
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: title,
+      description: description,
+      url: "https://shrinkit.pages.dev/tools",
+      mainEntity: {
+        "@type": "ItemList",
+        itemListElement: tools.map((t, idx) => ({
+          "@type": "ListItem",
+          position: idx + 1,
+          name: t.title,
+          url: `https://shrinkit.pages.dev${t.href}`,
+          description: t.desc,
+        })),
+      },
+    })}
+  />
+  <div class="mx-auto max-w-5xl px-4 py-12 sm:px-6">
     <div class="text-center mb-12">
       <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-tink mb-3">
         Free Online Image Optimization Tools
@@ -75,5 +95,5 @@ const tools = [
         </a>
       ))}
     </div>
-  </main>
+  </div>
 </BaseLayout>

@@ -9,7 +9,26 @@ const description =
 ---
 
 <BaseLayout locale={locale} path="/tools/social-media-resizer" title={title} description={description}>
-  <main class="min-h-[80vh] py-8">
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      name: "Social Media Image Resizer Online Free",
+      url: "https://shrinkit.pages.dev/tools/social-media-resizer",
+      applicationCategory: "MultimediaApplication",
+      operatingSystem: "Any",
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "USD",
+      },
+      description: description,
+      featureList:
+        "Instagram square 1080x1080, Instagram story 1080x1920, YouTube thumbnail 1280x720, Twitter post, LinkedIn banner resizer",
+    })}
+  />
+  <div class="min-h-[80vh] py-8">
     <SocialResizerApp client:load />
-  </main>
+  </div>
 </BaseLayout>
