@@ -1,5 +1,5 @@
-import { useState, useCallback } from "react";
-import { Check, Copy, Download, FileImage, Trash, WarningCircle } from "@phosphor-icons/react";
+import { useState, useCallback, useEffect } from "react";
+import { Check, Copy, Download, FileImage, Trash, WarningCircle, CaretDown } from "@phosphor-icons/react";
 import { t } from "../../lib/i18n";
 import type { Locale } from "../../lib/locales";
 import { formatBytes, percentSaved } from "../../lib/image/filenames";
@@ -97,6 +97,15 @@ export default function ResultPanel({
   zipping,
 }: ResultPanelProps) {
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [menuOpenId, setMenuOpenId] = useState<string | null>(null);
+
+  // Close dropdown menu when clicking anywhere outside
+  useEffect(() => {
+    if (!menuOpenId) return;
+    const close = () => setMenuOpenId(null);
+    window.addEventListener("click", close);
+    return () => window.removeEventListener("click", close);
+  }, [menuOpenId]);
 
   const handleCopy = useCallback(async (item: QueueItem) => {
     if (!item.result) return;
@@ -118,104 +127,125 @@ export default function ResultPanel({
   return (
     <section
       data-testid="result-panel"
-      className="mt-8 rounded-[4px] border border-tlinemid bg-tsectionbg p-6"
+      className="mt-10 mx-auto w-full max-w-[850px] px-3 sm:px-4 text-center"
       aria-live="polite"
     >
-      <h3 className="text-center text-[1.5rem] font-medium text-tink">
+      <h3 className="text-center text-[1.625rem] sm:text-[2rem] font-medium text-tink mb-6">
         {t(locale, "result.title")}
       </h3>
 
       {!multi && (
-        <div className="mt-5 space-y-4">
+        <div className="flex flex-col items-center">
           {done.map((item) => (
             <div
               key={item.id}
               data-testid={`result-row-${item.id}`}
-              className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 rounded-[8px] border border-tlinesoft bg-tsurface p-4 sm:p-5 shadow-xs"
+              className="flex flex-col items-center w-full max-w-[540px]"
             >
-              {/* Image Preview Thumbnail */}
+              {/* Prominent Image Preview - Unboxed & Centered */}
               {item.resultUrl ? (
-                <button
-                  type="button"
-                  onClick={() => onDownload(item)}
-                  title={t(locale, "result.download")}
-                  className="group relative flex h-24 w-24 sm:h-28 sm:w-28 shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-[8px] border border-tline checkerboard bg-tthumb p-1.5 transition hover:border-taccent hover:shadow-sm"
-                >
+                <div className="relative group max-w-full overflow-hidden rounded-[12px] border border-tlinesoft checkerboard bg-tthumb p-2 shadow-sm transition hover:shadow-md">
                   <img
                     src={item.resultUrl}
                     alt={item.result!.fileName}
-                    className="h-full w-full object-contain transition duration-200 group-hover:scale-105"
+                    className="mx-auto max-h-[280px] sm:max-h-[360px] w-auto max-w-full object-contain rounded-[8px]"
                     loading="lazy"
                   />
-                  <span className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 transition group-hover:opacity-100 rounded-[8px]">
-                    <Download size={22} className="text-white drop-shadow-sm" weight="bold" />
-                  </span>
-                </button>
+                </div>
               ) : (
-                <div className="flex h-24 w-24 sm:h-28 sm:w-28 shrink-0 items-center justify-center rounded-[8px] border border-tlinesoft bg-tthumb">
-                  <FileImage size={40} className="text-taccent" weight="light" />
+                <div className="flex h-36 w-36 items-center justify-center rounded-[12px] border border-tlinesoft bg-tthumb">
+                  <FileImage size={48} className="text-taccent" weight="light" />
                 </div>
               )}
 
-              {/* Details */}
-              <div className="min-w-0 flex-1 text-center sm:text-left">
-                <p
-                  className="truncate text-base font-semibold text-tink"
-                  title={item.result!.fileName}
-                >
+              {/* File details */}
+              <div className="mt-4 text-center max-w-full px-2">
+                <p className="truncate text-base sm:text-lg font-semibold text-tink" title={item.result!.fileName}>
                   {item.result!.fileName}
                 </p>
-                <div className="mt-1">
+                <div className="mt-1 flex items-center justify-center">
                   <SizeLine locale={locale} item={item} />
                 </div>
               </div>
 
-              {/* Action Buttons */}
-              <div className="flex w-full sm:w-auto items-center justify-center gap-2">
-                {/* Copy to Clipboard Button */}
-                <button
-                  type="button"
-                  data-testid={`copy-${item.id}`}
-                  onClick={() => handleCopy(item)}
-                  title={
-                    copiedId === item.id ? t(locale, "result.copied") : t(locale, "result.copy")
-                  }
-                  className={`inline-flex items-center justify-center gap-1.5 rounded-[6px] border px-3.5 py-2.5 text-sm font-semibold transition active:scale-[0.98] ${
-                    copiedId === item.id
-                      ? "border-tsuccessline bg-tsuccessbg text-tsuccess"
-                      : "border-tline bg-tsurface text-toptiontext hover:bg-thoverbg hover:border-taccent hover:text-taccent"
-                  }`}
-                >
-                  {copiedId === item.id ? (
-                    <>
-                      <Check size={16} weight="bold" />
-                      <span>{t(locale, "result.copied")}</span>
-                    </>
-                  ) : (
-                    <>
-                      <Copy size={16} weight="regular" />
-                      <span>{t(locale, "result.copy")}</span>
-                    </>
+              {/* Action Buttons: Unified Split Download + Dropdown for Copy */}
+              <div className="mt-5 flex items-center justify-center gap-3 w-full max-w-[340px]">
+                <div className="relative flex flex-1 items-stretch rounded-[8px] shadow-sm">
+                  {/* Main Download Button */}
+                  <button
+                    type="button"
+                    data-testid={`download-${item.id}`}
+                    onClick={() => onDownload(item)}
+                    className="inline-flex flex-1 items-center justify-center gap-2 rounded-l-[8px] bg-tbtna px-6 py-3.5 text-sm sm:text-base font-semibold text-white transition hover:bg-[#0257bf] active:scale-[0.99]"
+                  >
+                    <Download size={18} weight="bold" className="shrink-0" />
+                    <span>{t(locale, "result.download")}</span>
+                  </button>
+
+                  {/* Right side divider */}
+                  <div className="w-[1px] bg-white/25" />
+
+                  {/* Down Arrow Dropdown Toggle */}
+                  <button
+                    type="button"
+                    data-testid={`split-dropdown-${item.id}`}
+                    aria-label={t(locale, "result.copy")}
+                    aria-expanded={menuOpenId === item.id}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setMenuOpenId(menuOpenId === item.id ? null : item.id);
+                    }}
+                    className="inline-flex items-center justify-center rounded-r-[8px] bg-tbtna px-3.5 py-3.5 text-white transition hover:bg-[#0257bf] active:scale-[0.99]"
+                  >
+                    <CaretDown
+                      size={16}
+                      weight="bold"
+                      className={`transition-transform duration-200 ${menuOpenId === item.id ? "rotate-180" : ""}`}
+                    />
+                  </button>
+
+                  {/* Dropdown Menu (Copy to Clipboard) */}
+                  {menuOpenId === item.id && (
+                    <div
+                      className="absolute right-0 top-full mt-2 z-30 w-52 rounded-[8px] border border-tlinesoft bg-tsurface p-1.5 shadow-xl animate-in fade-in zoom-in-95"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <button
+                        type="button"
+                        data-testid={`copy-${item.id}`}
+                        onClick={() => {
+                          handleCopy(item);
+                          setTimeout(() => setMenuOpenId(null), 1200);
+                        }}
+                        className={`flex w-full items-center gap-2.5 rounded-[6px] px-3.5 py-2.5 text-sm font-medium transition ${
+                          copiedId === item.id
+                            ? "bg-tsuccessbg text-tsuccess font-semibold"
+                            : "text-tink hover:bg-thoverbg"
+                        }`}
+                      >
+                        {copiedId === item.id ? (
+                          <>
+                            <Check size={18} weight="bold" className="text-tsuccess" />
+                            <span>{t(locale, "result.copied")}</span>
+                          </>
+                        ) : (
+                          <>
+                            <Copy size={18} weight="regular" />
+                            <span>{t(locale, "result.copy")}</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
                   )}
-                </button>
+                </div>
 
-                {/* Download Button */}
-                <button
-                  type="button"
-                  data-testid={`download-${item.id}`}
-                  onClick={() => onDownload(item)}
-                  className="inline-flex items-center justify-center gap-2 rounded-[6px] bg-tbtna px-5 py-2.5 text-sm font-semibold text-white shadow-xs transition hover:bg-[#0257bf] active:scale-[0.98]"
-                >
-                  <Download size={16} weight="bold" />
-                  {t(locale, "result.download")}
-                </button>
-
-                {/* Remove Button */}
+                {/* Remove / Clear single image button */}
                 <button
                   type="button"
                   onClick={() => onRemove(item.id)}
                   aria-label={`${t(locale, "result.remove")}: ${item.file.name}`}
-                  className="shrink-0 rounded-full p-2 text-tmuted transition hover:bg-ttrashhover hover:text-terror"
+                  className="shrink-0 rounded-full p-2.5 text-tmuted transition hover:bg-ttrashhover hover:text-terror"
+                  title={t(locale, "result.remove")}
                 >
                   <Trash size={18} />
                 </button>
@@ -227,45 +257,58 @@ export default function ResultPanel({
 
       {multi && (
         <>
-          <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+          <div className="mt-6 grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-3 lg:grid-cols-4">
             {done.map((item) => (
               <div
                 key={item.id}
                 data-testid={`result-card-${item.id}`}
-                className="relative rounded-[4px] border border-tlinefaint bg-tsurface p-3 text-center"
+                className="relative flex flex-col justify-between rounded-[8px] border border-tlinesoft bg-tsurface p-2.5 sm:p-3 text-center shadow-xs overflow-hidden"
               >
                 <button
                   type="button"
                   onClick={() => onRemove(item.id)}
                   aria-label={`${t(locale, "result.remove")}: ${item.file.name}`}
-                  className="absolute right-1 top-1 rounded-full bg-tsurface/90 p-1 text-tmuted shadow-sm transition hover:text-terror"
+                  className="absolute right-1 top-1 z-10 rounded-full bg-tsurface/90 p-1.5 text-tmuted shadow-sm transition hover:text-terror hover:bg-ttrashhover"
                 >
                   <Trash size={14} />
                 </button>
-                {item.resultUrl ? (
-                  <div className="checkerboard bg-tthumb">
-                    <img
-                      src={item.resultUrl}
-                      alt={item.result!.fileName}
-                      className="mx-auto max-h-[155px] object-contain"
-                      loading="lazy"
-                    />
-                  </div>
-                ) : (
-                  <div className="mx-auto flex max-h-[155px] min-h-[100px] items-center justify-center bg-tthumb">
-                    <FileImage size={40} className="text-taccent" weight="light" />
-                  </div>
-                )}
-                <p
-                  className="clamp-2 mt-2 text-xs font-normal text-tink"
-                  title={item.result!.fileName}
-                >
-                  {item.result!.fileName}
-                </p>
-                <p className="mt-0.5 text-[11px] font-light text-tmuted">
-                  {formatBytes(item.result!.outputBytes)}
-                </p>
-                <div className="mt-2 flex items-center gap-1.5">
+                <div>
+                  {item.resultUrl ? (
+                    <div className="checkerboard bg-tthumb rounded-[6px] overflow-hidden">
+                      <img
+                        src={item.resultUrl}
+                        alt={item.result!.fileName}
+                        className="mx-auto max-h-[120px] sm:max-h-[155px] w-auto max-w-full object-contain"
+                        loading="lazy"
+                      />
+                    </div>
+                  ) : (
+                    <div className="mx-auto flex h-[120px] items-center justify-center bg-tthumb rounded-[6px]">
+                      <FileImage size={36} className="text-taccent" weight="light" />
+                    </div>
+                  )}
+                  <p
+                    className="clamp-2 mt-2 text-xs font-medium text-tink break-words"
+                    title={item.result!.fileName}
+                  >
+                    {item.result!.fileName}
+                  </p>
+                  <p className="mt-0.5 text-[11px] font-light text-tmuted">
+                    {formatBytes(item.result!.outputBytes)}
+                  </p>
+                </div>
+                {/* 2x Grid action buttons - non-overlapping flex layout */}
+                <div className="mt-3 flex items-stretch gap-1.5 w-full min-w-0">
+                  <button
+                    type="button"
+                    data-testid={`download-${item.id}`}
+                    onClick={() => onDownload(item)}
+                    className="inline-flex flex-1 min-w-0 items-center justify-center gap-1 rounded-[6px] bg-tbtna px-2 py-2 text-xs font-semibold text-white transition hover:bg-[#0257bf] active:scale-95"
+                    title={t(locale, "result.download")}
+                  >
+                    <Download size={14} weight="bold" className="shrink-0" />
+                    <span className="truncate">{t(locale, "result.download")}</span>
+                  </button>
                   <button
                     type="button"
                     data-testid={`copy-${item.id}`}
@@ -273,26 +316,17 @@ export default function ResultPanel({
                     title={
                       copiedId === item.id ? t(locale, "result.copied") : t(locale, "result.copy")
                     }
-                    className={`inline-flex items-center justify-center rounded-[6px] border p-2 text-sm font-medium transition active:scale-[0.98] ${
+                    className={`inline-flex shrink-0 items-center justify-center rounded-[6px] border px-2 py-2 text-xs font-medium transition active:scale-95 ${
                       copiedId === item.id
                         ? "border-tsuccessline bg-tsuccessbg text-tsuccess"
-                        : "border-tline bg-tsurface text-toptiontext hover:bg-thoverbg hover:border-taccent hover:text-taccent"
+                        : "border-tline bg-tsurface text-toptiontext hover:bg-thoverbg hover:text-taccent"
                     }`}
                   >
                     {copiedId === item.id ? (
-                      <Check size={15} weight="bold" />
+                      <Check size={14} weight="bold" />
                     ) : (
-                      <Copy size={15} weight="regular" />
+                      <Copy size={14} weight="regular" />
                     )}
-                  </button>
-                  <button
-                    type="button"
-                    data-testid={`download-${item.id}`}
-                    onClick={() => onDownload(item)}
-                    className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-[6px] border border-taccent2 px-3 py-2 text-sm font-medium text-taccent2 transition hover:bg-taccent2 hover:text-white"
-                  >
-                    <Download size={15} weight="bold" />
-                    {t(locale, "result.download")}
                   </button>
                 </div>
               </div>
