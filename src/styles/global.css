@@ -727,6 +727,25 @@ body {
   background: var(--t-swiper-active);
 }
 
+/* Circular View Transition for Theme Switch */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-old(root) {
+  z-index: 1;
+}
+::view-transition-new(root) {
+  z-index: 9999;
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
+  }
+}
+
 /* Scoped theme transitions (~150ms) on themed surfaces only — no global * rule */
 body,
 header,

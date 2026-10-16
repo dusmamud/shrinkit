@@ -222,7 +222,42 @@ const links = [
         try {
           window.localStorage.setItem(KEY, v);
         } catch (e) {}
-        apply(v);
+
+        if (
+          !document.startViewTransition ||
+          window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ) {
+          apply(v);
+          return;
+        }
+
+        var rect = s.getBoundingClientRect();
+        var centerX = rect.left + rect.width / 2;
+        var centerY = rect.top + rect.height / 2;
+        var maxDistance = Math.hypot(
+          Math.max(centerX, window.innerWidth - centerX),
+          Math.max(centerY, window.innerHeight - centerY)
+        );
+
+        var transition = document.startViewTransition(function () {
+          apply(v);
+        });
+
+        transition.ready.then(function () {
+          document.documentElement.animate(
+            {
+              clipPath: [
+                "circle(0px at " + centerX + "px " + centerY + "px)",
+                "circle(" + maxDistance + "px at " + centerX + "px " + centerY + "px)",
+              ],
+            },
+            {
+              duration: 650,
+              easing: "ease-in-out",
+              pseudoElement: "::view-transition-new(root)",
+            }
+          );
+        });
       });
     });
     window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function () {
