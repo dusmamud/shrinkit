@@ -148,7 +148,7 @@ export default function SocialResizerApp() {
           <input
             ref={fileInputRef}
             type="file"
-            accept="image/jpeg,image/png,image/webp,image/jpg"
+            accept="image/jpeg,image/png,image/webp,image/jpg,image/heic,image/heif"
             className="hidden"
             onChange={(e) => e.target.files?.[0] && handleFileChange(e.target.files[0])}
           />
@@ -241,7 +241,7 @@ export default function SocialResizerApp() {
                 <input
                   ref={fileInputRef}
                   type="file"
-                  accept="image/jpeg,image/png,image/webp,image/jpg"
+                  accept="image/jpeg,image/png,image/webp,image/jpg,image/heic,image/heif"
                   className="hidden"
                   onChange={(e) => e.target.files?.[0] && handleFileChange(e.target.files[0])}
                 />

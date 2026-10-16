@@ -10,3 +10,9 @@ export async function gotoApp(page: Page, url = "/") {
   await expect(page.getByTestId("dropzone")).toBeVisible();
   await page.waitForSelector("astro-island:not([ssr])", { timeout: 30_000 });
 }
+
+/** Same hydration wait for the dedicated tools pages (no main dropzone). */
+export async function gotoTool(page: Page, url: string) {
+  await page.goto(url);
+  await page.waitForSelector("astro-island:not([ssr])", { timeout: 30_000 });
+}

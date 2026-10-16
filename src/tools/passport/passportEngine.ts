@@ -1,3 +1,4 @@
+import { decodeBitmapWithHeicFallback } from "../../lib/image/heic";
 /**
  * Standalone Passport & Visa Photo Maker Engine.
  *
@@ -79,7 +80,7 @@ export async function generatePassportPhoto(
   spec: PassportSpec,
   background: "white" | "original" = "white",
 ): Promise<ProcessedPassportPhoto> {
-  const bitmap = await createImageBitmap(file);
+  const bitmap = await decodeBitmapWithHeicFallback(file);
   const srcW = bitmap.width;
   const srcH = bitmap.height;
 

@@ -16,6 +16,10 @@ const content = {
     reqSent: "Requests sent to remote servers",
     bytesTransferred: "Bytes transferred over network",
     storageUsed: "Cloud database storage used",
+    testLabel: "Test it yourself:",
+    testPress: "Press",
+    testOrClick: "or right-click → Inspect →",
+    testTail: "tab. Resize any file and verify that no upload requests are ever fired.",
     cards: [
       {
         title: "Processed Entirely on Your Device",
@@ -39,6 +43,10 @@ const content = {
     reqSent: "Peticiones enviadas a servidores remotos",
     bytesTransferred: "Bytes transferidos por la red",
     storageUsed: "Almacenamiento en base de datos en la nube",
+    testLabel: "Compruébalo tú mismo:",
+    testPress: "Pulsa",
+    testOrClick: "o clic derecho → Inspeccionar →",
+    testTail: "pestaña. Redimensiona cualquier archivo y comprueba que nunca se envía ninguna subida.",
     cards: [
       {
         title: "Procesado totalmente en tu dispositivo",
@@ -62,6 +70,10 @@ const content = {
     reqSent: "Requisições enviadas a servidores remotos",
     bytesTransferred: "Bytes transmitidos pela rede",
     storageUsed: "Espaço usado em banco de dados na nuvem",
+    testLabel: "Teste você mesmo:",
+    testPress: "Pressione",
+    testOrClick: "ou clique com o botão direito → Inspecionar →",
+    testTail: "aba. Redimensione qualquer arquivo e confirme que nenhum upload é feito.",
     cards: [
       {
         title: "Processado totalmente no seu dispositivo",
@@ -152,7 +164,7 @@ const content = {
             </div>
 
             <div class="pt-2 text-[11px] text-tmuted leading-normal">
-              <p>💡 <span class="font-semibold text-tink">Test it yourself:</span> Press <kbd class="px-1.5 py-0.5 rounded bg-tsurface2 border border-tborderfaint font-semibold text-tink">F12</kbd> or right-click &rarr; Inspect &rarr; <strong>Network</strong> tab. Resize any file and verify that no upload requests are ever fired.</p>
+              <p>💡 <span class="font-semibold text-tink">{content.testLabel}</span> {content.testPress} <kbd class="px-1.5 py-0.5 rounded bg-tsurface2 border border-tborderfaint font-semibold text-tink">F12</kbd> {content.testOrClick} <strong>Network</strong> {content.testTail}</p>
             </div>
           </div>
         </div>

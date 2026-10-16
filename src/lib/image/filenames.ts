@@ -29,6 +29,8 @@ export const ACCEPTED_INPUT_EXTENSIONS = [
   "webp",
   "bmp",
   "avif",
+  "heic",
+  "heif",
 ] as const;
 
 export type AcceptedInputExtension = (typeof ACCEPTED_INPUT_EXTENSIONS)[number];
@@ -72,7 +74,7 @@ export function isSupportedInputFileName(fileName: string): boolean {
 export function isSupportedInputFile(file: File): boolean {
   if (file.type && file.type.startsWith("image/")) {
     const sub = file.type.slice(6).toLowerCase();
-    if (["jpeg", "jpg", "png", "gif", "webp", "bmp", "avif"].includes(sub)) {
+    if (["jpeg", "jpg", "png", "gif", "webp", "bmp", "avif", "heic", "heif"].includes(sub)) {
       return true;
     }
   }

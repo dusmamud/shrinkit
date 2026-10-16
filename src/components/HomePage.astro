@@ -24,7 +24,7 @@ const { locale } = Astro.props;
       {t(locale, "hero.title")}
     </h1>
     <p class="mt-2 text-xs sm:text-sm md:text-base text-tmuted font-normal leading-relaxed">
-      {t(locale, "site.tagline")} — 100% private in-browser, zero uploads.
+      {t(locale, "site.tagline")} — {t(locale, "hero.private_note")}
     </p>
   </div>
 </section>

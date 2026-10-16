@@ -17,6 +17,7 @@ import Dropzone from "./Dropzone";
 import SettingsPanel, { type SettingsState } from "./SettingsPanel";
 import ResultPanel, { type QueueItem } from "./ResultPanel";
 import { getDefaultDimensionsForUnit } from "../../lib/image/units";
+import { decodeHeicToPixels, isHeicBytes } from "../../lib/image/heic";
 import { MAX_BATCH, UNIT_LIMITS, DPI_LIMITS, QUALITY_LIMITS } from "../../lib/image/limits";
 
 let idCounter = 0;
@@ -35,8 +36,46 @@ function triggerDownload(url: string, fileName: string): void {
   window.setTimeout(() => URL.revokeObjectURL(url), 30_000);
 }
 
-/** Read dimensions without fully processing — for the thumbnail strip. */
-async function probeDims(file: File): Promise<{ width: number; height: number } | null> {
+/** Render a small JPEG thumbnail from a decoded bitmap. */
+async function renderThumbnailUrl(bmp: ImageBitmap, maxSide: number): Promise<string> {
+  const scale = Math.min(1, maxSide / Math.max(bmp.width, bmp.height));
+  const width = Math.max(1, Math.round(bmp.width * scale));
+  const height = Math.max(1, Math.round(bmp.height * scale));
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return "";
+  ctx.drawImage(bmp, 0, 0, width, height);
+  const blob = await new Promise<Blob | null>((resolve) =>
+    canvas.toBlob(resolve, "image/jpeg", 0.8),
+  );
+  return blob ? URL.createObjectURL(blob) : "";
+}
+
+/**
+ * Read dimensions without fully processing — for the thumbnail strip.
+ * HEIC files also get a rendered JPEG thumbnail, because a raw HEIC
+ * blob URL cannot display in an `<img>` on Chrome / Firefox.
+ */
+async function probeDims(
+  file: File,
+): Promise<{ width: number; height: number; thumbnailUrl?: string } | null> {
+  try {
+    // Sniff only the first bytes — no need to read the whole file.
+    const head = new Uint8Array(await file.slice(0, 64).arrayBuffer());
+    if (isHeicBytes(head)) {
+      const bytes = new Uint8Array(await file.arrayBuffer());
+      const { width, height, data } = await decodeHeicToPixels(bytes);
+      const bmp = await createImageBitmap(new ImageData(data, width, height));
+      const thumbnailUrl = await renderThumbnailUrl(bmp, 320);
+      bmp.close();
+      return { width, height, thumbnailUrl: thumbnailUrl || undefined };
+    }
+  } catch {
+    // Fall through to the normal probe below.
+  }
+
   try {
     if (typeof createImageBitmap === "function") {
       const bmp = await createImageBitmap(file);
@@ -195,6 +234,25 @@ export default function ShrinkItApp({ locale }: ShrinkItAppProps) {
     );
   }, []);
 
+  // Presets from the Formats section (FormatPresets.astro) arrive as a
+  // "shrinkit:apply-preset" event: { format } or { width, height, unit }.
+  useEffect(() => {
+    const handler = (event: Event) => {
+      const detail = (event as CustomEvent).detail as Partial<SettingsState> | undefined;
+      if (!detail || typeof detail !== "object") return;
+      const patch: Partial<SettingsState> = {};
+      if (typeof detail.format === "string") {
+        patch.format = detail.format as SettingsState["format"];
+      }
+      if (typeof detail.width === "string") patch.width = detail.width;
+      if (typeof detail.height === "string") patch.height = detail.height;
+      if (typeof detail.unit === "string") patch.unit = detail.unit as SettingsState["unit"];
+      if (Object.keys(patch).length > 0) patchSettings(patch);
+    };
+    window.addEventListener("shrinkit:apply-preset", handler);
+    return () => window.removeEventListener("shrinkit:apply-preset", handler);
+  }, [patchSettings]);
+
   const addFiles = useCallback(
     (files: File[]) => {
       setFormError(null);
@@ -234,9 +292,22 @@ export default function ShrinkItApp({ locale }: ShrinkItAppProps) {
       for (let idx = 0; idx < fresh.length; idx++) {
         const item = fresh[idx];
         const isFirst = itemsRef.current.length === 0 && idx === 0;
-        void probeDims(item.file).then((dims) => {
-          if (dims) {
-            setItems((prev) => prev.map((i) => (i.id === item.id ? { ...i, dims } : i)));
+        void probeDims(item.file).then((probed) => {
+          if (probed) {
+            const dims = { width: probed.width, height: probed.height };
+            setItems((prev) =>
+              prev.map((i) => {
+                if (i.id !== item.id) return i;
+                // HEIC thumbnails are rendered JPEGs — swap the raw blob
+                // URL (which <img> cannot display) for the rendered one.
+                if (probed.thumbnailUrl) URL.revokeObjectURL(i.previewUrl);
+                return {
+                  ...i,
+                  dims,
+                  previewUrl: probed.thumbnailUrl ?? i.previewUrl,
+                };
+              }),
+            );
             if (isFirst) {
               setSettings((prev) => {
                 if (prev.unit !== "percent") {

@@ -1,3 +1,4 @@
+import { decodeBitmapWithHeicFallback } from "../../lib/image/heic";
 /**
  * Standalone Social Media Resizer Engine.
  *
@@ -85,7 +86,7 @@ export async function resizeForSocial(
   preset: SocialPreset,
   fitMode: "fit-pad" | "crop-fill" = "crop-fill",
 ): Promise<SocialResizeResult> {
-  const bitmap = await createImageBitmap(file);
+  const bitmap = await decodeBitmapWithHeicFallback(file);
   const srcW = bitmap.width;
   const srcH = bitmap.height;
 

@@ -1,3 +1,4 @@
+import { decodeBitmapWithHeicFallback } from "../../lib/image/heic";
 /**
  * Standalone Client-Side Target File Size (KB) Compressor.
  *
@@ -10,6 +11,60 @@ export interface CompressionOptions {
   targetKb: number;
   format?: "image/jpeg" | "image/webp";
   maxDimension?: number;
+  /**
+   * Black & White mode for signatures / scans: converts the image to
+   * grayscale and binarizes it with Otsu's threshold, producing
+   * razor-sharp black-on-white output that compresses far smaller.
+   */
+  blackWhite?: boolean;
+}
+
+/**
+ * Otsu's method: pick the threshold that best separates the grayscale
+ * histogram into two classes, then binarize every pixel to pure
+ * black or pure white. Used for signature / document scans.
+ */
+function applyBlackWhiteThreshold(
+  ctx: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
+  width: number,
+  height: number,
+): void {
+  const imageData = ctx.getImageData(0, 0, width, height);
+  const data = imageData.data;
+  const histogram = new Array<number>(256).fill(0);
+  for (let i = 0; i < data.length; i += 4) {
+    const gray = Math.round(0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2]);
+    histogram[gray]++;
+  }
+  const total = width * height;
+  let sum = 0;
+  for (let i = 0; i < 256; i++) sum += i * histogram[i];
+  let sumB = 0;
+  let wB = 0;
+  let maxVariance = -1;
+  let threshold = 127;
+  for (let i = 0; i < 256; i++) {
+    wB += histogram[i];
+    if (wB === 0) continue;
+    const wF = total - wB;
+    if (wF === 0) break;
+    sumB += i * histogram[i];
+    const mB = sumB / wB;
+    const mF = (sum - sumB) / wF;
+    const variance = wB * wF * (mB - mF) * (mB - mF);
+    if (variance > maxVariance) {
+      maxVariance = variance;
+      threshold = i;
+    }
+  }
+  for (let i = 0; i < data.length; i += 4) {
+    const gray = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
+    const value = gray > threshold ? 255 : 0;
+    data[i] = value;
+    data[i + 1] = value;
+    data[i + 2] = value;
+  }
+  ctx.putImageData(imageData, 0, 0);
 }
 
 export interface CompressionResult {
@@ -34,7 +89,7 @@ export async function compressToTargetKb(
   // 1. Decode image bitmap
   let bitmap: ImageBitmap;
   if (typeof createImageBitmap === "function") {
-    bitmap = await createImageBitmap(file);
+    bitmap = await decodeBitmapWithHeicFallback(file);
   } else {
     bitmap = await new Promise<ImageBitmap>((resolve, reject) => {
       const img = new Image();
@@ -90,6 +145,11 @@ export async function compressToTargetKb(
   ctx.drawImage(bitmap, 0, 0, targetW, targetH);
   if (bitmap && typeof bitmap.close === "function") {
     bitmap.close();
+  }
+
+  // Black & White mode: grayscale + Otsu binarization for signatures/scans.
+  if (options.blackWhite) {
+    applyBlackWhiteThreshold(ctx, targetW, targetH);
   }
 
   // Helper to convert canvas to blob

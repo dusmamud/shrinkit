@@ -14,23 +14,24 @@ const content = {
     subheading: "Convert between all major image formats and export at exact specifications for web, print, and social media.",
     formatsTitle: "Input & Output Formats",
     formatsSubtitle: "Client-side encoding powered by browser Canvas & WebAssembly",
+    inputOnlyLabel: "Input only",
     presetsTitle: "Popular Dimensions Ready to Use",
     presetsSubtitle: "Preset targets supported in our specialized tools",
     formats: [
-      { name: "WebP", tag: "Modern Web", desc: "Up to 35% smaller than JPG with identical visual quality and transparency support." },
-      { name: "JPEG / JPG", tag: "Universal", desc: "The standard for photos with tunable quality compression from 1% to 100%." },
-      { name: "PNG", tag: "Lossless", desc: "Pixel-perfect graphics with full alpha transparency preservation." },
-      { name: "AVIF", tag: "Next-Gen", desc: "Cutting-edge compression standard with superior efficiency for modern browsers." },
-      { name: "HEIC / HEIF", tag: "Apple iPhone", desc: "Decode iPhone camera photos directly without needing cloud conversion." },
-      { name: "GIF & BMP", tag: "Legacy", desc: "Support for classic bitmap frames and simple graphics." },
+      { name: "WebP", output: "webp", tag: "Modern Web", desc: "Up to 35% smaller than JPG with identical visual quality and transparency support." },
+      { name: "JPEG / JPG", output: "jpeg", tag: "Universal", desc: "The standard for photos with tunable quality compression from 1% to 100%." },
+      { name: "PNG", output: "png", tag: "Lossless", desc: "Pixel-perfect graphics with full alpha transparency preservation." },
+      { name: "AVIF", inputOnly: true, tag: "Next-Gen", desc: "Cutting-edge compression standard with superior efficiency for modern browsers." },
+      { name: "HEIC / HEIF", inputOnly: true, tag: "Apple iPhone", desc: "Decode iPhone camera photos directly without needing cloud conversion." },
+      { name: "GIF & BMP", output: "gif", tag: "Legacy", desc: "Support for classic bitmap frames and simple graphics." },
     ],
     presets: [
-      { platform: "Instagram Square", size: "1080 × 1080 px", ratio: "1:1" },
-      { platform: "Instagram Story & Reel", size: "1080 × 1920 px", ratio: "9:16" },
-      { platform: "YouTube Thumbnail", size: "1280 × 720 px", ratio: "16:9" },
-      { platform: "LinkedIn Banner", size: "1584 × 396 px", ratio: "4:1" },
-      { platform: "Passport Photo (Official)", size: "413 × 531 px (35×45mm)", ratio: "300 DPI" },
-      { platform: "Govt Exam Signature", size: "Max 20 KB (Razor Contrast)", ratio: "B&W Scan" },
+      { platform: "Instagram Square", size: "1080 × 1080 px", ratio: "1:1", width: 1080, height: 1080 },
+      { platform: "Instagram Story & Reel", size: "1080 × 1920 px", ratio: "9:16", width: 1080, height: 1920 },
+      { platform: "YouTube Thumbnail", size: "1280 × 720 px", ratio: "16:9", width: 1280, height: 720 },
+      { platform: "LinkedIn Banner", size: "1584 × 396 px", ratio: "4:1", width: 1584, height: 396 },
+      { platform: "Passport Photo (Official)", size: "413 × 531 px (35×45mm)", ratio: "300 DPI", href: "/tools/passport-photo-maker" },
+      { platform: "Govt Exam Signature", size: "Max 20 KB (Razor Contrast)", ratio: "B&W Scan", href: "/tools/compress-to-20kb" },
     ],
   },
   es: {
@@ -39,23 +40,24 @@ const content = {
     subheading: "Convierte entre los principales formatos y exporta con especificaciones exactas para web, impresión y redes sociales.",
     formatsTitle: "Formatos de Entrada y Salida",
     formatsSubtitle: "Codificación local mediante Canvas y WebAssembly",
+    inputOnlyLabel: "Solo entrada",
     presetsTitle: "Dimensiones populares listas para usar",
     presetsSubtitle: "Valores predeterminados disponibles en nuestras herramientas",
     formats: [
-      { name: "WebP", tag: "Web Moderna", desc: "Hasta un 35% más ligero que JPG con idéntica calidad visual y transparencia." },
-      { name: "JPEG / JPG", tag: "Universal", desc: "El estándar para fotografías con calidad ajustable del 1% al 100%." },
-      { name: "PNG", tag: "Sin Pérdida", desc: "Gráficos perfectos con soporte completo para fondos transparentes." },
-      { name: "AVIF", tag: "Próxima Generación", desc: "Compresión de vanguardia con máxima eficiencia para navegadores modernos." },
-      { name: "HEIC / HEIF", tag: "iPhone / Apple", desc: "Decodifica fotos de iPhone directamente sin necesidad de subirlas a la nube." },
-      { name: "GIF y BMP", tag: "Clásico", desc: "Compatibilidad con mapas de bits tradicionales y gráficos sencillos." },
+      { name: "WebP", output: "webp", tag: "Web Moderna", desc: "Hasta un 35% más ligero que JPG con idéntica calidad visual y transparencia." },
+      { name: "JPEG / JPG", output: "jpeg", tag: "Universal", desc: "El estándar para fotografías con calidad ajustable del 1% al 100%." },
+      { name: "PNG", output: "png", tag: "Sin Pérdida", desc: "Gráficos perfectos con soporte completo para fondos transparentes." },
+      { name: "AVIF", inputOnly: true, tag: "Próxima Generación", desc: "Compresión de vanguardia con máxima eficiencia para navegadores modernos." },
+      { name: "HEIC / HEIF", inputOnly: true, tag: "iPhone / Apple", desc: "Decodifica fotos de iPhone directamente sin necesidad de subirlas a la nube." },
+      { name: "GIF y BMP", output: "gif", tag: "Clásico", desc: "Compatibilidad con mapas de bits tradicionales y gráficos sencillos." },
     ],
     presets: [
-      { platform: "Instagram Cuadrado", size: "1080 × 1080 px", ratio: "1:1" },
-      { platform: "Instagram Story y Reel", size: "1080 × 1920 px", ratio: "9:16" },
-      { platform: "Miniatura de YouTube", size: "1280 × 720 px", ratio: "16:9" },
-      { platform: "Banner de LinkedIn", size: "1584 × 396 px", ratio: "4:1" },
-      { platform: "Foto Pasaporte Oficial", size: "413 × 531 px (35×45mm)", ratio: "300 DPI" },
-      { platform: "Firma para Formularios", size: "Máx 20 KB (Alto Contraste)", ratio: "B/N" },
+      { platform: "Instagram Cuadrado", size: "1080 × 1080 px", ratio: "1:1", width: 1080, height: 1080 },
+      { platform: "Instagram Story y Reel", size: "1080 × 1920 px", ratio: "9:16", width: 1080, height: 1920 },
+      { platform: "Miniatura de YouTube", size: "1280 × 720 px", ratio: "16:9", width: 1280, height: 720 },
+      { platform: "Banner de LinkedIn", size: "1584 × 396 px", ratio: "4:1", width: 1584, height: 396 },
+      { platform: "Foto Pasaporte Oficial", size: "413 × 531 px (35×45mm)", ratio: "300 DPI", href: "/tools/passport-photo-maker" },
+      { platform: "Firma para Formularios", size: "Máx 20 KB (Alto Contraste)", ratio: "B/N", href: "/tools/compress-to-20kb" },
     ],
   },
   pt: {
@@ -64,23 +66,24 @@ const content = {
     subheading: "Converta entre os principais formatos e exporte com especificações exatas para web, impressão e redes sociais.",
     formatsTitle: "Formatos de Entrada e Saída",
     formatsSubtitle: "Codificação no navegador via Canvas e WebAssembly",
+    inputOnlyLabel: "Somente entrada",
     presetsTitle: "Dimensões populares prontas para uso",
     presetsSubtitle: "Metas predefinidas em nossas ferramentas dedicadas",
     formats: [
-      { name: "WebP", tag: "Web Moderna", desc: "Até 35% menor que JPG com a mesma qualidade visual e suporte a transparência." },
-      { name: "JPEG / JPG", tag: "Universal", desc: "O padrão para fotos com controle de compressão de 1% a 100%." },
-      { name: "PNG", tag: "Sem Perda", desc: "Imagens com fidelidade absoluta de pixels e canal alfa transparente." },
-      { name: "AVIF", tag: "Nova Geração", desc: "Padrão de compressão ultraeficiente para navegadores modernos." },
-      { name: "HEIC / HEIF", tag: "Apple iPhone", desc: "Abra fotos da câmera do iPhone sem precisar enviar para a nuvem." },
-      { name: "GIF e BMP", tag: "Legado", desc: "Suporte para arquivos de bitmap e animações simples." },
+      { name: "WebP", output: "webp", tag: "Web Moderna", desc: "Até 35% menor que JPG com a mesma qualidade visual e suporte a transparência." },
+      { name: "JPEG / JPG", output: "jpeg", tag: "Universal", desc: "O padrão para fotos com controle de compressão de 1% a 100%." },
+      { name: "PNG", output: "png", tag: "Sem Perda", desc: "Imagens com fidelidade absoluta de pixels e canal alfa transparente." },
+      { name: "AVIF", inputOnly: true, tag: "Nova Geração", desc: "Padrão de compressão ultraeficiente para navegadores modernos." },
+      { name: "HEIC / HEIF", inputOnly: true, tag: "Apple iPhone", desc: "Abra fotos da câmera do iPhone sem precisar enviar para a nuvem." },
+      { name: "GIF e BMP", output: "gif", tag: "Legado", desc: "Suporte para arquivos de bitmap e animações simples." },
     ],
     presets: [
-      { platform: "Instagram Quadrado", size: "1080 × 1080 px", ratio: "1:1" },
-      { platform: "Instagram Story e Reel", size: "1080 × 1920 px", ratio: "9:16" },
-      { platform: "Miniatura do YouTube", size: "1280 × 720 px", ratio: "16:9" },
-      { platform: "Banner do LinkedIn", size: "1584 × 396 px", ratio: "4:1" },
-      { platform: "Foto de Passaporte Oficial", size: "413 × 531 px (35×45mm)", ratio: "300 DPI" },
-      { platform: "Assinatura para Concursos", size: "Máx 20 KB (Alto Contraste)", ratio: "P&B" },
+      { platform: "Instagram Quadrado", size: "1080 × 1080 px", ratio: "1:1", width: 1080, height: 1080 },
+      { platform: "Instagram Story e Reel", size: "1080 × 1920 px", ratio: "9:16", width: 1080, height: 1920 },
+      { platform: "Miniatura do YouTube", size: "1280 × 720 px", ratio: "16:9", width: 1280, height: 720 },
+      { platform: "Banner do LinkedIn", size: "1584 × 396 px", ratio: "4:1", width: 1584, height: 396 },
+      { platform: "Foto de Passaporte Oficial", size: "413 × 531 px (35×45mm)", ratio: "300 DPI", href: "/tools/passport-photo-maker" },
+      { platform: "Assinatura para Concursos", size: "Máx 20 KB (Alto Contraste)", ratio: "P&B", href: "/tools/compress-to-20kb" },
     ],
   },
 }[locale];
@@ -111,19 +114,37 @@ const content = {
       <p class="text-xs sm:text-sm text-tmuted mb-5">{content.formatsSubtitle}</p>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {content.formats.map((fmt) => (
-          <div class="rounded-xl border border-tborderfaint bg-tsurface p-5 transition duration-200 hover:border-taccent/50 hover:shadow-sm">
-            <div class="flex items-center justify-between mb-2">
-              <span class="font-bold text-base text-tink">{fmt.name}</span>
-              <span class="text-[11px] font-semibold text-taccent bg-taccent/10 px-2 py-0.5 rounded-md">
-                {fmt.tag}
-              </span>
+        {content.formats.map((fmt) =>
+          "output" in fmt ? (
+            <button
+              type="button"
+              data-format={fmt.output}
+              class="w-full cursor-pointer rounded-xl border border-tborderfaint bg-tsurface p-5 text-left transition duration-200 hover:border-taccent/50 hover:shadow-sm active:scale-[0.99]"
+            >
+              <div class="flex items-center justify-between mb-2">
+                <span class="font-bold text-base text-tink">{fmt.name}</span>
+                <span class="text-[11px] font-semibold text-taccent bg-taccent/10 px-2 py-0.5 rounded-md">
+                  {fmt.tag}
+                </span>
+              </div>
+              <p class="text-xs text-tmuted leading-relaxed">
+                {fmt.desc}
+              </p>
+            </button>
+          ) : (
+            <div class="rounded-xl border border-tborderfaint bg-tsurface p-5 transition duration-200 hover:border-taccent/50 hover:shadow-sm">
+              <div class="flex items-center justify-between mb-2">
+                <span class="font-bold text-base text-tink">{fmt.name}</span>
+                <span class="text-[11px] font-semibold text-taccent bg-taccent/10 px-2 py-0.5 rounded-md">
+                  {fmt.tag} · {content.inputOnlyLabel}
+                </span>
+              </div>
+              <p class="text-xs text-tmuted leading-relaxed">
+                {fmt.desc}
+              </p>
             </div>
-            <p class="text-xs text-tmuted leading-relaxed">
-              {fmt.desc}
-            </p>
-          </div>
-        ))}
+          ),
+        )}
       </div>
     </div>
 
@@ -133,18 +154,65 @@ const content = {
       <p class="text-xs sm:text-sm text-tmuted mb-5">{content.presetsSubtitle}</p>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        {content.presets.map((preset) => (
-          <div class="flex items-center justify-between p-3 rounded-lg bg-tsurface border border-tborderfaint text-xs">
-            <div>
-              <span class="font-semibold text-tink block">{preset.platform}</span>
-              <span class="text-tmuted font-mono text-[11px]">{preset.size}</span>
-            </div>
-            <span class="text-[11px] font-medium text-tpilltext bg-tpillbg border border-tpillline px-2 py-0.5 rounded">
-              {preset.ratio}
-            </span>
-          </div>
-        ))}
+        {content.presets.map((preset) =>
+          "href" in preset ? (
+            <a
+              href={preset.href}
+              class="flex items-center justify-between p-3 rounded-lg bg-tsurface border border-tborderfaint text-xs transition duration-200 hover:border-taccent/50 hover:shadow-sm"
+            >
+              <div>
+                <span class="font-semibold text-tink block">{preset.platform}</span>
+                <span class="text-tmuted font-mono text-[11px]">{preset.size}</span>
+              </div>
+              <span class="text-[11px] font-medium text-tpilltext bg-tpillbg border border-tpillline px-2 py-0.5 rounded">
+                {preset.ratio}
+              </span>
+            </a>
+          ) : (
+            <button
+              type="button"
+              data-dims-width={preset.width}
+              data-dims-height={preset.height}
+              class="flex w-full cursor-pointer items-center justify-between p-3 rounded-lg bg-tsurface border border-tborderfaint text-left text-xs transition duration-200 hover:border-taccent/50 hover:shadow-sm active:scale-[0.99]"
+            >
+              <div>
+                <span class="font-semibold text-tink block">{preset.platform}</span>
+                <span class="text-tmuted font-mono text-[11px]">{preset.size}</span>
+              </div>
+              <span class="text-[11px] font-medium text-tpilltext bg-tpillbg border border-tpillline px-2 py-0.5 rounded">
+                {preset.ratio}
+              </span>
+            </button>
+          ),
+        )}
       </div>
     </div>
   </div>
 </section>
+
+<script>
+  // Forward preset clicks to the main tool: it listens for
+  // "shrinkit:apply-preset" and applies the format / dimensions.
+  document.querySelectorAll("[data-format]").forEach((el) => {
+    el.addEventListener("click", () => {
+      const format = (el as HTMLElement).dataset.format;
+      if (format) {
+        window.dispatchEvent(new CustomEvent("shrinkit:apply-preset", { detail: { format } }));
+        document.getElementById("tool")?.scrollIntoView({ behavior: "smooth" });
+      }
+    });
+  });
+  document.querySelectorAll("[data-dims-width]").forEach((el) => {
+    el.addEventListener("click", () => {
+      const { dimsWidth, dimsHeight } = (el as HTMLElement).dataset;
+      if (dimsWidth && dimsHeight) {
+        window.dispatchEvent(
+          new CustomEvent("shrinkit:apply-preset", {
+            detail: { width: dimsWidth, height: dimsHeight, unit: "pixels" },
+          }),
+        );
+        document.getElementById("tool")?.scrollIntoView({ behavior: "smooth" });
+      }
+    });
+  });
+</script>

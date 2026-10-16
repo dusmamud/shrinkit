@@ -1,3 +1,4 @@
+import { decodeBitmapWithHeicFallback } from "../../lib/image/heic";
 import { useState, useRef, useCallback } from "react";
 import { UploadSimple, SlidersHorizontal, Trash, FileArrowDown } from "@phosphor-icons/react";
 
@@ -18,7 +19,7 @@ export default function ComparisonSliderApp() {
   const compressImage = useCallback(
     async (file: File, q: number) => {
       setProcessing(true);
-      const bitmap = await createImageBitmap(file);
+      const bitmap = await decodeBitmapWithHeicFallback(file);
       const canvas = document.createElement("canvas");
       canvas.width = bitmap.width;
       canvas.height = bitmap.height;
@@ -104,7 +105,7 @@ export default function ComparisonSliderApp() {
           <input
             ref={fileInputRef}
             type="file"
-            accept="image/jpeg,image/png,image/webp,image/jpg"
+            accept="image/jpeg,image/png,image/webp,image/jpg,image/heic,image/heif"
             className="hidden"
             onChange={(e) => e.target.files?.[0] && handleFileChange(e.target.files[0])}
           />
@@ -241,7 +242,7 @@ export default function ComparisonSliderApp() {
             <input
               ref={fileInputRef}
               type="file"
-              accept="image/jpeg,image/png,image/webp,image/jpg"
+              accept="image/jpeg,image/png,image/webp,image/jpg,image/heic,image/heif"
               className="hidden"
               onChange={(e) => e.target.files?.[0] && handleFileChange(e.target.files[0])}
             />

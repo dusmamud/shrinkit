@@ -28,6 +28,18 @@ export default defineConfig({
     optimizeDeps: {
       include: ["piexifjs", "exifr", "pica", "gifenc", "jszip"],
     },
+    build: {
+      rolldownOptions: {
+        output: {
+          // One shared lazy chunk for the HEIC decoder: the main app and
+          // the tools pages all import it, and without this Rolldown
+          // emits a separate 2 MB copy per entry.
+          manualChunks: (id) => {
+            if (id.includes("libheif-js")) return "heic-decoder";
+          },
+        },
+      },
+    },
     worker: {
       format: "es",
     },

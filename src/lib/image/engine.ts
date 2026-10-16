@@ -41,6 +41,7 @@ import { toPixels, cropRect, fitDims, type SizeUnit } from "./units";
 import { checkInputDimensions, checkOutputDimensions } from "./limits";
 import { injectJpegDpi, injectPngDpi, preserveJpegExif } from "./dpi";
 import { outputFileName, type OutputFormat } from "./filenames";
+import { decodeHeicToPixels, isHeicBytes } from "./heic";
 
 export type { OutputFormat };
 
@@ -159,7 +160,23 @@ async function decodeNormalized(
     });
     return { source: bmp, width: bmp.width, height: bmp.height };
   } catch {
-    // Fall through to the manual path below.
+    // Fall through to the HEIC / manual paths below.
+  }
+
+  // HEIC: native decode failed (Chrome / Firefox / Edge have no HEIC
+  // decoder — only Safari 17+ does). Decode via the lazy WASM fallback
+  // instead of the manual path, which would fail again on the same file.
+  if (isHeicBytes(input)) {
+    try {
+      const { width, height, data } = await decodeHeicToPixels(input);
+      const bmp = await createImageBitmap(new ImageData(data, width, height));
+      return { source: bmp, width: bmp.width, height: bmp.height };
+    } catch {
+      throw new ProcessError(
+        "decode-failed",
+        "This HEIC file could not be decoded. It may use an unsupported HEIC variant.",
+      );
+    }
   }
 
   let bmp: ImageBitmap;

@@ -7,8 +7,6 @@ interface Props {
 
 const { locale } = Astro.props;
 
-const prefix = locale === "en" ? "" : `/${locale}`;
-
 const content = {
   en: {
     badge: "Specialized Tools",
@@ -19,35 +17,35 @@ const content = {
     tools: [
       {
         title: "Compress to 50 KB",
-        href: `${prefix}/tools/compress-to-50kb`,
+        href: `/tools/compress-to-50kb`,
         badge: "Govt Portals",
         metric: "< 50 KB",
         desc: "Strictly compress photos for UPSC, SSC, IBPS, and state government application forms without blurring faces.",
       },
       {
         title: "Signature to 20 KB",
-        href: `${prefix}/tools/compress-to-20kb`,
+        href: `/tools/compress-to-20kb`,
         badge: "Signatures & IDs",
         metric: "< 20 KB",
         desc: "Reduce signature and thumb-impression scans to under 20KB with razor-sharp black/white contrast.",
       },
       {
         title: "Passport Photo Maker",
-        href: `${prefix}/tools/passport-photo-maker`,
+        href: `/tools/passport-photo-maker`,
         badge: "300 DPI Official",
         metric: "35×45 mm",
         desc: "Format portrait photos to official 35×45mm or 2×2 inch standards with pure white background and 300 DPI.",
       },
       {
         title: "Social Media Resizer",
-        href: `${prefix}/tools/social-media-resizer`,
+        href: `/tools/social-media-resizer`,
         badge: "2026 Standards",
         metric: "9:16 · 1:1 · 16:9",
         desc: "One-click presets for Instagram Square, Story/Reel (9:16), YouTube thumbnails, and LinkedIn banners.",
       },
       {
         title: "Before vs After Comparison",
-        href: `${prefix}/tools/compare-images`,
+        href: `/tools/compare-images`,
         badge: "Visual Inspection",
         metric: "Split Slider",
         desc: "Interactive split-screen slider to inspect compression quality side-by-side with original photos.",
@@ -63,35 +61,35 @@ const content = {
     tools: [
       {
         title: "Comprimir a 50 KB",
-        href: `${prefix}/tools/compress-to-50kb`,
+        href: `/tools/compress-to-50kb`,
         badge: "Portales Oficiales",
         metric: "< 50 KB",
         desc: "Comprime fotos estrictamente por debajo de 50KB para solicitudes oficiales sin perder nitidez.",
       },
       {
         title: "Firma a 20 KB",
-        href: `${prefix}/tools/compress-to-20kb`,
+        href: `/tools/compress-to-20kb`,
         badge: "Firmas y DNI",
         metric: "< 20 KB",
         desc: "Reduce firmas y huellas dactilares a menos de 20KB con alto contraste en blanco y negro.",
       },
       {
         title: "Creador de Fotos Pasaporte",
-        href: `${prefix}/tools/passport-photo-maker`,
+        href: `/tools/passport-photo-maker`,
         badge: "300 DPI Oficial",
         metric: "35×45 mm",
         desc: "Formatea fotos a estándares de 35×45mm o 2×2 pulgadas con fondo blanco puro y 300 DPI.",
       },
       {
         title: "Redimensionador de Redes Sociales",
-        href: `${prefix}/tools/social-media-resizer`,
+        href: `/tools/social-media-resizer`,
         badge: "Estándares 2026",
         metric: "9:16 · 1:1 · 16:9",
         desc: "Ajustes de un clic para Instagram, Reels/Stories (9:16), miniaturas de YouTube y banners de LinkedIn.",
       },
       {
         title: "Comparación Antes y Después",
-        href: `${prefix}/tools/compare-images`,
+        href: `/tools/compare-images`,
         badge: "Inspección Visual",
         metric: "Slider Dividido",
         desc: "Control deslizante interactivo para comparar la calidad de compresión junto a la foto original.",
@@ -107,35 +105,35 @@ const content = {
     tools: [
       {
         title: "Comprimir para 50 KB",
-        href: `${prefix}/tools/compress-to-50kb`,
+        href: `/tools/compress-to-50kb`,
         badge: "Portais Oficiais",
         metric: "< 50 KB",
         desc: "Comprima fotos estritamente para menos de 50KB para formulários governamentais sem perder nitidez.",
       },
       {
         title: "Assinatura para 20 KB",
-        href: `${prefix}/tools/compress-to-20kb`,
+        href: `/tools/compress-to-20kb`,
         badge: "Assinaturas e RG",
         metric: "< 20 KB",
         desc: "Reduza assinaturas e impressões digitais para menos de 20KB com contraste nítido em preto e branco.",
       },
       {
         title: "Criador de Fotos de Passaporte",
-        href: `${prefix}/tools/passport-photo-maker`,
+        href: `/tools/passport-photo-maker`,
         badge: "300 DPI Oficial",
         metric: "35×45 mm",
         desc: "Formate retratos no padrão oficial de 35×45mm ou 2×2 polegadas com fundo branco puro e 300 DPI.",
       },
       {
         title: "Redimensionador de Redes Sociais",
-        href: `${prefix}/tools/social-media-resizer`,
+        href: `/tools/social-media-resizer`,
         badge: "Padrões 2026",
         metric: "9:16 · 1:1 · 16:9",
         desc: "Predefinições para Instagram, Stories/Reels (9:16), miniaturas do YouTube e banners do LinkedIn.",
       },
       {
         title: "Comparação Antes e Depois",
-        href: `${prefix}/tools/compare-images`,
+        href: `/tools/compare-images`,
         badge: "Inspeção Visual",
         metric: "Slider Dividido",
         desc: "Controle deslizante interativo para inspecionar a qualidade da compressão lado a lado.",
@@ -164,7 +162,7 @@ const content = {
       </div>
 
       <a
-        href={`${prefix}/tools`}
+        href={`/tools`}
         class="inline-flex items-center gap-2 self-start md:self-end text-sm font-semibold text-taccent hover:underline group"
       >
         <span>{content.allTools}</span>

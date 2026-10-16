@@ -13,14 +13,18 @@ interface TargetSizeAppProps {
   initialTargetKb?: number;
   title?: string;
   subtitle?: string;
+  /** Show the Black & White (signature) toggle. Used by the 20KB tool. */
+  enableBlackWhite?: boolean;
 }
 
 export default function TargetSizeApp({
   initialTargetKb = 50,
   title = "Compress Image to Exact KB",
   subtitle = "Reduce image file size below strict limits for government exam portals, job forms, and visas without losing clarity.",
+  enableBlackWhite = false,
 }: TargetSizeAppProps) {
   const [targetKb, setTargetKb] = useState<number>(initialTargetKb);
+  const [blackWhite, setBlackWhite] = useState<boolean>(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [processing, setProcessing] = useState<boolean>(false);
@@ -43,7 +47,7 @@ export default function TargetSizeApp({
       // Auto compress immediately on upload
       setProcessing(true);
       try {
-        const res = await compressToTargetKb(file, { targetKb });
+        const res = await compressToTargetKb(file, { targetKb, blackWhite });
         setResult(res);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Compression failed");
@@ -51,7 +55,7 @@ export default function TargetSizeApp({
         setProcessing(false);
       }
     },
-    [targetKb],
+    [targetKb, blackWhite],
   );
 
   const handleTargetChange = async (newKb: number) => {
@@ -60,7 +64,23 @@ export default function TargetSizeApp({
       setProcessing(true);
       setError(null);
       try {
-        const res = await compressToTargetKb(selectedFile, { targetKb: newKb });
+        const res = await compressToTargetKb(selectedFile, { targetKb: newKb, blackWhite });
+        setResult(res);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Compression failed");
+      } finally {
+        setProcessing(false);
+      }
+    }
+  };
+
+  const handleBlackWhiteChange = async (value: boolean) => {
+    setBlackWhite(value);
+    if (selectedFile) {
+      setProcessing(true);
+      setError(null);
+      try {
+        const res = await compressToTargetKb(selectedFile, { targetKb, blackWhite: value });
         setResult(res);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Compression failed");
@@ -135,6 +155,17 @@ export default function TargetSizeApp({
             <span className="text-xs font-semibold text-tink">KB</span>
           </div>
         </div>
+        {enableBlackWhite && (
+          <label className="mt-3 inline-flex cursor-pointer items-center gap-2 text-sm font-medium text-tink">
+            <input
+              type="checkbox"
+              checked={blackWhite}
+              onChange={(e) => handleBlackWhiteChange(e.target.checked)}
+              className="h-4 w-4 accent-[#016df0]"
+            />
+            Black &amp; White — sharp contrast for signatures &amp; scans
+          </label>
+        )}
       </div>
 
       {/* Main Upload / Dropzone */}
@@ -148,7 +179,7 @@ export default function TargetSizeApp({
           <input
             ref={fileInputRef}
             type="file"
-            accept="image/jpeg,image/png,image/webp,image/jpg"
+            accept="image/jpeg,image/png,image/webp,image/jpg,image/heic,image/heif"
             className="hidden"
             onChange={(e) => e.target.files?.[0] && handleFileChange(e.target.files[0])}
           />
@@ -263,7 +294,7 @@ export default function TargetSizeApp({
                 <input
                   ref={fileInputRef}
                   type="file"
-                  accept="image/jpeg,image/png,image/webp,image/jpg"
+                  accept="image/jpeg,image/png,image/webp,image/jpg,image/heic,image/heif"
                   className="hidden"
                   onChange={(e) => e.target.files?.[0] && handleFileChange(e.target.files[0])}
                 />
