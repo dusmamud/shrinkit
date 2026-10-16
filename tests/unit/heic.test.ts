@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
-import { decodeHeicToPixels, isHeicBytes } from "../../src/lib/image/heic";
+import { decodeHeicToPixels, isBmffImage, isHeicBytes } from "../../src/lib/image/heic";
 
 /** Minimal ISO-BMFF buffer: size + "ftyp" + major brand + minor + 1 compatible brand. */
 function ftyp(major: string, compatible: string[] = []): Uint8Array {
@@ -50,7 +50,39 @@ describe("isHeicBytes", () => {
   });
 });
 
+describe("isBmffImage", () => {
+  it("matches any ftyp container, whatever brand it carries", () => {
+    expect(isBmffImage(ftyp("heic"))).toBe(true);
+    expect(isBmffImage(ftyp("heif"))).toBe(true);
+    expect(isBmffImage(ftyp("mif1"))).toBe(true);
+    expect(isBmffImage(ftyp("avif"))).toBe(true);
+  });
+
+  it("does NOT match JPEG / PNG / empty input", () => {
+    expect(isBmffImage(new Uint8Array([0xff, 0xd8, 0xff, 0xe0, 0, 0, 0, 0, 0, 0, 0, 0]))).toBe(
+      false,
+    );
+    expect(isBmffImage(new Uint8Array([]))).toBe(false);
+  });
+
+  it("matches the heif-major variant (no heic brand anywhere in ftyp)", () => {
+    const sample = readFileSync(path.resolve(__dirname, "fixtures/heif-brand.heic"));
+    const bytes = new Uint8Array(sample);
+    // The strict brand check misses this file — that was the bug.
+    expect(isHeicBytes(bytes)).toBe(false);
+    expect(isBmffImage(bytes)).toBe(true);
+  });
+});
+
 describe("decodeHeicToPixels", () => {
+  it("decodes the heif-major variant (Canon .HIF style) to RGBA pixels", async () => {
+    const sample = readFileSync(path.resolve(__dirname, "fixtures/heif-brand.heic"));
+    const { width, height, data } = await decodeHeicToPixels(new Uint8Array(sample));
+    expect(width).toBe(1440);
+    expect(height).toBe(960);
+    expect(data.length).toBe(1440 * 960 * 4);
+  }, 60_000);
+
   it("decodes a real HEIC photo to RGBA pixels", async () => {
     const sample = readFileSync(path.resolve(__dirname, "fixtures/sample.heic"));
     const { width, height, data } = await decodeHeicToPixels(new Uint8Array(sample));

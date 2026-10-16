@@ -17,7 +17,7 @@ import Dropzone from "./Dropzone";
 import SettingsPanel, { type SettingsState } from "./SettingsPanel";
 import ResultPanel, { type QueueItem } from "./ResultPanel";
 import { getDefaultDimensionsForUnit } from "../../lib/image/units";
-import { decodeHeicToPixels, isHeicBytes } from "../../lib/image/heic";
+import { decodeHeicToPixels, isBmffImage, isHeicBytes } from "../../lib/image/heic";
 import { MAX_BATCH, UNIT_LIMITS, DPI_LIMITS, QUALITY_LIMITS } from "../../lib/image/limits";
 
 let idCounter = 0;
@@ -64,7 +64,7 @@ async function probeDims(
   try {
     // Sniff only the first bytes — no need to read the whole file.
     const head = new Uint8Array(await file.slice(0, 64).arrayBuffer());
-    if (isHeicBytes(head)) {
+    if (isHeicBytes(head) || isBmffImage(head)) {
       const bytes = new Uint8Array(await file.arrayBuffer());
       const { width, height, data } = await decodeHeicToPixels(bytes);
       const bmp = await createImageBitmap(new ImageData(data, width, height));

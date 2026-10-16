@@ -5,6 +5,8 @@ import fs from "fs";
 
 const here = import.meta.dirname;
 const heic = path.resolve(here, "fixtures/sample.heic"); // real HEIC photo, 1440×960
+const heifBrand = path.resolve(here, "fixtures/heif-brand.heic"); // same photo, ftyp brands rewritten: major mif1, compatible mif1/heif — no "heic" brand anywhere
+const hif = path.resolve(here, "fixtures/sample.hif"); // same photo with Canon-style .hif extension
 
 /**
  * HEIC input end-to-end in headless Chromium (which has NO native HEIC
@@ -50,4 +52,28 @@ test("HEIC photo: uploads, decodes via WASM fallback, resizes and downloads", as
 test("HEIC is listed as a supported input type", async ({ page }) => {
   await gotoApp(page);
   await expect(page.getByTestId("dropzone")).toContainText("HEIC");
+});
+
+test("HEIC without any 'heic' brand in ftyp (heif/mif1 brands) still uploads + resizes", async ({
+  page,
+}) => {
+  await gotoApp(page);
+  await page.getByTestId("file-input").setInputFiles(heifBrand);
+  await expect(page.getByTestId("process-button")).toBeEnabled();
+  await expect(page.getByTestId("dropzone")).toContainText("1440×960", {
+    timeout: 30_000,
+  });
+  await page.getByTestId("process-button").click();
+  const panel = page.getByTestId("result-panel");
+  await expect(panel).toContainText("Your image has been resized!", { timeout: 60_000 });
+  await expect(panel).toContainText("1008×672");
+});
+
+test("Canon-style .hif extension is accepted and decodes", async ({ page }) => {
+  await gotoApp(page);
+  await page.getByTestId("file-input").setInputFiles(hif);
+  await expect(page.getByTestId("process-button")).toBeEnabled();
+  await expect(page.getByTestId("dropzone")).toContainText("1440×960", {
+    timeout: 30_000,
+  });
 });

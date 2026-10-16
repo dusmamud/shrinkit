@@ -41,7 +41,7 @@ import { toPixels, cropRect, fitDims, type SizeUnit } from "./units";
 import { checkInputDimensions, checkOutputDimensions } from "./limits";
 import { injectJpegDpi, injectPngDpi, preserveJpegExif } from "./dpi";
 import { outputFileName, type OutputFormat } from "./filenames";
-import { decodeHeicToPixels, isHeicBytes } from "./heic";
+import { decodeHeicToPixels, isBmffImage, isHeicBytes } from "./heic";
 
 export type { OutputFormat };
 
@@ -163,18 +163,24 @@ async function decodeNormalized(
     // Fall through to the HEIC / manual paths below.
   }
 
-  // HEIC: native decode failed (Chrome / Firefox / Edge have no HEIC
-  // decoder — only Safari 17+ does). Decode via the lazy WASM fallback
-  // instead of the manual path, which would fail again on the same file.
-  if (isHeicBytes(input)) {
+  // HEIC / HEIF: native decode failed (Chrome / Firefox / Edge have no
+  // HEIC decoder — only Safari 17+ does). Decode via the lazy WASM
+  // fallback instead of the manual path, which would fail again on the
+  // same file. The gate is "any ISO-BMFF container", not the `heic`
+  // brand: real files use `mif1` / `heif` major brands with no `heic`
+  // brand anywhere (Canon .HIF, some Android files), and libheif
+  // decodes those fine.
+  if (isHeicBytes(input) || isBmffImage(input)) {
     try {
       const { width, height, data } = await decodeHeicToPixels(input);
       const bmp = await createImageBitmap(new ImageData(data, width, height));
       return { source: bmp, width: bmp.width, height: bmp.height };
-    } catch {
+    } catch (err) {
       throw new ProcessError(
         "decode-failed",
-        "This HEIC file could not be decoded. It may use an unsupported HEIC variant.",
+        err instanceof Error
+          ? err.message
+          : "This HEIC file could not be decoded. It may use an unsupported HEIC variant.",
       );
     }
   }

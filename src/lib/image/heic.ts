@@ -22,6 +22,19 @@ function ascii(bytes: Uint8Array, start: number, end: number): string {
 }
 
 /**
+ * Detect any ISO-BMFF image container (HEIC / HEIF / AVIF / .HIF / MP4-like)
+ * by its `ftyp` box. Used as the last-resort gate for the WASM fallback:
+ * real-world HEIC files do NOT always carry the `heic` brand — the sample
+ * in our own fixtures has major brand `mif1`, and Canon `.HIF` / some
+ * Android files use major brand `heif` with no `heic` brand anywhere.
+ * Relying on the brand alone rejects those files even though libheif
+ * decodes them fine.
+ */
+export function isBmffImage(bytes: Uint8Array): boolean {
+  return bytes.length >= 8 && ascii(bytes, 4, 8) === "ftyp";
+}
+
+/**
  * Detect HEIC by the ISO-BMFF `ftyp` box, never by extension or MIME type,
  * so a HEIC renamed to `.jpg` is still caught. AVIF shares the `ftyp` box
  * but uses the `avif` brand and decodes natively everywhere, so it is
@@ -68,9 +81,17 @@ export async function decodeHeicToPixels(
   input: Uint8Array,
 ): Promise<{ width: number; height: number; data: Uint8ClampedArray<ArrayBuffer> }> {
   // The WASM decoder (~2 MB) is a lazy chunk: only HEIC users fetch it.
-  const mod = (await import("libheif-js/wasm-bundle")) as unknown as {
-    default?: LibHeifLike;
-  } & LibHeifLike;
+  let mod: { default?: LibHeifLike } & LibHeifLike;
+  try {
+    mod = (await import("libheif-js/wasm-bundle")) as unknown as {
+      default?: LibHeifLike;
+    } & LibHeifLike;
+  } catch {
+    // The decoder chunk itself failed to load (stale deploy, blocked
+    // fetch, or a dev setup without `npm install`). Say so plainly —
+    // this is a setup problem, not a problem with the user's file.
+    throw new Error("The HEIC decoder failed to load. Please refresh the page and try again.");
+  }
   const libheif: LibHeifLike = mod.default ?? mod;
   const decoder = new libheif.HeifDecoder();
   const images = decoder.decode(input);
@@ -105,15 +126,16 @@ export async function decodeHeicToPixels(
 
 /**
  * Drop-in `createImageBitmap` replacement for the tools pages: native
- * decode first, HEIC WASM fallback when native fails. Non-HEIC files
- * that fail native decode re-throw the original error.
+ * decode first, WASM fallback when native fails on an ISO-BMFF container
+ * (HEIC / HEIF / .HIF, whatever brand it carries). Non-BMFF files that
+ * fail native decode re-throw the original error.
  */
 export async function decodeBitmapWithHeicFallback(blob: Blob): Promise<ImageBitmap> {
   try {
     return await createImageBitmap(blob);
   } catch (nativeError) {
     const bytes = new Uint8Array(await blob.arrayBuffer());
-    if (!isHeicBytes(bytes)) throw nativeError;
+    if (!isBmffImage(bytes)) throw nativeError;
     const { width, height, data } = await decodeHeicToPixels(bytes);
     return await createImageBitmap(new ImageData(data, width, height));
   }

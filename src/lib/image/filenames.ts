@@ -31,6 +31,7 @@ export const ACCEPTED_INPUT_EXTENSIONS = [
   "avif",
   "heic",
   "heif",
+  "hif",
 ] as const;
 
 export type AcceptedInputExtension = (typeof ACCEPTED_INPUT_EXTENSIONS)[number];
