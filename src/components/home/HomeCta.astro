@@ -1,0 +1,65 @@
+---
+import type { Locale } from "../../lib/locales";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const content = {
+  en: {
+    heading: "Ready to Optimize Your Photos?",
+    subheading: "Join thousands of users resizing and compressing images with 100% privacy.",
+    cta: "Upload & Resize Images",
+    badge: "Free Forever · No Signup · Zero Watermarks",
+  },
+  es: {
+    heading: "¿Listo para optimizar tus fotos?",
+    subheading: "Únete a miles de usuarios que redimensionan y comprimen fotos con 100% de privacidad.",
+    cta: "Subir y Redimensionar Imágenes",
+    badge: "Gratis Para Siempre · Sin Registro · Sin Marcas de Agua",
+  },
+  pt: {
+    heading: "Pronto para otimizar suas fotos?",
+    subheading: "Junte-se a milhares de pessoas que redimensionam fotos com 100% de privacidade.",
+    cta: "Enviar e Redimensionar Fotos",
+    badge: "Gratuito Para Sempre · Sem Cadastro · Sem Marca d'Água",
+  },
+}[locale];
+---
+
+<section class="bg-tpage py-14 sm:py-20 border-t border-tborderfaint text-center" aria-label="Call to Action">
+  <div class="mx-auto max-w-4xl px-4 sm:px-6">
+    <div class="rounded-3xl border border-tborderfaint bg-gradient-to-b from-tsurface to-tsurface2 p-8 sm:p-12 shadow-sm relative overflow-hidden">
+      <!-- Subtle accent background glow -->
+      <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-taccent/5 rounded-full blur-3xl pointer-events-none" aria-hidden="true"></div>
+
+      <div class="relative z-10">
+        <span class="inline-block rounded-full bg-taccent/10 border border-taccent/20 px-3.5 py-1 text-xs font-semibold text-taccent mb-4">
+          {content.badge}
+        </span>
+
+        <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-tink mb-3">
+          {content.heading}
+        </h2>
+
+        <p class="text-sm sm:text-base text-tmuted max-w-xl mx-auto mb-8">
+          {content.subheading}
+        </p>
+
+        <a
+          href="#tool"
+          class="inline-flex items-center justify-center gap-2 rounded-xl bg-tbtnb px-8 py-3.5 text-sm sm:text-base font-bold text-white shadow-md transition duration-200 hover:bg-[#0257bf] hover:shadow-lg active:scale-95"
+        >
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="17 8 12 3 7 8" />
+            <line x1="12" y1="3" x2="12" y2="15" />
+          </svg>
+          <span>{content.cta}</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

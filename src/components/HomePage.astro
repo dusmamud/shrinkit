@@ -4,6 +4,14 @@ import type { Locale } from "../lib/locale";
 import ShrinkItApp from "./react/ShrinkItApp";
 import InfoSections from "./InfoSections.astro";
 
+import ToolsShowcase from "./home/ToolsShowcase.astro";
+import HowItWorks from "./home/HowItWorks.astro";
+import ZeroUploadGuarantee from "./home/ZeroUploadGuarantee.astro";
+import ComparisonTable from "./home/ComparisonTable.astro";
+import FormatPresets from "./home/FormatPresets.astro";
+import FaqSection from "./home/FaqSection.astro";
+import HomeCta from "./home/HomeCta.astro";
+
 interface Props {
   locale: Locale;
 }
@@ -25,4 +33,18 @@ const { locale } = Astro.props;
   <ShrinkItApp client:load locale={locale} />
 </section>
 
+<ToolsShowcase locale={locale} />
+
+<HowItWorks locale={locale} />
+
+<ZeroUploadGuarantee locale={locale} />
+
 <InfoSections locale={locale} />
+
+<ComparisonTable locale={locale} />
+
+<FormatPresets locale={locale} />
+
+<FaqSection locale={locale} />
+
+<HomeCta locale={locale} />

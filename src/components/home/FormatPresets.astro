@@ -1,0 +1,150 @@
+---
+import type { Locale } from "../../lib/locales";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const content = {
+  en: {
+    badge: "Wide Compatibility",
+    heading: "Supported Formats & Standard Dimensions",
+    subheading: "Convert between all major image formats and export at exact specifications for web, print, and social media.",
+    formatsTitle: "Input & Output Formats",
+    formatsSubtitle: "Client-side encoding powered by browser Canvas & WebAssembly",
+    presetsTitle: "Popular Dimensions Ready to Use",
+    presetsSubtitle: "Preset targets supported in our specialized tools",
+    formats: [
+      { name: "WebP", tag: "Modern Web", desc: "Up to 35% smaller than JPG with identical visual quality and transparency support." },
+      { name: "JPEG / JPG", tag: "Universal", desc: "The standard for photos with tunable quality compression from 1% to 100%." },
+      { name: "PNG", tag: "Lossless", desc: "Pixel-perfect graphics with full alpha transparency preservation." },
+      { name: "AVIF", tag: "Next-Gen", desc: "Cutting-edge compression standard with superior efficiency for modern browsers." },
+      { name: "HEIC / HEIF", tag: "Apple iPhone", desc: "Decode iPhone camera photos directly without needing cloud conversion." },
+      { name: "GIF & BMP", tag: "Legacy", desc: "Support for classic bitmap frames and simple graphics." },
+    ],
+    presets: [
+      { platform: "Instagram Square", size: "1080 × 1080 px", ratio: "1:1" },
+      { platform: "Instagram Story & Reel", size: "1080 × 1920 px", ratio: "9:16" },
+      { platform: "YouTube Thumbnail", size: "1280 × 720 px", ratio: "16:9" },
+      { platform: "LinkedIn Banner", size: "1584 × 396 px", ratio: "4:1" },
+      { platform: "Passport Photo (Official)", size: "413 × 531 px (35×45mm)", ratio: "300 DPI" },
+      { platform: "Govt Exam Signature", size: "Max 20 KB (Razor Contrast)", ratio: "B&W Scan" },
+    ],
+  },
+  es: {
+    badge: "Amplia Compatibilidad",
+    heading: "Formatos Soportados y Dimensiones Estándar",
+    subheading: "Convierte entre los principales formatos y exporta con especificaciones exactas para web, impresión y redes sociales.",
+    formatsTitle: "Formatos de Entrada y Salida",
+    formatsSubtitle: "Codificación local mediante Canvas y WebAssembly",
+    presetsTitle: "Dimensiones populares listas para usar",
+    presetsSubtitle: "Valores predeterminados disponibles en nuestras herramientas",
+    formats: [
+      { name: "WebP", tag: "Web Moderna", desc: "Hasta un 35% más ligero que JPG con idéntica calidad visual y transparencia." },
+      { name: "JPEG / JPG", tag: "Universal", desc: "El estándar para fotografías con calidad ajustable del 1% al 100%." },
+      { name: "PNG", tag: "Sin Pérdida", desc: "Gráficos perfectos con soporte completo para fondos transparentes." },
+      { name: "AVIF", tag: "Próxima Generación", desc: "Compresión de vanguardia con máxima eficiencia para navegadores modernos." },
+      { name: "HEIC / HEIF", tag: "iPhone / Apple", desc: "Decodifica fotos de iPhone directamente sin necesidad de subirlas a la nube." },
+      { name: "GIF y BMP", tag: "Clásico", desc: "Compatibilidad con mapas de bits tradicionales y gráficos sencillos." },
+    ],
+    presets: [
+      { platform: "Instagram Cuadrado", size: "1080 × 1080 px", ratio: "1:1" },
+      { platform: "Instagram Story y Reel", size: "1080 × 1920 px", ratio: "9:16" },
+      { platform: "Miniatura de YouTube", size: "1280 × 720 px", ratio: "16:9" },
+      { platform: "Banner de LinkedIn", size: "1584 × 396 px", ratio: "4:1" },
+      { platform: "Foto Pasaporte Oficial", size: "413 × 531 px (35×45mm)", ratio: "300 DPI" },
+      { platform: "Firma para Formularios", size: "Máx 20 KB (Alto Contraste)", ratio: "B/N" },
+    ],
+  },
+  pt: {
+    badge: "Ampla Compatibilidade",
+    heading: "Formatos Suportados e Dimensões Padrão",
+    subheading: "Converta entre os principais formatos e exporte com especificações exatas para web, impressão e redes sociais.",
+    formatsTitle: "Formatos de Entrada e Saída",
+    formatsSubtitle: "Codificação no navegador via Canvas e WebAssembly",
+    presetsTitle: "Dimensões populares prontas para uso",
+    presetsSubtitle: "Metas predefinidas em nossas ferramentas dedicadas",
+    formats: [
+      { name: "WebP", tag: "Web Moderna", desc: "Até 35% menor que JPG com a mesma qualidade visual e suporte a transparência." },
+      { name: "JPEG / JPG", tag: "Universal", desc: "O padrão para fotos com controle de compressão de 1% a 100%." },
+      { name: "PNG", tag: "Sem Perda", desc: "Imagens com fidelidade absoluta de pixels e canal alfa transparente." },
+      { name: "AVIF", tag: "Nova Geração", desc: "Padrão de compressão ultraeficiente para navegadores modernos." },
+      { name: "HEIC / HEIF", tag: "Apple iPhone", desc: "Abra fotos da câmera do iPhone sem precisar enviar para a nuvem." },
+      { name: "GIF e BMP", tag: "Legado", desc: "Suporte para arquivos de bitmap e animações simples." },
+    ],
+    presets: [
+      { platform: "Instagram Quadrado", size: "1080 × 1080 px", ratio: "1:1" },
+      { platform: "Instagram Story e Reel", size: "1080 × 1920 px", ratio: "9:16" },
+      { platform: "Miniatura do YouTube", size: "1280 × 720 px", ratio: "16:9" },
+      { platform: "Banner do LinkedIn", size: "1584 × 396 px", ratio: "4:1" },
+      { platform: "Foto de Passaporte Oficial", size: "413 × 531 px (35×45mm)", ratio: "300 DPI" },
+      { platform: "Assinatura para Concursos", size: "Máx 20 KB (Alto Contraste)", ratio: "P&B" },
+    ],
+  },
+}[locale];
+---
+
+<section class="bg-tpage py-12 sm:py-16 border-t border-tborderfaint" aria-labelledby="formats-heading">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6">
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <div class="inline-flex items-center gap-1.5 rounded-full border border-taccent/20 bg-taccent/10 px-3 py-1 text-xs font-semibold text-taccent mb-3">
+        <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+          <circle cx="8.5" cy="8.5" r="1.5" />
+          <polyline points="21 15 16 10 5 21" />
+        </svg>
+        {content.badge}
+      </div>
+      <h2 id="formats-heading" class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-tink">
+        {content.heading}
+      </h2>
+      <p class="mt-2 text-sm sm:text-base text-tmuted">
+        {content.subheading}
+      </p>
+    </div>
+
+    <!-- Formats Grid -->
+    <div class="mb-10">
+      <h3 class="text-lg font-bold text-tink mb-1">{content.formatsTitle}</h3>
+      <p class="text-xs sm:text-sm text-tmuted mb-5">{content.formatsSubtitle}</p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {content.formats.map((fmt) => (
+          <div class="rounded-xl border border-tborderfaint bg-tsurface p-5 transition duration-200 hover:border-taccent/50 hover:shadow-sm">
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-bold text-base text-tink">{fmt.name}</span>
+              <span class="text-[11px] font-semibold text-taccent bg-taccent/10 px-2 py-0.5 rounded-md">
+                {fmt.tag}
+              </span>
+            </div>
+            <p class="text-xs text-tmuted leading-relaxed">
+              {fmt.desc}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Presets Bar -->
+    <div class="rounded-2xl border border-tborderfaint bg-tsurface2 p-6 sm:p-7">
+      <h3 class="text-lg font-bold text-tink mb-1">{content.presetsTitle}</h3>
+      <p class="text-xs sm:text-sm text-tmuted mb-5">{content.presetsSubtitle}</p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        {content.presets.map((preset) => (
+          <div class="flex items-center justify-between p-3 rounded-lg bg-tsurface border border-tborderfaint text-xs">
+            <div>
+              <span class="font-semibold text-tink block">{preset.platform}</span>
+              <span class="text-tmuted font-mono text-[11px]">{preset.size}</span>
+            </div>
+            <span class="text-[11px] font-medium text-tpilltext bg-tpillbg border border-tpillline px-2 py-0.5 rounded">
+              {preset.ratio}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

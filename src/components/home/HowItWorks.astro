@@ -1,0 +1,121 @@
+---
+import type { Locale } from "../../lib/locales";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const content = {
+  en: {
+    badge: "Simple 3-Step Process",
+    heading: "How to Resize & Optimize in Seconds",
+    subheading: "Everything runs directly inside your web browser. No software installation, no waiting in line.",
+    steps: [
+      {
+        num: "01",
+        title: "Add Your Images",
+        desc: "Drag and drop your files into the upload box, browse from your folder, or press Ctrl+V to paste directly from your clipboard.",
+      },
+      {
+        num: "02",
+        title: "Tune Dimensions & Format",
+        desc: "Set exact pixels, percentage scaling, or select target file size (like 50KB). Choose JPG, PNG, or modern WebP format.",
+      },
+      {
+        num: "03",
+        title: "Instant Local Download",
+        desc: "Processing completes immediately via your device's CPU/GPU. Download your optimized photos individually or in a single ZIP archive.",
+      },
+    ],
+  },
+  es: {
+    badge: "Proceso Simple en 3 Pasos",
+    heading: "Cómo redimensionar y optimizar en segundos",
+    subheading: "Todo se procesa directamente en tu navegador. Sin instalación de software ni colas de espera.",
+    steps: [
+      {
+        num: "01",
+        title: "Agrega tus imágenes",
+        desc: "Arrastra y suelta tus archivos, selecciónalos desde tu carpeta o presiona Ctrl+V para pegar desde el portapapeles.",
+      },
+      {
+        num: "02",
+        title: "Ajusta dimensiones y formato",
+        desc: "Elige píxeles exactos, porcentaje o tamaño objetivo (como 50KB). Selecciona formato JPG, PNG o el ligero WebP.",
+      },
+      {
+        num: "03",
+        title: "Descarga instantánea",
+        desc: "El procesamiento termina al instante en tu dispositivo. Descarga tus fotos individualmente o en un archivo ZIP.",
+      },
+    ],
+  },
+  pt: {
+    badge: "Processo Simples em 3 Passos",
+    heading: "Como redimensionar e otimizar em segundos",
+    subheading: "Tudo roda direto no seu navegador. Sem instalação de programas e sem filas de espera.",
+    steps: [
+      {
+        num: "01",
+        title: "Adicione suas imagens",
+        desc: "Arraste e solte seus arquivos, escolha da sua pasta ou use Ctrl+V para colar diretamente da área de transferência.",
+      },
+      {
+        num: "02",
+        title: "Ajuste dimensões e formato",
+        desc: "Defina pixels exatos, porcentagem ou tamanho limite (como 50KB). Escolha formato JPG, PNG ou o moderno WebP.",
+      },
+      {
+        num: "03",
+        title: "Download local imediato",
+        desc: "O processamento termina instantaneamente no seu processador. Baixe fotos individuais ou todas em um único arquivo ZIP.",
+      },
+    ],
+  },
+}[locale];
+---
+
+<section class="bg-tband py-12 sm:py-16 border-t border-tborderfaint" aria-labelledby="how-it-works-heading">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6">
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <div class="inline-flex items-center gap-1.5 rounded-full border border-taccent/20 bg-taccent/10 px-3 py-1 text-xs font-semibold text-taccent mb-3">
+        <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="10" />
+          <polyline points="12 6 12 12 16 14" />
+        </svg>
+        {content.badge}
+      </div>
+      <h2 id="how-it-works-heading" class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-tink">
+        {content.heading}
+      </h2>
+      <p class="mt-2 text-sm sm:text-base text-tmuted">
+        {content.subheading}
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {content.steps.map((step) => (
+        <div class="relative rounded-2xl border border-tborderfaint bg-tsurface p-6 sm:p-7 transition duration-200 hover:shadow-md">
+          <div class="flex items-center justify-between mb-4">
+            <span class="font-mono text-2xl sm:text-3xl font-extrabold text-taccent/80 tracking-wider">
+              {step.num}
+            </span>
+            <div class="h-8 w-8 rounded-full bg-taccent/10 flex items-center justify-center text-taccent">
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            </div>
+          </div>
+          <h3 class="text-lg font-bold text-tink mb-2">
+            {step.title}
+          </h3>
+          <p class="text-xs sm:text-sm text-tmuted leading-relaxed">
+            {step.desc}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

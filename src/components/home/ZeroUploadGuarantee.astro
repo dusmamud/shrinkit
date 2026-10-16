@@ -1,0 +1,162 @@
+---
+import type { Locale } from "../../lib/locales";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const content = {
+  en: {
+    badge: "Verified Privacy Architecture",
+    heading: "100% In-Browser. Zero Uploads to Any Server.",
+    subheading: "Your photos contain private memories, location GPS data, and personal documents. We believe they should never touch third-party servers.",
+    terminalTitle: "Browser Network Inspector (F12)",
+    reqSent: "Requests sent to remote servers",
+    bytesTransferred: "Bytes transferred over network",
+    storageUsed: "Cloud database storage used",
+    cards: [
+      {
+        title: "Processed Entirely on Your Device",
+        desc: "ShrinkIt leverages modern Canvas and WebAssembly running in your browser sandbox. Decoding, resizing, and encoding are 100% local.",
+      },
+      {
+        title: "Works Fully Offline",
+        desc: "Load the page once, turn off your Wi-Fi or mobile data, and resize your images. It works without an active internet connection.",
+      },
+      {
+        title: "EXIF Scrubbed by Default",
+        desc: "Hidden camera model tags, serial numbers, timestamps, and GPS coordinates are stripped clean before you download.",
+      },
+    ],
+  },
+  es: {
+    badge: "Arquitectura de Privacidad Verificada",
+    heading: "100% en tu navegador. Cero subidas a servidores.",
+    subheading: "Tus fotos contienen recuerdos privados, datos de ubicación GPS y documentos personales. Creemos que nunca deben enviarse a la nube.",
+    terminalTitle: "Inspector de Red del Navegador (F12)",
+    reqSent: "Peticiones enviadas a servidores remotos",
+    bytesTransferred: "Bytes transferidos por la red",
+    storageUsed: "Almacenamiento en base de datos en la nube",
+    cards: [
+      {
+        title: "Procesado totalmente en tu dispositivo",
+        desc: "ShrinkIt usa Canvas y WebAssembly en el entorno seguro de tu navegador. La compresión y codificación son 100% locales.",
+      },
+      {
+        title: "Funciona completamente sin conexión",
+        desc: "Abre la página, apaga tu Wi-Fi o datos móviles y optimiza tus fotos. Funciona incluso sin internet.",
+      },
+      {
+        title: "Metadatos EXIF eliminados por defecto",
+        desc: "Coordenadas GPS, modelo de cámara y fecha se eliminan automáticamente para proteger tu privacidad.",
+      },
+    ],
+  },
+  pt: {
+    badge: "Arquitetura de Privacidade Verificada",
+    heading: "100% no seu navegador. Zero envios para servidores.",
+    subheading: "Suas fotos contêm momentos privados, GPS e documentos. Acreditamos que elas nunca devem ser enviadas para a nuvem.",
+    terminalTitle: "Inspetor de Rede do Navegador (F12)",
+    reqSent: "Requisições enviadas a servidores remotos",
+    bytesTransferred: "Bytes transmitidos pela rede",
+    storageUsed: "Espaço usado em banco de dados na nuvem",
+    cards: [
+      {
+        title: "Processado totalmente no seu dispositivo",
+        desc: "O ShrinkIt usa APIs de Canvas e WebAssembly no navegador. A compressão e redimensionamento são 100% locais.",
+      },
+      {
+        title: "Funciona completamente offline",
+        desc: "Abra a página uma vez, desligue o Wi-Fi e use normalmente. Funciona mesmo sem conexão com a internet.",
+      },
+      {
+        title: "Metadados EXIF removidos por padrão",
+        desc: "Localização GPS, modelo de câmera e dados pessoais são limpos automaticamente antes do download.",
+      },
+    ],
+  },
+}[locale];
+---
+
+<section class="bg-tpage py-12 sm:py-16 border-t border-tborderfaint" aria-labelledby="privacy-guarantee-heading">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      <!-- Left text & cards -->
+      <div class="lg:col-span-7">
+        <div class="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400 mb-3">
+          <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          </svg>
+          {content.badge}
+        </div>
+        <h2 id="privacy-guarantee-heading" class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-tink leading-tight">
+          {content.heading}
+        </h2>
+        <p class="mt-3 text-sm sm:text-base text-tmuted leading-relaxed max-w-xl">
+          {content.subheading}
+        </p>
+
+        <div class="mt-8 space-y-4">
+          {content.cards.map((card) => (
+            <div class="flex items-start gap-3.5">
+              <div class="mt-0.5 h-6 w-6 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+                <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-sm sm:text-base font-semibold text-tink">
+                  {card.title}
+                </h3>
+                <p class="text-xs sm:text-sm text-tmuted mt-0.5 leading-relaxed">
+                  {card.desc}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Right terminal / devtools proof card -->
+      <div class="lg:col-span-5">
+        <div class="rounded-2xl border border-tborderfaint bg-tsurface shadow-xl overflow-hidden">
+          <div class="bg-tsurface2 px-4 py-3 border-b border-tborderfaint flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="h-3 w-3 rounded-full bg-red-400"></span>
+              <span class="h-3 w-3 rounded-full bg-amber-400"></span>
+              <span class="h-3 w-3 rounded-full bg-emerald-400"></span>
+              <span class="font-mono text-xs text-tmuted ml-2 font-medium">{content.terminalTitle}</span>
+            </div>
+            <span class="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded">
+              <span class="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              Live Sandbox
+            </span>
+          </div>
+
+          <div class="p-5 font-mono text-xs space-y-4">
+            <div class="rounded-lg bg-tsurface2 p-3 border border-tborderfaint flex items-center justify-between">
+              <span class="text-tmuted">{content.reqSent}</span>
+              <span class="font-bold text-emerald-600 dark:text-emerald-400 text-sm">0 req</span>
+            </div>
+
+            <div class="rounded-lg bg-tsurface2 p-3 border border-tborderfaint flex items-center justify-between">
+              <span class="text-tmuted">{content.bytesTransferred}</span>
+              <span class="font-bold text-emerald-600 dark:text-emerald-400 text-sm">0 KB</span>
+            </div>
+
+            <div class="rounded-lg bg-tsurface2 p-3 border border-tborderfaint flex items-center justify-between">
+              <span class="text-tmuted">{content.storageUsed}</span>
+              <span class="font-bold text-emerald-600 dark:text-emerald-400 text-sm">0 bytes</span>
+            </div>
+
+            <div class="pt-2 text-[11px] text-tmuted leading-normal">
+              <p>💡 <span class="font-semibold text-tink">Test it yourself:</span> Press <kbd class="px-1.5 py-0.5 rounded bg-tsurface2 border border-tborderfaint font-semibold text-tink">F12</kbd> or right-click &rarr; Inspect &rarr; <strong>Network</strong> tab. Resize any file and verify that no upload requests are ever fired.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

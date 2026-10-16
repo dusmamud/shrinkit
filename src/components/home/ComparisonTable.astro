@@ -1,0 +1,219 @@
+---
+import type { Locale } from "../../lib/locales";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const content = {
+  en: {
+    badge: "Why Choose ShrinkIt",
+    heading: "ShrinkIt vs. Cloud Image Resizers",
+    subheading: "See how in-browser processing beats slow, cloud-upload tools in privacy, speed, and freedom.",
+    featureCol: "Feature",
+    shrinkitCol: "ShrinkIt (In-Browser)",
+    othersCol: "Traditional Cloud Compressors",
+    rows: [
+      {
+        feature: "Server Uploads",
+        shrinkit: "0 (Processed 100% locally on your CPU/GPU)",
+        others: "Full image uploaded to cloud server",
+        winner: true,
+      },
+      {
+        feature: "Data Privacy & Leaks",
+        shrinkit: "100% Private (Nobody can view or save your files)",
+        others: "Files stored temporarily on 3rd-party servers",
+        winner: true,
+      },
+      {
+        feature: "Processing Speed",
+        shrinkit: "Instant (No internet upload latency)",
+        others: "Delayed by upload & download connection speed",
+        winner: true,
+      },
+      {
+        feature: "Daily Limits & Paywalls",
+        shrinkit: "Unlimited & Free forever",
+        others: "20 images/mo cap or paid monthly subscription",
+        winner: true,
+      },
+      {
+        feature: "Offline Availability",
+        shrinkit: "Yes (Full offline PWA capability)",
+        others: "No (Requires constant internet connection)",
+        winner: true,
+      },
+      {
+        feature: "Watermarks or Account",
+        shrinkit: "None (Zero signup, zero branding marks)",
+        others: "Account walls, newsletter popups, watermarks",
+        winner: true,
+      },
+    ],
+  },
+  es: {
+    badge: "¿Por qué elegir ShrinkIt?",
+    heading: "ShrinkIt frente a compresores en la nube",
+    subheading: "Descubre cómo el procesamiento local supera a las herramientas en la nube en privacidad, rapidez y libertad.",
+    featureCol: "Característica",
+    shrinkitCol: "ShrinkIt (En el Navegador)",
+    othersCol: "Compresores tradicionales en la nube",
+    rows: [
+      {
+        feature: "Subidas a Servidores",
+        shrinkit: "0 (Procesado 100% local en tu dispositivo)",
+        others: "La imagen se sube completa a un servidor",
+        winner: true,
+      },
+      {
+        feature: "Privacidad de Archivos",
+        shrinkit: "100% Privado (Nadie puede ver tus fotos)",
+        others: "Archivos guardados en servidores de terceros",
+        winner: true,
+      },
+      {
+        feature: "Velocidad de Procesamiento",
+        shrinkit: "Instantáneo (Sin demoras de subida)",
+        others: "Depende de la velocidad de tu conexión",
+        winner: true,
+      },
+      {
+        feature: "Límites diarios y suscripciones",
+        shrinkit: "Ilimitado y gratis para siempre",
+        others: "Límite de 20 fotos/mes o planes de pago",
+        winner: true,
+      },
+      {
+        feature: "Uso sin conexión (Offline)",
+        shrinkit: "Sí (Funciona totalmente sin internet)",
+        others: "No (Requiere conexión constante)",
+        winner: true,
+      },
+      {
+        feature: "Marcas de agua o registro",
+        shrinkit: "Ninguno (Sin cuenta ni marcas de agua)",
+        others: "Peticiones de registro y marcas de agua",
+        winner: true,
+      },
+    ],
+  },
+  pt: {
+    badge: "Por que escolher o ShrinkIt?",
+    heading: "ShrinkIt vs. Compressores na Nuvem",
+    subheading: "Veja como o processamento local supera ferramentas na nuvem em privacidade, velocidade e liberdade.",
+    featureCol: "Recurso",
+    shrinkitCol: "ShrinkIt (No Navegador)",
+    othersCol: "Compressores tradicionais na nuvem",
+    rows: [
+      {
+        feature: "Envio para Servidores",
+        shrinkit: "0 (Processado 100% localmente no seu dispositivo)",
+        others: "Imagem enviada para servidores remotos",
+        winner: true,
+      },
+      {
+        feature: "Privacidade dos Arquivos",
+        shrinkit: "100% Privado (Ninguém tem acesso aos seus dados)",
+        others: "Arquivos salvos em servidores de terceiros",
+        winner: true,
+      },
+      {
+        feature: "Velocidade de Processamento",
+        shrinkit: "Instantâneo (Sem atraso de envio pela rede)",
+        others: "Lento dependendo da velocidade de conexão",
+        winner: true,
+      },
+      {
+        feature: "Limites diários e assinaturas",
+        shrinkit: "Ilimitado e gratuito para sempre",
+        others: "Limite de 20 imagens/mês ou cobrança mensal",
+        winner: true,
+      },
+      {
+        feature: "Funcionamento Offline",
+        shrinkit: "Sim (Funciona sem conexão com a internet)",
+        others: "Não (Requer internet ativa o tempo todo)",
+        winner: true,
+      },
+      {
+        feature: "Marca d'água ou cadastro",
+        shrinkit: "Nenhum (Sem cadastro e sem marcas)",
+        others: "Exige login, popups ou marcas nas imagens",
+        winner: true,
+      },
+    ],
+  },
+}[locale];
+---
+
+<section class="bg-tband py-12 sm:py-16 border-t border-tborderfaint" aria-labelledby="comparison-heading">
+  <div class="mx-auto max-w-5xl px-4 sm:px-6">
+    <div class="text-center max-w-2xl mx-auto mb-10">
+      <div class="inline-flex items-center gap-1.5 rounded-full border border-taccent/20 bg-taccent/10 px-3 py-1 text-xs font-semibold text-taccent mb-3">
+        <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="9 11 12 14 22 4" />
+          <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+        </svg>
+        {content.badge}
+      </div>
+      <h2 id="comparison-heading" class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-tink">
+        {content.heading}
+      </h2>
+      <p class="mt-2 text-sm sm:text-base text-tmuted">
+        {content.subheading}
+      </p>
+    </div>
+
+    <div class="overflow-hidden rounded-2xl border border-tborderfaint bg-tsurface shadow-sm">
+      <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="border-b border-tborderfaint bg-tsurface2">
+              <th scope="col" class="py-4 px-4 sm:px-6 text-xs sm:text-sm font-semibold text-tink">
+                {content.featureCol}
+              </th>
+              <th scope="col" class="py-4 px-4 sm:px-6 text-xs sm:text-sm font-bold text-taccent bg-taccent/5">
+                <span class="inline-flex items-center gap-1.5">
+                  <span class="h-2 w-2 rounded-full bg-taccent"></span>
+                  {content.shrinkitCol}
+                </span>
+              </th>
+              <th scope="col" class="py-4 px-4 sm:px-6 text-xs sm:text-sm font-medium text-tmuted">
+                {content.othersCol}
+              </th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-tborderfaint text-xs sm:text-sm">
+            {content.rows.map((row) => (
+              <tr class="hover:bg-tsurface2/40 transition-colors">
+                <td class="py-3.5 px-4 sm:px-6 font-semibold text-tink whitespace-nowrap sm:whitespace-normal">
+                  {row.feature}
+                </td>
+                <td class="py-3.5 px-4 sm:px-6 font-medium text-tink bg-taccent/5">
+                  <div class="flex items-start gap-2">
+                    <svg class="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                    <span>{row.shrinkit}</span>
+                  </div>
+                </td>
+                <td class="py-3.5 px-4 sm:px-6 text-tmuted">
+                  <div class="flex items-start gap-2">
+                    <svg class="h-4 w-4 text-rose-500 shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <line x1="18" y1="6" x2="6" y2="18" />
+                      <line x1="6" y1="6" x2="18" y2="18" />
+                    </svg>
+                    <span>{row.others}</span>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>

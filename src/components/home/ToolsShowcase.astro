@@ -1,0 +1,209 @@
+---
+import type { Locale } from "../../lib/locales";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const prefix = locale === "en" ? "" : `/${locale}`;
+
+const content = {
+  en: {
+    badge: "Specialized Tools",
+    heading: "Tailored Tools for Every Purpose",
+    subheading: "Need specific dimensions or strict file limits? Pick a dedicated one-click tool.",
+    allTools: "Explore all tools",
+    openTool: "Open Tool",
+    tools: [
+      {
+        title: "Compress to 50 KB",
+        href: `${prefix}/tools/compress-to-50kb`,
+        badge: "Govt Portals",
+        metric: "< 50 KB",
+        desc: "Strictly compress photos for UPSC, SSC, IBPS, and state government application forms without blurring faces.",
+      },
+      {
+        title: "Signature to 20 KB",
+        href: `${prefix}/tools/compress-to-20kb`,
+        badge: "Signatures & IDs",
+        metric: "< 20 KB",
+        desc: "Reduce signature and thumb-impression scans to under 20KB with razor-sharp black/white contrast.",
+      },
+      {
+        title: "Passport Photo Maker",
+        href: `${prefix}/tools/passport-photo-maker`,
+        badge: "300 DPI Official",
+        metric: "35×45 mm",
+        desc: "Format portrait photos to official 35×45mm or 2×2 inch standards with pure white background and 300 DPI.",
+      },
+      {
+        title: "Social Media Resizer",
+        href: `${prefix}/tools/social-media-resizer`,
+        badge: "2026 Standards",
+        metric: "9:16 · 1:1 · 16:9",
+        desc: "One-click presets for Instagram Square, Story/Reel (9:16), YouTube thumbnails, and LinkedIn banners.",
+      },
+      {
+        title: "Before vs After Comparison",
+        href: `${prefix}/tools/compare-images`,
+        badge: "Visual Inspection",
+        metric: "Split Slider",
+        desc: "Interactive split-screen slider to inspect compression quality side-by-side with original photos.",
+      },
+    ],
+  },
+  es: {
+    badge: "Herramientas Especializadas",
+    heading: "Herramientas diseñadas para cada propósito",
+    subheading: "¿Necesitas dimensiones específicas o límites estrictos de archivo? Elige una herramienta dedicada.",
+    allTools: "Ver todas las herramientas",
+    openTool: "Abrir Herramienta",
+    tools: [
+      {
+        title: "Comprimir a 50 KB",
+        href: `${prefix}/tools/compress-to-50kb`,
+        badge: "Portales Oficiales",
+        metric: "< 50 KB",
+        desc: "Comprime fotos estrictamente por debajo de 50KB para solicitudes oficiales sin perder nitidez.",
+      },
+      {
+        title: "Firma a 20 KB",
+        href: `${prefix}/tools/compress-to-20kb`,
+        badge: "Firmas y DNI",
+        metric: "< 20 KB",
+        desc: "Reduce firmas y huellas dactilares a menos de 20KB con alto contraste en blanco y negro.",
+      },
+      {
+        title: "Creador de Fotos Pasaporte",
+        href: `${prefix}/tools/passport-photo-maker`,
+        badge: "300 DPI Oficial",
+        metric: "35×45 mm",
+        desc: "Formatea fotos a estándares de 35×45mm o 2×2 pulgadas con fondo blanco puro y 300 DPI.",
+      },
+      {
+        title: "Redimensionador de Redes Sociales",
+        href: `${prefix}/tools/social-media-resizer`,
+        badge: "Estándares 2026",
+        metric: "9:16 · 1:1 · 16:9",
+        desc: "Ajustes de un clic para Instagram, Reels/Stories (9:16), miniaturas de YouTube y banners de LinkedIn.",
+      },
+      {
+        title: "Comparación Antes y Después",
+        href: `${prefix}/tools/compare-images`,
+        badge: "Inspección Visual",
+        metric: "Slider Dividido",
+        desc: "Control deslizante interactivo para comparar la calidad de compresión junto a la foto original.",
+      },
+    ],
+  },
+  pt: {
+    badge: "Ferramentas Especializadas",
+    heading: "Ferramentas dedicadas para cada finalidade",
+    subheading: "Precisa de dimensões específicas ou limites estritos de arquivo? Escolha uma ferramenta com um clique.",
+    allTools: "Explorar todas as ferramentas",
+    openTool: "Abrir Ferramenta",
+    tools: [
+      {
+        title: "Comprimir para 50 KB",
+        href: `${prefix}/tools/compress-to-50kb`,
+        badge: "Portais Oficiais",
+        metric: "< 50 KB",
+        desc: "Comprima fotos estritamente para menos de 50KB para formulários governamentais sem perder nitidez.",
+      },
+      {
+        title: "Assinatura para 20 KB",
+        href: `${prefix}/tools/compress-to-20kb`,
+        badge: "Assinaturas e RG",
+        metric: "< 20 KB",
+        desc: "Reduza assinaturas e impressões digitais para menos de 20KB com contraste nítido em preto e branco.",
+      },
+      {
+        title: "Criador de Fotos de Passaporte",
+        href: `${prefix}/tools/passport-photo-maker`,
+        badge: "300 DPI Oficial",
+        metric: "35×45 mm",
+        desc: "Formate retratos no padrão oficial de 35×45mm ou 2×2 polegadas com fundo branco puro e 300 DPI.",
+      },
+      {
+        title: "Redimensionador de Redes Sociais",
+        href: `${prefix}/tools/social-media-resizer`,
+        badge: "Padrões 2026",
+        metric: "9:16 · 1:1 · 16:9",
+        desc: "Predefinições para Instagram, Stories/Reels (9:16), miniaturas do YouTube e banners do LinkedIn.",
+      },
+      {
+        title: "Comparação Antes e Depois",
+        href: `${prefix}/tools/compare-images`,
+        badge: "Inspeção Visual",
+        metric: "Slider Dividido",
+        desc: "Controle deslizante interativo para inspecionar a qualidade da compressão lado a lado.",
+      },
+    ],
+  },
+}[locale];
+---
+
+<section class="bg-tpage py-12 sm:py-16 border-t border-tborderfaint" aria-labelledby="tools-heading">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6">
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
+      <div>
+        <div class="inline-flex items-center gap-1.5 rounded-full border border-taccent/20 bg-taccent/10 px-3 py-1 text-xs font-semibold text-taccent mb-3">
+          <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+          </svg>
+          {content.badge}
+        </div>
+        <h2 id="tools-heading" class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-tink">
+          {content.heading}
+        </h2>
+        <p class="mt-2 text-sm sm:text-base text-tmuted max-w-2xl">
+          {content.subheading}
+        </p>
+      </div>
+
+      <a
+        href={`${prefix}/tools`}
+        class="inline-flex items-center gap-2 self-start md:self-end text-sm font-semibold text-taccent hover:underline group"
+      >
+        <span>{content.allTools}</span>
+        <svg class="h-4 w-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="5" y1="12" x2="19" y2="12" />
+          <polyline points="12 5 19 12 12 19" />
+        </svg>
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      {content.tools.map((tool) => (
+        <a
+          href={tool.href}
+          class="group relative flex flex-col justify-between rounded-2xl border border-tborderfaint bg-tsurface p-6 transition duration-200 hover:border-taccent hover:shadow-lg hover:-translate-y-0.5"
+        >
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-3">
+              <span class="inline-block rounded-full border border-tborderfaint bg-tsurface2 px-2.5 py-0.5 text-xs font-semibold text-tink2">
+                {tool.badge}
+              </span>
+              <span class="font-mono text-xs font-semibold text-taccent bg-taccent/10 px-2 py-0.5 rounded-md">
+                {tool.metric}
+              </span>
+            </div>
+            <h3 class="text-lg font-bold text-tink group-hover:text-taccent transition-colors mb-2">
+              {tool.title}
+            </h3>
+            <p class="text-xs sm:text-sm text-tmuted leading-relaxed">
+              {tool.desc}
+            </p>
+          </div>
+
+          <div class="mt-5 pt-4 border-t border-tborderfaint/60 flex items-center justify-between text-xs font-bold text-taccent">
+            <span>{content.openTool}</span>
+            <span class="transition-transform group-hover:translate-x-1.5">&rarr;</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
