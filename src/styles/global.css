@@ -615,8 +615,11 @@ body {
   color: #fff;
 }
 
-/* Transparency indicator — IDENTICAL in both themes by design (not chrome) */
-.checkerboard {
+/* Transparency indicator — DARK THEME ONLY. In light mode thumbnails keep
+   the flat bg (pixel-identical to before); in dark mode the checkerboard
+   keeps transparent art visible against dark surfaces. Kept light grey/white
+   in dark on purpose — a dark checkerboard would defeat its own purpose. */
+[data-theme="dark"] .checkerboard {
   background-image: repeating-conic-gradient(#e5e7eb 0% 25%, #ffffff 0% 50%);
   background-size: 16px 16px;
 }
