@@ -19,12 +19,13 @@ test.describe("Dedicated Tools Pages (Zero Landing Page Contamination)", () => {
 
   test("2. Tools hub page (/tools) renders all 5 free tools", async ({ page }) => {
     await page.goto("http://localhost:7860/tools");
-    await expect(page.getByRole("heading", { name: "Free Online Image Optimization Tools" })).toBeVisible();
-    await expect(page.getByRole("link", { name: /Compress to 50 KB/i })).toBeVisible();
-    await expect(page.getByRole("link", { name: /Compress to 20 KB/i })).toBeVisible();
-    await expect(page.getByRole("link", { name: /Passport Photo Maker/i })).toBeVisible();
-    await expect(page.getByRole("link", { name: /Social Media Resizer/i })).toBeVisible();
-    await expect(page.getByRole("link", { name: /Before vs After Comparison/i })).toBeVisible();
+    const main = page.locator("main");
+    await expect(main.getByRole("heading", { name: "Free Online Image Optimization Tools" })).toBeVisible();
+    await expect(main.getByRole("link", { name: /Compress to 50 KB/i })).toBeVisible();
+    await expect(main.getByRole("link", { name: /Compress to 20 KB/i })).toBeVisible();
+    await expect(main.getByRole("link", { name: /Passport Photo Maker/i })).toBeVisible();
+    await expect(main.getByRole("link", { name: /Social Media Resizer/i })).toBeVisible();
+    await expect(main.getByRole("link", { name: /Before vs After Comparison/i })).toBeVisible();
   });
 
   test("3. Compress to 50KB page loads with Target 50KB selected", async ({ page }) => {
@@ -50,5 +51,19 @@ test.describe("Dedicated Tools Pages (Zero Landing Page Contamination)", () => {
   test("6. Quality Comparison page loads with split slider", async ({ page }) => {
     await page.goto("http://localhost:7860/tools/compare-images");
     await expect(page.getByRole("heading", { name: "Before vs After Image Comparison" })).toBeVisible();
+  });
+
+  test("7. Navigation contains Tools links in Header and Footer", async ({ page }) => {
+    await gotoApp(page);
+    // Header navigation
+    const headerTools = page.getByRole("banner").getByRole("link", { name: "Tools", exact: true });
+    await expect(headerTools).toBeVisible();
+    await expect(headerTools).toHaveAttribute("href", "/tools");
+
+    // Footer navigation
+    const footer = page.locator("footer");
+    await expect(footer.getByRole("link", { name: "All Free Tools" })).toBeVisible();
+    await expect(footer.getByRole("link", { name: "Compress to 50KB" })).toBeVisible();
+    await expect(footer.getByRole("link", { name: "Passport Photo Maker" })).toBeVisible();
   });
 });

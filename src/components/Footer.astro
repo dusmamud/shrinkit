@@ -12,12 +12,15 @@ const year = new Date().getFullYear();
 
 const columns = [
   {
-    heading: t(locale, "footer.col_privacy"),
-    links: [{ href: localizedPath("/privacy", locale), label: t(locale, "footer.privacy_policy") }],
-  },
-  {
-    heading: t(locale, "footer.col_reachout"),
-    links: [{ href: localizedPath("/contact", locale), label: t(locale, "footer.contact_us") }],
+    heading: "Tools",
+    links: [
+      { href: "/tools", label: "All Free Tools" },
+      { href: "/tools/compress-to-50kb", label: "Compress to 50KB" },
+      { href: "/tools/compress-to-20kb", label: "Signature to 20KB" },
+      { href: "/tools/passport-photo-maker", label: "Passport Photo Maker" },
+      { href: "/tools/social-media-resizer", label: "Social Media Resizer" },
+      { href: "/tools/compare-images", label: "Quality Comparison" },
+    ],
   },
   {
     heading: t(locale, "footer.col_product"),
@@ -25,6 +28,14 @@ const columns = [
       { href: `${home}#how-it-works`, label: t(locale, "footer.how_it_works") },
       { href: `${home}#tool`, label: t(locale, "footer.resize_image") },
     ],
+  },
+  {
+    heading: t(locale, "footer.col_privacy"),
+    links: [{ href: localizedPath("/privacy", locale), label: t(locale, "footer.privacy_policy") }],
+  },
+  {
+    heading: t(locale, "footer.col_reachout"),
+    links: [{ href: localizedPath("/contact", locale), label: t(locale, "footer.contact_us") }],
   },
 ];
 ---
