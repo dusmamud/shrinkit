@@ -24,17 +24,17 @@ function UploadMark() {
       viewBox="0 0 110 110"
       fill="none"
       aria-hidden="true"
-      className="h-16 w-16 sm:h-[110px] sm:w-[110px]"
+      className="h-8 w-8 sm:h-9 sm:w-9 text-taccent"
     >
-      <path d="M55 80V32" stroke="var(--t-accent)" strokeWidth="7" strokeLinecap="round" />
+      <path d="M55 80V32" stroke="currentColor" strokeWidth="7" strokeLinecap="round" />
       <path
         d="M34 53l21-21 21 21"
-        stroke="var(--t-accent)"
+        stroke="currentColor"
         strokeWidth="7"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <path d="M24 92h62" stroke="var(--t-accent)" strokeWidth="7" strokeLinecap="round" />
+      <path d="M24 92h62" stroke="currentColor" strokeWidth="7" strokeLinecap="round" />
     </svg>
   );
 }
@@ -89,18 +89,18 @@ export default function Dropzone({
         setDragging(false);
         emit(e.dataTransfer.files);
       }}
-      className="relative mx-auto w-full max-w-[1100px] cursor-pointer rounded-[6px] bg-tdropzone px-3 sm:px-6 py-6 sm:py-12 text-center transition"
+      className="group relative mx-auto w-full max-w-[940px] cursor-pointer rounded-2xl bg-tdropzone px-4 sm:px-8 py-6 sm:py-8 md:py-9 text-center transition hover:bg-thoverbg/30 shadow-sm"
     >
       {/* Dashed border drawn as an SVG rect (reference style) */}
       <svg className="pointer-events-none absolute inset-0 h-full w-full" aria-hidden="true">
         <rect
           x="2"
           y="2"
-          rx="6"
+          rx="14"
           fill="none"
           stroke="var(--t-dash)"
-          strokeWidth={dragging ? 3.5 : 2}
-          strokeDasharray="6 12"
+          strokeWidth={dragging ? 3 : 2}
+          strokeDasharray="6 10"
           strokeLinecap="round"
           style={{ width: "calc(100% - 4px)", height: "calc(100% - 4px)" }}
         />
@@ -127,18 +127,20 @@ export default function Dropzone({
       )}
 
       <div className="flex flex-col items-center">
-        <UploadMark />
-        <p className="mt-4 sm:mt-6 text-[1.15em] sm:text-[1.4em] font-medium text-tink px-2">
+        <div className="flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-2xl bg-taccent/10 text-taccent transition duration-200 group-hover:scale-105">
+          <UploadMark />
+        </div>
+        <p className="mt-3 sm:mt-4 text-base sm:text-lg md:text-xl font-semibold text-tink px-2">
           {t(locale, "dropzone.title_a")}{" "}
-          <span className="text-taccent hover:underline">{t(locale, "dropzone.browse")}</span>{" "}
-          <span className="text-xs sm:text-sm font-normal text-tmuted block sm:inline mt-1 sm:mt-0">
+          <span className="text-taccent hover:underline">{t(locale, "dropzone.browse")}</span>
+          <span className="text-xs sm:text-sm font-normal text-tmuted block sm:inline sm:ml-1 mt-1 sm:mt-0">
             {t(locale, "dropzone.paste_hint")}
           </span>
         </p>
-        <span className="mt-4 sm:mt-6 inline-block w-full max-w-[280px] sm:w-auto rounded-[6px] bg-tbtnb px-6 sm:px-[30px] py-3.5 sm:py-[18px] text-base font-bold text-white transition hover:bg-[#0257bf]">
+        <span className="mt-3.5 sm:mt-5 inline-flex items-center justify-center w-full max-w-[240px] sm:w-auto rounded-[8px] bg-tbtnb px-7 py-3 text-sm sm:text-base font-semibold text-white shadow-sm transition hover:bg-[#0257bf] hover:shadow-md active:scale-95">
           {t(locale, "dropzone.select")}
         </span>
-        <div className="mt-4 flex flex-wrap items-center justify-center gap-2 px-2">
+        <div className="mt-3 sm:mt-4 flex flex-wrap items-center justify-center gap-2 px-2">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-tpillbg px-3.5 py-1 text-xs font-medium text-tpilltext border border-tpillline text-center">
             {t(locale, "dropzone.limits_info")}
           </span>

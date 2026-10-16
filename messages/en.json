@@ -8,7 +8,7 @@
   "contact.title": "Contact",
   "dropzone.batch_count": "{count} of {max} images",
   "dropzone.batch_full": "Batch limit reached ({max} images)",
-  "dropzone.browse": "browse.",
+  "dropzone.browse": "browse",
   "dropzone.limits_info": "Up to 50 images · Max 120 MP per image · JPG, PNG, WebP, GIF, BMP, AVIF",
   "dropzone.paste_hint": "or paste (Ctrl+V)",
   "dropzone.processing": "Upload successful. Processing your image",

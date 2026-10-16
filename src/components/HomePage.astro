@@ -10,15 +10,18 @@ interface Props {
 const { locale } = Astro.props;
 ---
 
-<section class="bg-tpage">
-  <div class="mx-auto max-w-[1075px] px-4 pb-10 pt-14 md:pt-20">
-    <h2 class="text-center text-[3.125rem] font-normal leading-tight text-tink">
+<section class="bg-tpage pt-6 sm:pt-8 md:pt-10 pb-4 sm:pb-6">
+  <div class="mx-auto max-w-3xl px-4 text-center">
+    <h1 class="text-3xl sm:text-4xl md:text-[2.75rem] font-bold tracking-tight text-tink leading-tight">
       {t(locale, "hero.title")}
-    </h2>
+    </h1>
+    <p class="mt-2 text-xs sm:text-sm md:text-base text-tmuted font-normal leading-relaxed">
+      {t(locale, "site.tagline")} — 100% private in-browser, zero uploads.
+    </p>
   </div>
 </section>
 
-<section id="tool" class="scroll-mt-6 bg-tpage pb-14" aria-label={t(locale, "nav.resize")}>
+<section id="tool" class="scroll-mt-4 bg-tpage pb-10 sm:pb-14" aria-label={t(locale, "nav.resize")}>
   <ShrinkItApp client:load locale={locale} />
 </section>
 

@@ -450,7 +450,7 @@ export default function ShrinkItApp({ locale }: ShrinkItAppProps) {
   const doneCount = items.filter((i) => i.status === "done").length;
 
   return (
-    <div className="mx-auto w-full max-w-[1100px] px-4">
+    <div className="mx-auto w-full max-w-[960px] px-4">
       {!browserSupported && (
         <div
           id="unsupported_browser_message"
@@ -509,7 +509,7 @@ export default function ShrinkItApp({ locale }: ShrinkItAppProps) {
             onAbort={() => abortRef.current?.abort()}
           />
 
-          <div ref={resultRef} className="mx-auto w-full max-w-[1100px] scroll-mt-8">
+          <div ref={resultRef} className="mx-auto w-full max-w-[960px] scroll-mt-8">
             <ResultPanel
               locale={locale}
               items={items}
