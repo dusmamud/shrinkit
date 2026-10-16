@@ -12,7 +12,7 @@ export function getStaticPaths() {
 
 const { locale } = Astro.params as { locale: Locale };
 // Replace with a real inbox before publishing.
-const CONTACT_EMAIL = "hello@shrinkit.pages.dev";
+const CONTACT_EMAIL = "hello@shrinkit.dusrel.com";
 ---
 
 <BaseLayout locale={locale} path="/contact" title={`${t(locale, "contact.title")} — ${t(locale, "site.name")}`}>

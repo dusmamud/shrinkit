@@ -15,7 +15,7 @@ interface Props {
 
 const { locale, path } = Astro.props;
 
-const site = (Astro.site ?? new URL("https://shrinkit.pages.dev")).toString().replace(/\/$/, "");
+const site = (Astro.site ?? new URL("https://shrinkit.dusrel.com")).toString().replace(/\/$/, "");
 const title = Astro.props.title ?? `${t(locale, "site.name")} — ${t(locale, "site.tagline")}`;
 const description = Astro.props.description ?? t(locale, "site.description");
 const canonical = `${site}${localizedPath(path, locale)}`;

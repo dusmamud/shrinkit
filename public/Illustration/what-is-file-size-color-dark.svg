@@ -1,7 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-label="Boy holding a very large photo print">
 <style>
-:root{--ink:#14181F;--paper:#FFFFFF;--blue:#0F7AFF;--sky:#D6E9FF}
-@media (prefers-color-scheme: dark){:root{--ink:#F2F5F9;--paper:#1E2630;--blue:#2E9BFF;--sky:#2A3A4F}}
+:root{--ink:#F2F5F9;--paper:#1E2630;--blue:#2E9BFF;--sky:#2A3A4F}
 </style>
 <!-- confetti behind -->
 <path d="M110 300 l16 20 -16 20 -16 -20 Z" fill="var(--blue)"/>

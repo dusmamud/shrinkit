@@ -1,5 +1,13 @@
 import { useState, useCallback, useEffect } from "react";
-import { Check, Copy, Download, FileImage, Trash, WarningCircle, CaretDown } from "@phosphor-icons/react";
+import {
+  Check,
+  Copy,
+  Download,
+  FileImage,
+  Trash,
+  WarningCircle,
+  CaretDown,
+} from "@phosphor-icons/react";
 import { t } from "../../lib/i18n";
 import type { Locale } from "../../lib/locales";
 import { formatBytes, percentSaved } from "../../lib/image/filenames";
@@ -160,7 +168,10 @@ export default function ResultPanel({
 
               {/* File details */}
               <div className="mt-4 text-center max-w-full px-2">
-                <p className="truncate text-base sm:text-lg font-semibold text-tink" title={item.result!.fileName}>
+                <p
+                  className="truncate text-base sm:text-lg font-semibold text-tink"
+                  title={item.result!.fileName}
+                >
                   {item.result!.fileName}
                 </p>
                 <div className="mt-1 flex items-center justify-center">

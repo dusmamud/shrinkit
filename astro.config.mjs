@@ -8,7 +8,7 @@ import { locales } from "./src/lib/locales.ts";
 
 // NOTE: update `site` to your real Pages domain before deploying.
 export default defineConfig({
-  site: "https://shrinkit.pages.dev",
+  site: "https://shrinkit.dusrel.com",
   output: "static",
   i18n: {
     defaultLocale: "en",

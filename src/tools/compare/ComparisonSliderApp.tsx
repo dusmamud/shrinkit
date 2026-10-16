@@ -15,27 +15,30 @@ export default function ComparisonSliderApp() {
   const isDraggingRef = useRef<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const compressImage = useCallback(async (file: File, q: number) => {
-    setProcessing(true);
-    const bitmap = await createImageBitmap(file);
-    const canvas = document.createElement("canvas");
-    canvas.width = bitmap.width;
-    canvas.height = bitmap.height;
-    const ctx = canvas.getContext("2d");
-    if (ctx) {
-      ctx.drawImage(bitmap, 0, 0);
-    }
-    bitmap.close();
+  const compressImage = useCallback(
+    async (file: File, q: number) => {
+      setProcessing(true);
+      const bitmap = await createImageBitmap(file);
+      const canvas = document.createElement("canvas");
+      canvas.width = bitmap.width;
+      canvas.height = bitmap.height;
+      const ctx = canvas.getContext("2d");
+      if (ctx) {
+        ctx.drawImage(bitmap, 0, 0);
+      }
+      bitmap.close();
 
-    const blob = await new Promise<Blob>((resolve) => {
-      canvas.toBlob((b) => resolve(b!), "image/jpeg", q / 100);
-    });
+      const blob = await new Promise<Blob>((resolve) => {
+        canvas.toBlob((b) => resolve(b!), "image/jpeg", q / 100);
+      });
 
-    setCompressedSize(blob.size);
-    if (compressedUrl) URL.revokeObjectURL(compressedUrl);
-    setCompressedUrl(URL.createObjectURL(blob));
-    setProcessing(false);
-  }, [compressedUrl]);
+      setCompressedSize(blob.size);
+      if (compressedUrl) URL.revokeObjectURL(compressedUrl);
+      setCompressedUrl(URL.createObjectURL(blob));
+      setProcessing(false);
+    },
+    [compressedUrl],
+  );
 
   const handleFileChange = (file: File) => {
     setSelectedFile(file);
@@ -154,7 +157,9 @@ export default function ComparisonSliderApp() {
             </div>
             <div className="rounded-xl bg-tsurface2 p-3 border border-tinputline">
               <span className="block text-xs text-tmuted">Compressed (Right)</span>
-              <span className="text-base font-bold text-taccent">{formatBytes(compressedSize)}</span>
+              <span className="text-base font-bold text-taccent">
+                {formatBytes(compressedSize)}
+              </span>
               {compressedSize > 0 && originalSize > 0 && (
                 <span className="ml-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
                   (-{Math.round((1 - compressedSize / originalSize) * 100)}%)

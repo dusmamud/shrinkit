@@ -1,6 +1,6 @@
 /**
  * Standalone Social Media Resizer Engine.
- * 
+ *
  * 100% Client-Side. Fits or crops images to exact social media platform aspect ratios
  * with optional intelligent background padding so zero content is cropped out.
  */
@@ -100,7 +100,8 @@ export async function resizeForSocial(
   canvas.width = targetW;
   canvas.height = targetH;
 
-  const ctx = canvas.getContext("2d") as CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D;
+  const ctx = canvas.getContext("2d") as
+    CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D;
   if (!ctx) throw new Error("Canvas 2D unsupported");
 
   if (fitMode === "crop-fill") {

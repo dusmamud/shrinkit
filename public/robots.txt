@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://shrinkit.pages.dev/sitemap-index.xml
+Sitemap: https://shrinkit.dusrel.com/sitemap-index.xml

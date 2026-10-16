@@ -1,6 +1,6 @@
 /**
  * Standalone Passport & Visa Photo Maker Engine.
- * 
+ *
  * 100% In-Browser & Private.
  * Formats portrait photos to official national passport & visa dimensions with 300 DPI.
  */
@@ -27,7 +27,8 @@ export const PASSPORT_SPECS: PassportSpec[] = [
     targetWidthPx: 413,
     targetHeightPx: 531,
     dpi: 300,
-    description: "Standard 35x45 mm size with 300 DPI for Indian passports, OCI, and civil exam forms.",
+    description:
+      "Standard 35x45 mm size with 300 DPI for Indian passports, OCI, and civil exam forms.",
   },
   {
     id: "us",
@@ -38,7 +39,8 @@ export const PASSPORT_SPECS: PassportSpec[] = [
     targetWidthPx: 600,
     targetHeightPx: 600,
     dpi: 300,
-    description: "Square 2x2 inches (51x51 mm) at 300 DPI for US State Department and DS-160 visa forms.",
+    description:
+      "Square 2x2 inches (51x51 mm) at 300 DPI for US State Department and DS-160 visa forms.",
   },
   {
     id: "schengen",
@@ -110,7 +112,8 @@ export async function generatePassportPhoto(
   canvas.width = targetW;
   canvas.height = targetH;
 
-  const ctx = canvas.getContext("2d") as CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D;
+  const ctx = canvas.getContext("2d") as
+    CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D;
   if (!ctx) throw new Error("Canvas 2D unsupported");
 
   if (background === "white") {

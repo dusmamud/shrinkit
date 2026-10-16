@@ -48,14 +48,14 @@ const tools = [
       "@type": "CollectionPage",
       name: title,
       description: description,
-      url: "https://shrinkit.pages.dev/tools",
+      url: "https://shrinkit.dusrel.com/tools",
       mainEntity: {
         "@type": "ItemList",
         itemListElement: tools.map((t, idx) => ({
           "@type": "ListItem",
           position: idx + 1,
           name: t.title,
-          url: `https://shrinkit.pages.dev${t.href}`,
+          url: `https://shrinkit.dusrel.com${t.href}`,
           description: t.desc,
         })),
       },

@@ -12,14 +12,14 @@ const year = new Date().getFullYear();
 
 const columns = [
   {
-    heading: "Tools",
+    heading: t(locale, "footer.col_tools"),
     links: [
-      { href: "/tools", label: "All Free Tools" },
-      { href: "/tools/compress-to-50kb", label: "Compress to 50KB" },
-      { href: "/tools/compress-to-20kb", label: "Signature to 20KB" },
-      { href: "/tools/passport-photo-maker", label: "Passport Photo Maker" },
-      { href: "/tools/social-media-resizer", label: "Social Media Resizer" },
-      { href: "/tools/compare-images", label: "Quality Comparison" },
+      { href: "/tools", label: t(locale, "footer.tools_all") },
+      { href: "/tools/compress-to-50kb", label: t(locale, "footer.tools_50kb") },
+      { href: "/tools/compress-to-20kb", label: t(locale, "footer.tools_20kb") },
+      { href: "/tools/passport-photo-maker", label: t(locale, "footer.tools_passport") },
+      { href: "/tools/social-media-resizer", label: t(locale, "footer.tools_social") },
+      { href: "/tools/compare-images", label: t(locale, "footer.tools_compare") },
     ],
   },
   {

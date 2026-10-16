@@ -23,21 +23,18 @@ export default function PassportPhotoApp() {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleProcess = useCallback(
-    async (file: File, spec: PassportSpec) => {
-      setError(null);
-      setProcessing(true);
-      try {
-        const res = await generatePassportPhoto(file, spec, "white");
-        setResult(res);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Failed to generate passport photo");
-      } finally {
-        setProcessing(false);
-      }
-    },
-    [],
-  );
+  const handleProcess = useCallback(async (file: File, spec: PassportSpec) => {
+    setError(null);
+    setProcessing(true);
+    try {
+      const res = await generatePassportPhoto(file, spec, "white");
+      setResult(res);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to generate passport photo");
+    } finally {
+      setProcessing(false);
+    }
+  }, []);
 
   const handleFileChange = (file: File) => {
     setSelectedFile(file);
@@ -77,7 +74,9 @@ export default function PassportPhotoApp() {
 
       {/* Country / Standard Selector */}
       <div className="mb-8 flex flex-col items-center justify-center gap-3">
-        <label className="text-sm font-medium text-tink">Select Destination Country or Standard:</label>
+        <label className="text-sm font-medium text-tink">
+          Select Destination Country or Standard:
+        </label>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 w-full max-w-2xl">
           {PASSPORT_SPECS.map((spec) => (
             <button
@@ -120,7 +119,8 @@ export default function PassportPhotoApp() {
             Upload your portrait photo, or <span className="text-taccent underline">browse</span>
           </p>
           <p className="text-xs text-tmuted">
-            Formats to {selectedSpec.widthMm}×{selectedSpec.heightMm} mm ({selectedSpec.targetWidthPx}×{selectedSpec.targetHeightPx} px @ 300 DPI).
+            Formats to {selectedSpec.widthMm}×{selectedSpec.heightMm} mm (
+            {selectedSpec.targetWidthPx}×{selectedSpec.targetHeightPx} px @ 300 DPI).
           </p>
         </div>
       ) : (

@@ -221,8 +221,7 @@ export default function TargetSizeApp({
                       {formatBytes(result.outputBytes)}
                     </span>
                     <span className="ml-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
-                      (
-                      -{Math.round((1 - result.outputBytes / result.originalBytes) * 100)}
+                      ( -{Math.round((1 - result.outputBytes / result.originalBytes) * 100)}
                       %)
                     </span>
                   </div>
@@ -276,9 +275,7 @@ export default function TargetSizeApp({
 
       {/* SEO & FAQ Information Section */}
       <div className="mt-16 rounded-2xl border border-tinputline bg-tsurface p-8">
-        <h2 className="text-xl font-bold text-tink mb-4">
-          Why use ShrinkIt Exact KB Compressor?
-        </h2>
+        <h2 className="text-xl font-bold text-tink mb-4">Why use ShrinkIt Exact KB Compressor?</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm text-tmuted">
           <div>
             <h3 className="font-semibold text-tink mb-1">Government Portals Ready</h3>
@@ -297,8 +294,8 @@ export default function TargetSizeApp({
           <div>
             <h3 className="font-semibold text-tink mb-1">Maximum Sharpness</h3>
             <p>
-              Uses multi-pass binary search to target the highest possible visual clarity right below
-              your specified byte ceiling.
+              Uses multi-pass binary search to target the highest possible visual clarity right
+              below your specified byte ceiling.
             </p>
           </div>
         </div>

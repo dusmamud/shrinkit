@@ -79,8 +79,8 @@ export default function SocialResizerApp() {
           Social Media Image Resizer
         </h1>
         <p className="max-w-2xl mx-auto text-sm sm:text-base text-tmuted">
-          Instantly resize your photos for Instagram, YouTube, TikTok, Twitter/X, and LinkedIn without
-          awkward crops or quality loss.
+          Instantly resize your photos for Instagram, YouTube, TikTok, Twitter/X, and LinkedIn
+          without awkward crops or quality loss.
         </p>
       </div>
 
@@ -159,7 +159,8 @@ export default function SocialResizerApp() {
             Upload your photo, or <span className="text-taccent underline">browse</span>
           </p>
           <p className="text-xs text-tmuted">
-            Automatically formats to {selectedPreset.width}×{selectedPreset.height} px ({selectedPreset.aspectRatio}).
+            Automatically formats to {selectedPreset.width}×{selectedPreset.height} px (
+            {selectedPreset.aspectRatio}).
           </p>
         </div>
       ) : (

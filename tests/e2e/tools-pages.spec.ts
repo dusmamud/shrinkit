@@ -20,7 +20,9 @@ test.describe("Dedicated Tools Pages (Zero Landing Page Contamination)", () => {
   test("2. Tools hub page (/tools) renders all 5 free tools", async ({ page }) => {
     await page.goto("http://localhost:7860/tools");
     const main = page.locator("main");
-    await expect(main.getByRole("heading", { name: "Free Online Image Optimization Tools" })).toBeVisible();
+    await expect(
+      main.getByRole("heading", { name: "Free Online Image Optimization Tools" }),
+    ).toBeVisible();
     await expect(main.getByRole("link", { name: /Compress to 50 KB/i })).toBeVisible();
     await expect(main.getByRole("link", { name: /Compress to 20 KB/i })).toBeVisible();
     await expect(main.getByRole("link", { name: /Passport Photo Maker/i })).toBeVisible();
@@ -30,13 +32,17 @@ test.describe("Dedicated Tools Pages (Zero Landing Page Contamination)", () => {
 
   test("3. Compress to 50KB page loads with Target 50KB selected", async ({ page }) => {
     await page.goto("http://localhost:7860/tools/compress-to-50kb");
-    await expect(page.getByRole("heading", { name: "Compress Image to 50KB Online" })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Compress Image to 50KB Online" }),
+    ).toBeVisible();
     await expect(page.getByRole("button", { name: "< 50 KB" })).toBeVisible();
   });
 
   test("4. Passport Photo Maker page loads with official specs", async ({ page }) => {
     await page.goto("http://localhost:7860/tools/passport-photo-maker");
-    await expect(page.getByRole("heading", { name: "Online Passport & Visa Photo Maker" })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Online Passport & Visa Photo Maker" }),
+    ).toBeVisible();
     await expect(page.getByRole("button", { name: /India/i })).toBeVisible();
     await expect(page.getByRole("button", { name: /USA/i })).toBeVisible();
   });
@@ -50,7 +56,9 @@ test.describe("Dedicated Tools Pages (Zero Landing Page Contamination)", () => {
 
   test("6. Quality Comparison page loads with split slider", async ({ page }) => {
     await page.goto("http://localhost:7860/tools/compare-images");
-    await expect(page.getByRole("heading", { name: "Before vs After Image Comparison" })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Before vs After Image Comparison" }),
+    ).toBeVisible();
   });
 
   test("7. Navigation contains Tools links in Header and Footer", async ({ page }) => {

@@ -1,6 +1,6 @@
 /**
  * Standalone Client-Side Target File Size (KB) Compressor.
- * 
+ *
  * Completely isolated from main app source code.
  * Runs 100% in-browser using HTML5 Canvas / OffscreenCanvas with binary search
  * to hit an exact KB ceiling (e.g. < 50 KB, < 20 KB) while preserving maximum visual clarity.
@@ -51,8 +51,8 @@ export async function compressToTargetKb(
     });
   }
 
-  let srcW = bitmap.width;
-  let srcH = bitmap.height;
+  const srcW = bitmap.width;
+  const srcH = bitmap.height;
 
   // Scale down dimensions if maxDimension is specified or if image is gigantic (> 2400px)
   let targetW = srcW;
@@ -78,7 +78,8 @@ export async function compressToTargetKb(
   canvas.width = targetW;
   canvas.height = targetH;
 
-  const ctx = canvas.getContext("2d") as CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D;
+  const ctx = canvas.getContext("2d") as
+    CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D;
   if (!ctx) {
     throw new Error("Canvas 2D context is not supported in this browser.");
   }
@@ -97,11 +98,7 @@ export async function compressToTargetKb(
       return canvas.convertToBlob({ type: format, quality });
     }
     return new Promise((resolve, reject) => {
-      canvas.toBlob(
-        (b) => (b ? resolve(b) : reject(new Error("toBlob failed"))),
-        format,
-        quality,
-      );
+      canvas.toBlob((b) => (b ? resolve(b) : reject(new Error("toBlob failed"))), format, quality);
     });
   };
 
