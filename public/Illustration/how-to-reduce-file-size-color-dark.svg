@@ -1,6 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-label="Girl squeezing a large round photo into a smaller one">
 <style>
-:root{--ink:#e5e5ea;--paper:#e8e8ed;--blue:#0a84ff;--sky:#dbeafe;}
+:root{--ink:#14181F;--paper:#FFFFFF;--blue:#0F7AFF;--sky:#D6E9FF}
+@media (prefers-color-scheme: dark){:root{--ink:#F2F5F9;--paper:#1E2630;--blue:#2E9BFF;--sky:#2A3A4F}}
 </style>
 <!-- confetti -->
 <path d="M100 250 l16 20 -16 20 -16 -20 Z" fill="var(--blue)"/>
@@ -16,7 +17,7 @@
 <path d="M180 950 h30" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"/>
 <path d="M840 980 h30" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"/>
 <!-- large round photo -->
-<circle cx="640" cy="360" r="280" fill="var(--sky)" stroke="var(--ink)" stroke-width="7"/>
+<circle cx="640" cy="360" r="280" fill="var(--paper)" stroke="var(--ink)" stroke-width="7"/>
 <g stroke="var(--blue)" stroke-width="12" stroke-linecap="round">
 <line x1="580" y1="230" x2="580" y2="150"/>
 <line x1="580" y1="230" x2="636" y2="174"/>
@@ -51,7 +52,7 @@
 <circle cx="260" cy="370" r="7" fill="var(--ink)"/>
 <path d="M210 410 Q230 425 250 410" fill="none" stroke="var(--ink)" stroke-width="5" stroke-linecap="round"/>
 <!-- small round photo -->
-<circle cx="850" cy="730" r="140" fill="var(--sky)" stroke="var(--ink)" stroke-width="7"/>
+<circle cx="850" cy="730" r="140" fill="var(--paper)" stroke="var(--ink)" stroke-width="7"/>
 <g stroke="var(--blue)" stroke-width="9" stroke-linecap="round">
 <line x1="820" y1="675" x2="820" y2="625"/>
 <line x1="820" y1="675" x2="855" y2="640"/>
