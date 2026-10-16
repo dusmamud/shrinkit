@@ -1,0 +1,20 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import TargetSizeApp from "../../tools/target-size/TargetSizeApp";
+
+const locale = "en" as const;
+const title = "Compress Image to 50KB Online Free — 100% Private (No Upload)";
+const description =
+  "Easily compress images to under 50KB for government exam portals (UPSC, SSC, IBPS, Banking), visas, and job applications without losing clarity. 100% client-side privacy.";
+---
+
+<BaseLayout locale={locale} path="/tools/compress-to-50kb" title={title} description={description}>
+  <main class="min-h-[80vh] py-8">
+    <TargetSizeApp
+      client:load
+      initialTargetKb={50}
+      title="Compress Image to 50KB Online"
+      subtitle="Guaranteed under 50 KB for UPSC, SSC, IBPS, bank exam forms, and visa uploads. No servers, 100% private."
+    />
+  </main>
+</BaseLayout>

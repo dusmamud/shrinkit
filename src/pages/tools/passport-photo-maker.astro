@@ -1,0 +1,15 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PassportPhotoApp from "../../tools/passport/PassportPhotoApp";
+
+const locale = "en" as const;
+const title = "Passport Photo Maker Online Free (35x45mm & 2x2 inch) — ShrinkIt";
+const description =
+  "Generate official compliant passport and visa photos online in seconds. Pre-set dimensions for India, USA, UK, and Schengen visas with 300 DPI resolution.";
+---
+
+<BaseLayout locale={locale} path="/tools/passport-photo-maker" title={title} description={description}>
+  <main class="min-h-[80vh] py-8">
+    <PassportPhotoApp client:load />
+  </main>
+</BaseLayout>

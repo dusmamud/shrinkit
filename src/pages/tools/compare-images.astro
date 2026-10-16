@@ -1,0 +1,15 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ComparisonSliderApp from "../../tools/compare/ComparisonSliderApp";
+
+const locale = "en" as const;
+const title = "Before vs After Image Quality Comparison Tool — ShrinkIt";
+const description =
+  "Interactive split-screen image quality comparison slider. Compare uncompressed vs compressed images side-by-side with zero quality loss. 100% in-browser.";
+---
+
+<BaseLayout locale={locale} path="/tools/compare-images" title={title} description={description}>
+  <main class="min-h-[80vh] py-8">
+    <ComparisonSliderApp client:load />
+  </main>
+</BaseLayout>

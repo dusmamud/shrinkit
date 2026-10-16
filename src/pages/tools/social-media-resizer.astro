@@ -1,0 +1,15 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SocialResizerApp from "../../tools/social/SocialResizerApp";
+
+const locale = "en" as const;
+const title = "Social Media Image Resizer Online Free (Instagram, YouTube, X) — ShrinkIt";
+const description =
+  "Easily resize images for Instagram, YouTube thumbnails, TikTok, Twitter/X, and LinkedIn online with zero quality loss and no server uploads. 100% private.";
+---
+
+<BaseLayout locale={locale} path="/tools/social-media-resizer" title={title} description={description}>
+  <main class="min-h-[80vh] py-8">
+    <SocialResizerApp client:load />
+  </main>
+</BaseLayout>

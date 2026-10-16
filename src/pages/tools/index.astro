@@ -1,0 +1,79 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const locale = "en" as const;
+const title = "Free Online Image Tools — 100% Private & In-Browser — ShrinkIt";
+const description =
+  "Explore free client-side image tools: Compress to 50KB, Signature to 20KB, Passport Photo Maker, Social Media Resizer, and Split Quality Comparison.";
+
+const tools = [
+  {
+    title: "Compress to 50 KB",
+    href: "/tools/compress-to-50kb",
+    badge: "Government Portals",
+    desc: "Strictly compress photos under 50KB for UPSC, SSC, IBPS, and bank exams without blurring.",
+  },
+  {
+    title: "Compress to 20 KB",
+    href: "/tools/compress-to-20kb",
+    badge: "Signatures & IDs",
+    desc: "Reduce signature and thumb-impression scans to under 20KB with razor-sharp black/white contrast.",
+  },
+  {
+    title: "Passport Photo Maker",
+    href: "/tools/passport-photo-maker",
+    badge: "300 DPI Official",
+    desc: "Format portrait photos to official 35×45mm or 2×2 inch standards with pure white background.",
+  },
+  {
+    title: "Social Media Resizer",
+    href: "/tools/social-media-resizer",
+    badge: "2026 Standards",
+    desc: "One-click presets for Instagram Square, Story/Reel (9:16), YouTube thumbnails, and LinkedIn banners.",
+  },
+  {
+    title: "Before vs After Comparison",
+    href: "/tools/compare-images",
+    badge: "Visual Inspection",
+    desc: "Interactive split-screen slider to inspect compression quality side-by-side with original photos.",
+  },
+];
+---
+
+<BaseLayout locale={locale} path="/tools" title={title} description={description}>
+  <main class="mx-auto max-w-5xl px-4 py-12 sm:px-6">
+    <div class="text-center mb-12">
+      <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-tink mb-3">
+        Free Online Image Optimization Tools
+      </h1>
+      <p class="max-w-2xl mx-auto text-sm sm:text-base text-tmuted">
+        Every tool runs 100% in your browser. No files are ever uploaded to any server. Total privacy, zero watermarks.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {tools.map((tool) => (
+        <a
+          href={tool.href}
+          class="group rounded-2xl border border-tinputline bg-tsurface p-6 transition hover:border-taccent hover:shadow-md flex flex-col justify-between"
+        >
+          <div>
+            <div class="inline-block rounded-full border border-taccent/20 bg-taccent/10 px-2.5 py-0.5 text-xs font-semibold text-taccent mb-3">
+              {tool.badge}
+            </div>
+            <h2 class="text-lg font-bold text-tink group-hover:text-taccent transition mb-2">
+              {tool.title}
+            </h2>
+            <p class="text-xs sm:text-sm text-tmuted leading-relaxed">
+              {tool.desc}
+            </p>
+          </div>
+          <div class="mt-6 flex items-center gap-1 text-xs font-bold text-taccent">
+            <span>Open Tool</span>
+            <span class="transition-transform group-hover:translate-x-1">&rarr;</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </main>
+</BaseLayout>
