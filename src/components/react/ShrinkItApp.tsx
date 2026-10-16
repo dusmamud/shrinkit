@@ -17,8 +17,7 @@ import Dropzone from "./Dropzone";
 import SettingsPanel, { type SettingsState } from "./SettingsPanel";
 import ResultPanel, { type QueueItem } from "./ResultPanel";
 import { getDefaultDimensionsForUnit } from "../../lib/image/units";
-
-const MAX_BATCH = 50;
+import { MAX_BATCH, UNIT_LIMITS, DPI_LIMITS, QUALITY_LIMITS } from "../../lib/image/limits";
 
 let idCounter = 0;
 function nextId(): string {
@@ -190,6 +189,10 @@ export default function ShrinkItApp({ locale }: ShrinkItAppProps) {
   const patchSettings = useCallback((patch: Partial<SettingsState>) => {
     setSettings((s) => ({ ...s, ...patch }));
     setFormError(null);
+    // When any setting is updated, if items were previously 'done', mark them 'queued' so re-resize is immediately available
+    setItems((prev) =>
+      prev.map((i) => (i.status === "done" ? { ...i, status: "queued" as const } : i)),
+    );
   }, []);
 
   const addFiles = useCallback(
@@ -281,14 +284,39 @@ export default function ShrinkItApp({ locale }: ShrinkItAppProps) {
     const dpi = Number(settings.dpi);
     const qualityApplies = settings.format === "jpeg" || settings.format === "webp";
     const quality = qualityApplies
-      ? Math.min(100, Math.max(0, Math.round(Number(settings.quality) || 0)))
+      ? Math.min(100, Math.max(1, Math.round(Number(settings.quality) || 0)))
       : 100;
-    if (!Number.isFinite(width) || width <= 0 || !Number.isFinite(height) || height <= 0) {
-      throw new Error(t(locale, "errors.invalid_size"));
+
+    const unitLimit = UNIT_LIMITS[settings.unit];
+    if (!Number.isFinite(width) || width < unitLimit.min || width > unitLimit.max) {
+      throw new Error(
+        t(locale, "errors.width_limit", {
+          min: `${unitLimit.min}${unitLimit.suffix}`,
+          max: `${unitLimit.max.toLocaleString()}${unitLimit.suffix}`,
+        }),
+      );
     }
-    if (!Number.isFinite(dpi) || dpi <= 0) {
-      throw new Error(t(locale, "errors.invalid_size"));
+    if (!Number.isFinite(height) || height < unitLimit.min || height > unitLimit.max) {
+      throw new Error(
+        t(locale, "errors.height_limit", {
+          min: `${unitLimit.min}${unitLimit.suffix}`,
+          max: `${unitLimit.max.toLocaleString()}${unitLimit.suffix}`,
+        }),
+      );
     }
+    if (
+      settings.format !== "gif" &&
+      (!Number.isFinite(dpi) || dpi < DPI_LIMITS.min || dpi > DPI_LIMITS.max)
+    ) {
+      throw new Error(t(locale, "errors.dpi_limit"));
+    }
+    if (qualityApplies) {
+      const qNum = Number(settings.quality);
+      if (!Number.isFinite(qNum) || qNum < QUALITY_LIMITS.min || qNum > QUALITY_LIMITS.max) {
+        throw new Error(t(locale, "errors.quality_limit"));
+      }
+    }
+
     return {
       width,
       height,
@@ -303,7 +331,22 @@ export default function ShrinkItApp({ locale }: ShrinkItAppProps) {
   }, [locale, settings]);
 
   const runAll = useCallback(async () => {
-    const queue = itemsRef.current.filter((i) => i.status === "queued");
+    let queue = itemsRef.current.filter((i) => i.status === "queued");
+    // If all items are 'done' (or no items are currently queued), re-queue all items so re-resize works
+    if (queue.length === 0 && itemsRef.current.length > 0) {
+      setItems((prev) =>
+        prev.map((i) => ({
+          ...i,
+          status: "queued" as const,
+          error: undefined,
+        })),
+      );
+      queue = itemsRef.current.map((i) => ({
+        ...i,
+        status: "queued" as const,
+        error: undefined,
+      }));
+    }
     if (queue.length === 0 || running) return;
     let procSettings: ProcessSettings;
     try {
@@ -320,6 +363,10 @@ export default function ShrinkItApp({ locale }: ShrinkItAppProps) {
     try {
       for (const item of queue) {
         if (abort.signal.aborted) break;
+        // Revoke prior resultUrl before allocating a new one
+        if (item.resultUrl) {
+          URL.revokeObjectURL(item.resultUrl);
+        }
         setItems((prev) =>
           prev.map((i) =>
             i.id === item.id

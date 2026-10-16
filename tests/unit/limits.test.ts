@@ -48,3 +48,19 @@ describe("checkOutputDimensions", () => {
     });
   });
 });
+
+describe("batch & input field limits", () => {
+  it("defines safe batch and quality/dpi limits", async () => {
+    const { MAX_BATCH, UNIT_LIMITS, DPI_LIMITS, QUALITY_LIMITS } =
+      await import("../../src/lib/image/limits");
+    expect(MAX_BATCH).toBe(50);
+    expect(DPI_LIMITS.min).toBe(1);
+    expect(DPI_LIMITS.max).toBe(1200);
+    expect(QUALITY_LIMITS.min).toBe(1);
+    expect(QUALITY_LIMITS.max).toBe(100);
+    expect(UNIT_LIMITS.percent.min).toBe(1);
+    expect(UNIT_LIMITS.percent.max).toBe(500);
+    expect(UNIT_LIMITS.pixels.min).toBe(1);
+    expect(UNIT_LIMITS.pixels.max).toBe(12000);
+  });
+});

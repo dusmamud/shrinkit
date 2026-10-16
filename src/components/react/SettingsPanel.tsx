@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Trash, Stop } from "@phosphor-icons/react";
+import { Trash, Stop, WarningCircle } from "@phosphor-icons/react";
 import { t, type MessageKey } from "../../lib/i18n";
 import type { Locale } from "../../lib/locales";
 import {
@@ -8,6 +8,7 @@ import {
   getDefaultDimensionsForUnit,
   calculateProportionalDimension,
 } from "../../lib/image/units";
+import { UNIT_LIMITS, DPI_LIMITS, QUALITY_LIMITS } from "../../lib/image/limits";
 import type { OutputFormat } from "../../lib/image/filenames";
 import type { ResizeMode } from "../../lib/image/engine";
 import CustomSelect from "./CustomSelect";
@@ -106,7 +107,7 @@ export default function SettingsPanel({
   originalSize,
   onProcess,
   processing = false,
-  queuedCount = 1,
+  queuedCount: _queuedCount = 1,
   itemCount = 1,
   onClear,
   onAbort,
@@ -118,15 +119,37 @@ export default function SettingsPanel({
       ? originalSize
       : { width: 1920, height: 1080 };
 
+  const unitLimit = UNIT_LIMITS[settings.unit];
+
   const wNum = Number(settings.width);
   const hNum = Number(settings.height);
-  const isWidthInvalid = !Number.isFinite(wNum) || wNum <= 0;
-  const isHeightInvalid = !Number.isFinite(hNum) || hNum <= 0;
+  const isWidthInvalid = !Number.isFinite(wNum) || wNum < unitLimit.min || wNum > unitLimit.max;
+  const isHeightInvalid = !Number.isFinite(hNum) || hNum < unitLimit.min || hNum > unitLimit.max;
+
+  const widthError = isWidthInvalid
+    ? t(locale, "errors.width_limit", {
+        min: `${unitLimit.min}${unitLimit.suffix}`,
+        max: `${unitLimit.max.toLocaleString()}${unitLimit.suffix}`,
+      })
+    : null;
+
+  const heightError = isHeightInvalid
+    ? t(locale, "errors.height_limit", {
+        min: `${unitLimit.min}${unitLimit.suffix}`,
+        max: `${unitLimit.max.toLocaleString()}${unitLimit.suffix}`,
+      })
+    : null;
 
   // ReduceImages shows resize modes only if unlocked AND width !== height
   const showModes = !locked && settings.width !== settings.height;
   const resolutionApplies = settings.format !== "gif";
   const qualityApplies = settings.format === "jpeg" || settings.format === "webp";
+
+  const dpiNum = Number(settings.dpi);
+  const isDpiInvalid =
+    resolutionApplies &&
+    (!Number.isFinite(dpiNum) || dpiNum < DPI_LIMITS.min || dpiNum > DPI_LIMITS.max);
+  const dpiError = isDpiInvalid ? t(locale, "errors.dpi_limit") : null;
 
   const qualityNum =
     settings.format === "png"
@@ -134,6 +157,14 @@ export default function SettingsPanel({
       : settings.format === "gif"
         ? "100"
         : settings.quality || "90";
+
+  const qNum = Number(qualityNum);
+  const isQualityInvalid =
+    qualityApplies &&
+    (!Number.isFinite(qNum) || qNum < QUALITY_LIMITS.min || qNum > QUALITY_LIMITS.max);
+  const qualityError = isQualityInvalid ? t(locale, "errors.quality_limit") : null;
+
+  const validationError = widthError || heightError || dpiError || qualityError;
 
   const setWidth = (value: string) => {
     if (locked) {
@@ -228,26 +259,38 @@ export default function SettingsPanel({
                 id="set-width"
                 data-testid="width-input"
                 type="number"
-                min="0"
+                min={unitLimit.min}
+                max={unitLimit.max}
                 step="any"
                 value={settings.width}
                 disabled={disabled}
                 onChange={(e) => setWidth(e.target.value)}
-                className={`h-[50px] w-[68px] sm:w-[72px] text-center text-[1.15em] sm:text-[1.25em] font-light text-[#1d2939] bg-white border rounded-[6px] outline-none transition focus:border-[#016df0] ${
-                  isWidthInvalid ? "border-[#d33] focus:border-[#d33]" : "border-[#667085]"
+                title={
+                  widthError || `Allowed: ${unitLimit.min}–${unitLimit.max}${unitLimit.suffix}`
+                }
+                className={`h-[50px] w-[68px] sm:w-[72px] text-center text-[1.15em] sm:text-[1.25em] font-light rounded-[6px] outline-none transition ${
+                  isWidthInvalid
+                    ? "border-2 border-[#d33] bg-[#fff5f5] text-[#d33] focus:border-[#d33]"
+                    : "border border-[#667085] bg-white text-[#1d2939] focus:border-[#016df0]"
                 }`}
               />
               <input
                 id="set-height"
                 data-testid="height-input"
                 type="number"
-                min="0"
+                min={unitLimit.min}
+                max={unitLimit.max}
                 step="any"
                 value={settings.height}
                 disabled={disabled}
                 onChange={(e) => setHeight(e.target.value)}
-                className={`h-[50px] w-[68px] sm:w-[72px] text-center text-[1.15em] sm:text-[1.25em] font-light text-[#1d2939] bg-white border rounded-[6px] outline-none transition focus:border-[#016df0] ${
-                  isHeightInvalid ? "border-[#d33] focus:border-[#d33]" : "border-[#667085]"
+                title={
+                  heightError || `Allowed: ${unitLimit.min}–${unitLimit.max}${unitLimit.suffix}`
+                }
+                className={`h-[50px] w-[68px] sm:w-[72px] text-center text-[1.15em] sm:text-[1.25em] font-light rounded-[6px] outline-none transition ${
+                  isHeightInvalid
+                    ? "border-2 border-[#d33] bg-[#fff5f5] text-[#d33] focus:border-[#d33]"
+                    : "border border-[#667085] bg-white text-[#1d2939] focus:border-[#016df0]"
                 }`}
               />
             </div>
@@ -358,44 +401,73 @@ export default function SettingsPanel({
             </div>
           </div>
 
+          {/* Real-time dimension limit error */}
+          {(widthError || heightError) && (
+            <div
+              role="alert"
+              className="mt-3 flex items-center justify-center gap-1.5 text-xs font-medium text-[#d33]"
+            >
+              <WarningCircle size={15} weight="fill" className="shrink-0 text-[#d33]" />
+              <span>{widthError || heightError}</span>
+            </div>
+          )}
+
           {/* Resolution Row (Full text label always, perfectly aligned) */}
           {resolutionApplies && (
             <div
               id="resolution_row"
               data-tip={t(locale, "settings.resolution_tip")}
-              className="mt-4 flex items-center justify-center"
+              className="mt-4 flex flex-col items-center justify-center"
             >
-              <div className="flex h-[50px] items-center justify-end pr-2.5 sm:pr-4">
-                <label
-                  htmlFor="set-dpi"
-                  className="lbl-full font-medium text-[0.875rem] sm:text-[1.125rem] text-[#000] whitespace-nowrap cursor-help underline decoration-dotted underline-offset-4"
-                >
-                  {t(locale, "settings.resolution")}
-                </label>
-              </div>
-              <div className="flex items-center">
-                <div className="relative">
-                  <input
-                    id="set-dpi"
-                    data-testid="dpi-input"
-                    type="number"
-                    min="1"
-                    step="1"
-                    value={settings.dpi}
-                    disabled={disabled}
-                    onChange={(e) => onChange({ dpi: e.target.value })}
-                    className="h-[50px] w-[85px] sm:w-[95px] rounded-[6px] border border-[#667085] bg-white pr-8 text-center text-[1.15em] sm:text-[1.25em] font-light text-[#1d2939] outline-none transition focus:border-[#016df0]"
-                  />
-                  <span
-                    id="dpi_unit_overlay"
-                    className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-[0.75em] text-[#667085]"
+              <div className="flex items-center justify-center">
+                <div className="flex h-[50px] items-center justify-end pr-2.5 sm:pr-4">
+                  <label
+                    htmlFor="set-dpi"
+                    className="lbl-full font-medium text-[0.875rem] sm:text-[1.125rem] text-[#000] whitespace-nowrap cursor-help underline decoration-dotted underline-offset-4"
                   >
-                    DPI
-                  </span>
+                    {t(locale, "settings.resolution")}
+                  </label>
                 </div>
-                {/* Spacer to keep input visually aligned with the Width/Height column */}
-                <div className="w-[170px] sm:w-[208px] hidden sm:block pointer-events-none" />
+                <div className="flex items-center">
+                  <div className="relative">
+                    <input
+                      id="set-dpi"
+                      data-testid="dpi-input"
+                      type="number"
+                      min={DPI_LIMITS.min}
+                      max={DPI_LIMITS.max}
+                      step="1"
+                      value={settings.dpi}
+                      disabled={disabled}
+                      onChange={(e) => onChange({ dpi: e.target.value })}
+                      title={dpiError || `Allowed: ${DPI_LIMITS.min}–${DPI_LIMITS.max} DPI`}
+                      className={`h-[50px] w-[85px] sm:w-[95px] rounded-[6px] pr-8 text-center text-[1.15em] sm:text-[1.25em] font-light outline-none transition ${
+                        isDpiInvalid
+                          ? "border-2 border-[#d33] bg-[#fff5f5] text-[#d33] focus:border-[#d33]"
+                          : "border border-[#667085] bg-white text-[#1d2939] focus:border-[#016df0]"
+                      }`}
+                    />
+                    <span
+                      id="dpi_unit_overlay"
+                      className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-[0.75em] text-[#667085]"
+                    >
+                      DPI
+                    </span>
+                  </div>
+                  {/* Spacer to keep input visually aligned with the Width/Height column */}
+                  <div className="w-[170px] sm:w-[208px] hidden sm:block pointer-events-none" />
+                </div>
               </div>
+
+              {dpiError && (
+                <div
+                  role="alert"
+                  className="mt-2 flex items-center justify-center gap-1.5 text-xs font-medium text-[#d33]"
+                >
+                  <WarningCircle size={14} weight="fill" className="shrink-0 text-[#d33]" />
+                  <span>{dpiError}</span>
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -485,18 +557,32 @@ export default function SettingsPanel({
                   id="set-quality"
                   data-testid="quality-input"
                   type="number"
-                  min="0"
-                  max="100"
+                  min={QUALITY_LIMITS.min}
+                  max={QUALITY_LIMITS.max}
                   step="1"
                   value={qualityNum}
                   disabled={disabled}
                   onChange={(e) => onChange({ quality: e.target.value })}
-                  className="h-[50px] w-[90px] rounded-[6px] border border-[#667085] bg-white pr-7 text-center text-[1.25em] font-light text-[#1d2939] outline-none transition focus:border-[#016df0]"
+                  title={qualityError || `Allowed: ${QUALITY_LIMITS.min}–${QUALITY_LIMITS.max}%`}
+                  className={`h-[50px] w-[90px] rounded-[6px] pr-7 text-center text-[1.25em] font-light outline-none transition ${
+                    isQualityInvalid
+                      ? "border-2 border-[#d33] bg-[#fff5f5] text-[#d33] focus:border-[#d33]"
+                      : "border border-[#667085] bg-white text-[#1d2939] focus:border-[#016df0]"
+                  }`}
                 />
                 <span className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-[0.85em] text-[#667085]">
                   %
                 </span>
               </div>
+              {qualityError && (
+                <div
+                  role="alert"
+                  className="mt-1 flex items-center gap-1 text-xs font-medium text-[#d33]"
+                >
+                  <WarningCircle size={14} weight="fill" className="shrink-0 text-[#d33]" />
+                  <span>{qualityError}</span>
+                </div>
+              )}
             </div>
           )}
 
@@ -555,7 +641,8 @@ export default function SettingsPanel({
               type="button"
               data-testid="process-button"
               onClick={onProcess}
-              disabled={disabled || processing || queuedCount === 0}
+              disabled={disabled || processing || itemCount === 0 || Boolean(validationError)}
+              title={validationError || undefined}
               className="inline-block rounded-[6px] bg-[#016df0] px-12 py-3.5 text-[1.125rem] font-bold text-white shadow-sm transition hover:bg-[#0257bf] disabled:cursor-not-allowed disabled:opacity-40"
             >
               {processing
@@ -564,6 +651,16 @@ export default function SettingsPanel({
                   ? t(locale, "settings.process_many")
                   : t(locale, "settings.process_one")}
             </button>
+
+            {validationError && (
+              <p
+                role="alert"
+                className="mt-2 text-xs font-medium text-[#d33] flex items-center justify-center gap-1"
+              >
+                <WarningCircle size={14} weight="fill" className="shrink-0" />
+                <span>{validationError}</span>
+              </p>
+            )}
 
             {/* Clear All / Stop row below */}
             <div className="mt-3 flex justify-center gap-3">

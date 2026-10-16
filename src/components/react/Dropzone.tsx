@@ -3,6 +3,7 @@ import { X, WarningCircle } from "@phosphor-icons/react";
 import { t } from "../../lib/i18n";
 import type { Locale } from "../../lib/locales";
 import { formatBytes } from "../../lib/image/filenames";
+import { MAX_BATCH } from "../../lib/image/limits";
 import type { QueueItem } from "./ResultPanel";
 
 interface DropzoneProps {
@@ -132,50 +133,70 @@ export default function Dropzone({
         <span className="mt-6 inline-block rounded-[6px] bg-[#007bff] px-[30px] py-[18px] text-base font-bold text-white transition hover:bg-[#0257bf]">
           {t(locale, "dropzone.select")}
         </span>
+        <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-[#eef4ff] px-3.5 py-1 text-xs font-medium text-[#016df0] border border-[#d0e1fd]">
+            {t(locale, "dropzone.limits_info")}
+          </span>
+        </div>
       </div>
 
       {items.length > 0 && (
         <div
-          className="mt-10 flex flex-wrap justify-center gap-4"
+          className="mt-8 flex flex-col items-center"
           onClick={(e) => e.stopPropagation()}
           onKeyDown={(e) => e.stopPropagation()}
         >
-          {items.map((item) => (
-            <div
-              key={item.id}
-              data-testid={`thumb-${item.id}`}
-              className="relative w-[140px] rounded-[6px] border border-[#52a0ff] bg-white transition duration-150 hover:scale-[1.02] hover:shadow-[0_8px_24px_rgba(1,109,240,0.18)]"
+          <div className="mb-3 flex items-center gap-2">
+            <span
+              className={`rounded-full px-3 py-1 text-xs font-semibold border ${
+                items.length >= MAX_BATCH
+                  ? "bg-[#fee4e2] text-[#d92d20] border-[#fecdca]"
+                  : "bg-white text-[#344054] border-[#d0d5dd] shadow-sm"
+              }`}
             >
-              <button
-                type="button"
-                onClick={() => onRemove(item.id)}
-                aria-label={`${t(locale, "result.remove")}: ${item.file.name}`}
-                className="absolute right-1 top-1 z-10 rounded-full bg-white/95 p-1 text-[#667085] shadow-sm transition hover:text-[#d33]"
+              {items.length >= MAX_BATCH
+                ? t(locale, "dropzone.batch_full", { max: MAX_BATCH })
+                : t(locale, "dropzone.batch_count", { count: items.length, max: MAX_BATCH })}
+            </span>
+          </div>
+          <div className="flex flex-wrap justify-center gap-4">
+            {items.map((item) => (
+              <div
+                key={item.id}
+                data-testid={`thumb-${item.id}`}
+                className="relative w-[140px] rounded-[6px] border border-[#52a0ff] bg-white transition duration-150 hover:scale-[1.02] hover:shadow-[0_8px_24px_rgba(1,109,240,0.18)]"
               >
-                <X size={14} weight="bold" />
-              </button>
-              <div className="flex h-[110px] w-[138px] items-center justify-center overflow-hidden rounded-t-[5px] bg-[#fafcff]">
-                <img
-                  src={item.previewUrl}
-                  alt={item.file.name}
-                  className="max-h-full max-w-full object-contain"
-                  loading="lazy"
-                />
-              </div>
-              <div className="p-2 text-left">
-                <p
-                  className="clamp-2 text-xs font-normal leading-snug text-black"
-                  title={item.file.name}
+                <button
+                  type="button"
+                  onClick={() => onRemove(item.id)}
+                  aria-label={`${t(locale, "result.remove")}: ${item.file.name}`}
+                  className="absolute right-1 top-1 z-10 rounded-full bg-white/95 p-1 text-[#667085] shadow-sm transition hover:text-[#d33]"
                 >
-                  {item.file.name}
-                </p>
-                <p className="mt-1 text-[11px] font-light text-[#667085]">
-                  {item.dims ? `${item.dims.width}×${item.dims.height} · ` : ""}
-                  {formatBytes(item.file.size)}
-                </p>
+                  <X size={14} weight="bold" />
+                </button>
+                <div className="flex h-[110px] w-[138px] items-center justify-center overflow-hidden rounded-t-[5px] bg-[#fafcff]">
+                  <img
+                    src={item.previewUrl}
+                    alt={item.file.name}
+                    className="max-h-full max-w-full object-contain"
+                    loading="lazy"
+                  />
+                </div>
+                <div className="p-2 text-left">
+                  <p
+                    className="clamp-2 text-xs font-normal leading-snug text-black"
+                    title={item.file.name}
+                  >
+                    {item.file.name}
+                  </p>
+                  <p className="mt-1 text-[11px] font-light text-[#667085]">
+                    {item.dims ? `${item.dims.width}×${item.dims.height} · ` : ""}
+                    {formatBytes(item.file.size)}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       )}
 

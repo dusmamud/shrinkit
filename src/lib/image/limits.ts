@@ -18,6 +18,23 @@ export const MAX_INPUT_SIDE = 16000;
 /** Largest output side we will render, in pixels. */
 export const MAX_OUTPUT_SIDE = 12000;
 
+/** Maximum images allowed in a single batch. */
+export const MAX_BATCH = 50;
+
+/** Dimension limits per unit */
+export const UNIT_LIMITS = {
+  percent: { min: 1, max: 500, suffix: "%" },
+  pixels: { min: 1, max: 12000, suffix: "px" },
+  cm: { min: 0.1, max: 400, suffix: "cm" },
+  inches: { min: 0.1, max: 160, suffix: "in" },
+} as const;
+
+/** Resolution (DPI) limits */
+export const DPI_LIMITS = { min: 1, max: 1200 } as const;
+
+/** Quality percentage limits */
+export const QUALITY_LIMITS = { min: 1, max: 100 } as const;
+
 export type LimitCheck =
   { ok: true; warn: boolean } | { ok: false; reason: "too-large" | "invalid-dimensions" };
 
