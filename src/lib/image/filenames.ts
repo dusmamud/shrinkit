@@ -68,6 +68,17 @@ export function isSupportedInputFileName(fileName: string): boolean {
   return (ACCEPTED_INPUT_EXTENSIONS as readonly string[]).includes(ext);
 }
 
+/** Check whether a file or mime type is a supported input image. */
+export function isSupportedInputFile(file: File): boolean {
+  if (file.type && file.type.startsWith("image/")) {
+    const sub = file.type.slice(6).toLowerCase();
+    if (["jpeg", "jpg", "png", "gif", "webp", "bmp", "avif"].includes(sub)) {
+      return true;
+    }
+  }
+  return isSupportedInputFileName(file.name);
+}
+
 /** Human-readable byte formatting: "114.11 KB", "2.40 MB", … */
 export function formatBytes(bytes: number): string {
   if (!Number.isFinite(bytes) || bytes < 0) return "—";

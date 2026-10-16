@@ -124,7 +124,10 @@ export default function Dropzone({
         <UploadMark />
         <p className="mt-6 text-[1.4em] font-medium text-black">
           {t(locale, "dropzone.title_a")}{" "}
-          <span className="text-[#016df0] hover:underline">{t(locale, "dropzone.browse")}</span>
+          <span className="text-[#016df0] hover:underline">{t(locale, "dropzone.browse")}</span>{" "}
+          <span className="text-sm font-normal text-[#667085] block sm:inline mt-1 sm:mt-0">
+            {t(locale, "dropzone.paste_hint")}
+          </span>
         </p>
         <span className="mt-6 inline-block rounded-[6px] bg-[#007bff] px-[30px] py-[18px] text-base font-bold text-white transition hover:bg-[#0257bf]">
           {t(locale, "dropzone.select")}
