@@ -1,0 +1,57 @@
+# Deploy ShrinkIt web to Cloudflare Pages via GitHub Actions (Direct Upload).
+# Build happens in GitHub Actions; Cloudflare only receives the ready dist/
+# folder, so this does NOT consume Cloudflare's 500 builds/month quota.
+#
+# Pick ONE deploy path: this Actions workflow OR Cloudflare dashboard Git
+# integration — NOT both, or every push double-deploys.
+#
+# BEFORE the first deploy succeeds, do these two things:
+# 1. Cloudflare Pages project named EXACTLY "shrinkit" (Workers & Pages ->
+#    Create -> Pages -> Direct Uploads). Do NOT connect the Git repo there.
+# 2. Repo Settings -> Secrets and variables -> Actions:
+#    - CLOUDFLARE_API_TOKEN (API token with Cloudflare Pages: Edit)
+#    - CLOUDFLARE_ACCOUNT_ID (Account ID from the dashboard)
+name: Deploy
+
+on:
+  # Run after the CI workflow finishes on main — deploy only tested code.
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+    branches: [main]
+  # Manual re-run (e.g. after adding the secrets above).
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  deployments: write
+
+# Never deploy two pushes at once; queue them instead.
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    # workflow_run: only when CI passed. workflow_dispatch: always.
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      # Deploy exactly the commit CI tested (workflow_run), or the branch
+      # tip on manual runs (workflow_dispatch).
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.ref }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          command: pages deploy dist --project-name=shrinkit --commit-dirty=true
