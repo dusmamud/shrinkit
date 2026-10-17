@@ -105,4 +105,28 @@ test.describe("Ultra-Responsive Design Across All Screen Dimensions", () => {
     const submitBtn = await page.getByTestId("process-button").boundingBox();
     expect(submitBtn!.height).toBeGreaterThanOrEqual(44);
   });
+
+  test("mobile header shows only the hamburger; language + theme live inside the menu", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await gotoApp(page, "/");
+
+    // Nothing but the hamburger visible in the mobile header bar
+    // (the desktop copies of both controls exist in the DOM but are hidden).
+    await expect(page.locator("#nav-open")).toBeVisible();
+    await expect(page.locator("header").getByTestId("language-switcher")).toBeHidden();
+    await expect(page.locator("header").getByTestId("theme-select")).toBeHidden();
+
+    // Both controls appear inside the hamburger menu.
+    await page.locator("#nav-open").click();
+    const menu = page.locator("#mobile-menu");
+    await expect(menu).toBeVisible();
+    await expect(menu.getByTestId("language-switcher")).toBeVisible();
+    await expect(menu.getByTestId("theme-select")).toBeVisible();
+
+    // Language switcher inside the menu actually navigates.
+    await menu.getByTestId("language-switcher").selectOption({ index: 1 });
+    await expect(page).toHaveURL(/\/es(\/|$)/);
+  });
 });

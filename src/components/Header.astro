@@ -76,9 +76,8 @@ const links = [
       </span>
     </nav>
 
-    {/* Mobile hamburger */}
-    <div class="flex items-center gap-2 sm:gap-3 lg:hidden">
-      <LanguageSwitcher locale={locale} path={path} />
+    {/* Mobile hamburger — language + theme live inside the menu only */}
+    <div class="lg:hidden">
       <button
         type="button"
         id="nav-open"
@@ -140,6 +139,10 @@ const links = [
     >
       {t(locale, "nav.resize")}
     </a>
+    <div class="mt-2 flex items-center gap-3">
+      <span class="text-xl font-normal tracking-[1.17px] text-tink">{t(locale, "nav.language")}</span>
+      <LanguageSwitcher locale={locale} path={path} />
+    </div>
     <div class="mt-2 flex items-center gap-3">
       <span class="text-xl font-normal tracking-[1.17px] text-tink">{t(locale, "theme.label")}</span>
       <label class="relative inline-flex items-center">
