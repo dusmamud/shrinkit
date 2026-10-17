@@ -483,7 +483,11 @@ export default function ShrinkItApp({ locale }: ShrinkItAppProps) {
             const prefersReduced =
               typeof window !== "undefined" &&
               window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-            const top = resultRef.current.getBoundingClientRect().top + window.scrollY - 30;
+            const rect = resultRef.current.getBoundingClientRect();
+            // Only scroll when the results are not already fully visible —
+            // otherwise the page yanks even though nothing needs revealing.
+            if (rect.top >= 0 && rect.bottom <= window.innerHeight) return;
+            const top = rect.top + window.scrollY - 30;
             window.scrollTo({ top, behavior: prefersReduced ? "auto" : "smooth" });
           }
         }, 120);

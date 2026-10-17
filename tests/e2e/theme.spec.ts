@@ -262,8 +262,10 @@ test("9. info illustrations use the dark variant in dark mode", async ({ page })
   await selectTheme(page, "dark");
   await expect.poll(() => getTheme(page)).toBe("dark");
 
-  await page.locator("#how-it-works").scrollIntoViewIfNeeded();
-  const imgs = page.locator("#how-it-works img");
+  // NOTE: illustrations live in the info sections, not in the #how-it-works
+  // steps section — select them by their own marker, not by the anchor id.
+  const imgs = page.locator("[data-illustration]");
+  await imgs.first().scrollIntoViewIfNeeded();
   expect(await imgs.count()).toBeGreaterThan(0);
   for (let i = 0; i < (await imgs.count()); i++) {
     const img = imgs.nth(i);

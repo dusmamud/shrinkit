@@ -221,9 +221,14 @@
 }
 
 html {
-  scroll-behavior: smooth;
   max-width: 100%;
   overflow-x: clip;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 body {
