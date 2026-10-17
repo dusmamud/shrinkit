@@ -5,16 +5,89 @@ import { locales } from "../lib/locales";
 interface Props {
   locale: Locale;
   path: string;
+  idPrefix?: string;
 }
-const { locale, path } = Astro.props;
+
+const { locale, path, idPrefix = "desktop" } = Astro.props;
+
+const languageNames: Record<Locale, string> = {
+  en: "English",
+  es: "Español",
+  pt: "Português",
+};
+
+const currentLabel = locale.toUpperCase();
 ---
 
-<label class="relative inline-flex items-center">
-  <span class="sr-only">Language</span>
+<div class="custom-dropdown relative inline-block text-left" data-dropdown="language" data-prefix={idPrefix}>
+  <button
+    type="button"
+    class="dropdown-trigger inline-flex h-9 items-center gap-1.5 rounded-[6px] border border-tdivider bg-tsurface px-2.5 py-1.5 text-xs font-medium text-tink shadow-sm transition hover:border-taccent focus:outline-none focus-visible:ring-2 focus-visible:ring-taccent"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-label="Select language"
+  >
+    <svg class="h-3.5 w-3.5 text-tink/70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="10"></circle>
+      <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+      <path d="M2 12h20"></path>
+    </svg>
+    <span class="tracking-wide">{currentLabel}</span>
+    <svg
+      class="dropdown-chevron h-3 w-3 text-tink/50 transition-transform duration-200"
+      viewBox="0 0 16 16"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path d="m4 6 4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  </button>
+
+  <div
+    class="dropdown-menu absolute right-0 top-full z-[80] mt-1.5 hidden w-40 origin-top-right rounded-lg border border-tdivider bg-tsurface p-1 shadow-lg ring-1 ring-black/5 backdrop-blur-sm"
+    role="listbox"
+    aria-label="Languages"
+  >
+    {locales.map((l) => {
+      const targetUrl = path.startsWith("/tools")
+        ? l === "en"
+          ? path
+          : localizedPath("/", l)
+        : localizedPath(path, l);
+      const isSelected = l === locale;
+
+      return (
+        <a
+          href={targetUrl}
+          role="option"
+          aria-selected={isSelected ? "true" : "false"}
+          class:list={[
+            "flex w-full items-center justify-between rounded-[5px] px-2.5 py-1.5 text-xs transition-colors",
+            isSelected
+              ? "bg-tbtnb/10 font-semibold text-tbtnb dark:bg-tbtnb/20"
+              : "text-tink hover:bg-thoverbg",
+          ]}
+        >
+          <span class="flex items-center gap-2">
+            <span class="font-mono text-[11px] uppercase tracking-wider opacity-60">{l}</span>
+            <span>{languageNames[l]}</span>
+          </span>
+          {isSelected && (
+            <svg class="h-3.5 w-3.5 text-tbtnb" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M3 8.5l3.5 3.5 6.5-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          )}
+        </a>
+      );
+    })}
+  </div>
+
+  {/* Hidden native select for test automation & fallback */}
   <select
     data-testid="language-switcher"
-    class="cursor-pointer appearance-none rounded-[6px] border border-tdivider bg-tsurface py-2 pl-3 pr-8 text-xs font-normal text-tink outline-none transition hover:border-taccent"
-    onchange="window.location.href = this.value"
+    class="sr-only pointer-events-none absolute -left-[9999px] -top-[9999px] h-0 w-0 opacity-0"
+    tabindex="-1"
+    aria-hidden="true"
   >
     {locales.map((l) => (
       <option
@@ -25,12 +98,4 @@ const { locale, path } = Astro.props;
       </option>
     ))}
   </select>
-  <svg
-    class="pointer-events-none absolute right-2.5 h-3.5 w-3.5 text-slate-400"
-    viewBox="0 0 16 16"
-    fill="none"
-    aria-hidden="true"
-  >
-    <path d="m4 6 4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-  </svg>
-</label>
+</div>

@@ -2,6 +2,7 @@
 import { t } from "../lib/i18n";
 import { localizedPath, type Locale } from "../lib/locale";
 import LanguageSwitcher from "./LanguageSwitcher.astro";
+import ThemeDropdown from "./ThemeDropdown.astro";
 
 interface Props {
   locale: Locale;
@@ -18,9 +19,9 @@ const links = [
 ];
 ---
 
-<header class="bg-tpage">
-  <div class="mx-auto flex max-w-[1075px] items-center justify-between px-4 py-4">
-    <a href={home} class="flex items-center gap-2.5" aria-label={t(locale, "site.name")}>
+<header class="bg-tpage border-b border-tdivider/50">
+  <div class="mx-auto flex max-w-[1075px] items-center justify-between px-4 py-3.5">
+    <a href={home} class="flex items-center gap-2.5 transition-transform hover:scale-[1.02] active:scale-95" aria-label={t(locale, "site.name")}>
       <img
         src="/favicon.svg"
         alt="ShrinkIt"
@@ -48,31 +49,13 @@ const links = [
       }
       <a
         href={`${home}#tool`}
-        class="ml-4 xl:ml-6 inline-flex h-[38px] xl:h-[42px] items-center rounded-[6px] bg-tbtnb px-4 xl:px-6 text-xs xl:text-[14px] font-bold text-white transition-colors hover:bg-[#0257bf]"
+        class="ml-4 xl:ml-6 inline-flex h-[38px] xl:h-[40px] items-center rounded-[6px] bg-tbtnb px-4 xl:px-6 text-xs xl:text-[14px] font-bold text-white shadow-sm transition-all hover:bg-[#0257bf] hover:shadow active:scale-95"
       >
         {t(locale, "nav.resize")}
       </a>
-      <span class="ml-3 xl:ml-4 inline-flex items-center gap-1.5 xl:gap-2">
-        <label class="relative inline-flex items-center">
-          <span class="sr-only">{t(locale, "theme.choose")}</span>
-          <select
-            data-testid="theme-select"
-            class="cursor-pointer appearance-none rounded-[6px] border border-tdivider bg-tsurface py-2 pl-3 pr-8 text-xs font-normal text-tink outline-none transition hover:border-taccent focus-visible:border-taccent"
-          >
-            <option value="light">{t(locale, "theme.light")}</option>
-            <option value="dark">{t(locale, "theme.dark")}</option>
-            <option value="system">{t(locale, "theme.system")}</option>
-          </select>
-          <svg
-            class="pointer-events-none absolute right-2.5 h-3.5 w-3.5 text-slate-400"
-            viewBox="0 0 16 16"
-            fill="none"
-            aria-hidden="true"
-          >
-            <path d="m4 6 4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-        </label>
-        <LanguageSwitcher locale={locale} path={path} />
+      <span class="ml-3 xl:ml-4 inline-flex items-center gap-2">
+        <ThemeDropdown locale={locale} idPrefix="desktop" />
+        <LanguageSwitcher locale={locale} path={path} idPrefix="desktop" />
       </span>
     </nav>
 
@@ -92,7 +75,7 @@ const links = [
   </div>
 </header>
 
-{/* Full-screen mobile menu */}
+{/* Full-screen mobile menu drawer */}
 <div
   id="mobile-menu"
   class="fixed inset-0 z-[100] hidden flex-col bg-tsurface"
@@ -100,7 +83,7 @@ const links = [
   aria-modal="true"
   aria-label="Menu"
 >
-  <div class="flex items-center justify-between px-4 py-4">
+  <div class="flex items-center justify-between px-4 py-4 border-b border-tdivider">
     <a href={home} class="flex items-center gap-2.5" aria-label={t(locale, "site.name")}>
       <img
         src="/favicon.svg"
@@ -122,7 +105,7 @@ const links = [
       </svg>
     </button>
   </div>
-  <nav class="flex flex-col items-center gap-8 px-6 pt-10" aria-label="Mobile">
+  <nav class="flex flex-col items-center gap-7 px-6 pt-8 pb-10 overflow-y-auto" aria-label="Mobile">
     {
       links.map((l) => (
         <a
@@ -139,137 +122,256 @@ const links = [
     >
       {t(locale, "nav.resize")}
     </a>
-    <div class="mt-2 flex items-center gap-3">
-      <span class="text-xl font-normal tracking-[1.17px] text-tink">{t(locale, "nav.language")}</span>
-      <LanguageSwitcher locale={locale} path={path} />
-    </div>
-    <div class="mt-2 flex items-center gap-3">
-      <span class="text-xl font-normal tracking-[1.17px] text-tink">{t(locale, "theme.label")}</span>
-      <label class="relative inline-flex items-center">
-        <span class="sr-only">{t(locale, "theme.choose")}</span>
-        <select
-          data-testid="theme-select"
-          class="cursor-pointer appearance-none rounded-[6px] border border-tdivider bg-tsurface py-2 pl-3 pr-8 text-xs font-normal text-tink outline-none transition hover:border-taccent focus-visible:border-taccent"
-        >
-          <option value="light">{t(locale, "theme.light")}</option>
-          <option value="dark">{t(locale, "theme.dark")}</option>
-          <option value="system">{t(locale, "theme.system")}</option>
-        </select>
-        <svg
-          class="pointer-events-none absolute right-2.5 h-3.5 w-3.5 text-slate-400"
-          viewBox="0 0 16 16"
-          fill="none"
-          aria-hidden="true"
-        >
-          <path d="m4 6 4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-      </label>
+    <div class="mt-4 flex flex-col items-center gap-3.5 border-t border-tdivider pt-6 w-full max-w-xs">
+      <div class="flex w-full items-center justify-between">
+        <span class="text-sm font-medium text-tink">{t(locale, "nav.language")}</span>
+        <LanguageSwitcher locale={locale} path={path} idPrefix="mobile" />
+      </div>
+      <div class="flex w-full items-center justify-between">
+        <span class="text-sm font-medium text-tink">{t(locale, "theme.label")}</span>
+        <ThemeDropdown locale={locale} idPrefix="mobile" />
+      </div>
     </div>
   </nav>
 </div>
 
 <script is:inline>
   (function () {
+    // 1. Mobile Menu Open / Close
     var menu = document.getElementById("mobile-menu");
     var open = document.getElementById("nav-open");
     var close = document.getElementById("nav-close");
-    if (!menu || !open || !close) return;
-    function show(v) {
-      menu.classList.toggle("hidden", !v);
-      menu.classList.toggle("flex", v);
-      document.body.style.overflow = v ? "hidden" : "";
-    }
-    open.addEventListener("click", function () {
-      show(true);
-    });
-    close.addEventListener("click", function () {
-      show(false);
-    });
-    menu.querySelectorAll(".mobile-link").forEach(function (a) {
-      a.addEventListener("click", function () {
+    if (menu && open && close) {
+      function show(v) {
+        menu.classList.toggle("hidden", !v);
+        menu.classList.toggle("flex", v);
+        document.body.style.overflow = v ? "hidden" : "";
+      }
+      open.addEventListener("click", function () {
+        show(true);
+      });
+      close.addEventListener("click", function () {
         show(false);
       });
-    });
-  })();
-</script>
+      menu.querySelectorAll(".mobile-link").forEach(function (a) {
+        a.addEventListener("click", function () {
+          show(false);
+        });
+      });
+    }
 
-<script is:inline>
-  (function () {
+    // 2. Custom Dropdowns Manager (for both Theme and Language)
+    function setupDropdowns() {
+      var dropdowns = document.querySelectorAll(".custom-dropdown");
+
+      function closeAllDropdowns() {
+        dropdowns.forEach(function (dd) {
+          var m = dd.querySelector(".dropdown-menu");
+          var btn = dd.querySelector(".dropdown-trigger");
+          var ch = dd.querySelector(".dropdown-chevron");
+          if (m) m.classList.add("hidden");
+          if (btn) btn.setAttribute("aria-expanded", "false");
+          if (ch) ch.classList.remove("rotate-180");
+        });
+      }
+
+      dropdowns.forEach(function (dd) {
+        var btn = dd.querySelector(".dropdown-trigger");
+        var m = dd.querySelector(".dropdown-menu");
+        var ch = dd.querySelector(".dropdown-chevron");
+        if (!btn || !m) return;
+
+        if (btn._hasDropdownInit) return;
+        btn._hasDropdownInit = true;
+
+        btn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          var isCurrentlyOpen = !m.classList.contains("hidden");
+          closeAllDropdowns();
+          if (!isCurrentlyOpen) {
+            m.classList.remove("hidden");
+            btn.setAttribute("aria-expanded", "true");
+            if (ch) ch.classList.add("rotate-180");
+          }
+        });
+
+        m.addEventListener("click", function (e) {
+          e.stopPropagation();
+        });
+      });
+
+      document.addEventListener("click", function () {
+        closeAllDropdowns();
+      });
+
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") closeAllDropdowns();
+      });
+    }
+
+    // 3. Theme Manager (Strictly 2 options: Light and Dark)
     var KEY = "shrinkit-theme";
-    var selects = document.querySelectorAll('[data-testid="theme-select"]');
-    function readStored() {
+
+    function readStoredTheme() {
       try {
         var v = window.localStorage.getItem(KEY);
-        return v === "light" || v === "dark" || v === "system" ? v : "system";
+        if (v === "light" || v === "dark") return v;
+        return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
       } catch (e) {
-        return "system";
+        return "light";
       }
     }
-    function effective(stored) {
-      if (stored === "light" || stored === "dark") return stored;
-      return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-    }
-    function apply(stored) {
-      var eff = effective(stored);
-      document.documentElement.dataset.theme = eff;
-      document.documentElement.style.colorScheme = eff;
-      document.querySelectorAll('meta[name="theme-color"][data-theme-color]').forEach(function (m) {
-        m.setAttribute("content", eff === "dark" ? "#121214" : "#007bff");
-      });
-      selects.forEach(function (s) {
-        s.value = stored;
-      });
-    }
-    selects.forEach(function (s) {
-      s.addEventListener("change", function () {
-        var v = s.value === "light" || s.value === "dark" || s.value === "system" ? s.value : "system";
-        try {
-          window.localStorage.setItem(KEY, v);
-        } catch (e) {}
 
-        if (
-          !document.startViewTransition ||
-          window.matchMedia("(prefers-reduced-motion: reduce)").matches
-        ) {
-          apply(v);
-          return;
+    function syncThemeUI(theme) {
+      document.documentElement.dataset.theme = theme;
+      document.documentElement.style.colorScheme = theme;
+
+      // Update meta theme colors
+      document.querySelectorAll('meta[name="theme-color"][data-theme-color]').forEach(function (m) {
+        m.setAttribute("content", theme === "dark" ? "#121214" : "#007bff");
+      });
+
+      // Update all ThemeDropdown instances across page
+      document.querySelectorAll('[data-dropdown="theme"]').forEach(function (dd) {
+        var iconLight = dd.querySelector(".theme-icon-light");
+        var iconDark = dd.querySelector(".theme-icon-dark");
+        var label = dd.querySelector(".theme-current-label");
+
+        var lightBtn = dd.querySelector('[data-theme-option="light"]');
+        var darkBtn = dd.querySelector('[data-theme-option="dark"]');
+
+        var isDark = theme === "dark";
+
+        if (iconLight && iconDark) {
+          iconLight.classList.toggle("hidden", isDark);
+          iconDark.classList.toggle("hidden", !isDark);
         }
 
-        var rect = s.getBoundingClientRect();
-        var centerX = rect.left + rect.width / 2;
-        var centerY = rect.top + rect.height / 2;
-        var maxDistance = Math.hypot(
-          Math.max(centerX, window.innerWidth - centerX),
-          Math.max(centerY, window.innerHeight - centerY)
-        );
+        if (label) {
+          var lightText = lightBtn ? lightBtn.querySelector("span span")?.textContent : "Light";
+          var darkText = darkBtn ? darkBtn.querySelector("span span")?.textContent : "Dark";
+          label.textContent = isDark ? (darkText || "Dark") : (lightText || "Light");
+        }
 
-        var transition = document.startViewTransition(function () {
-          apply(v);
-        });
+        [lightBtn, darkBtn].forEach(function (btn) {
+          if (!btn) return;
+          var optVal = btn.getAttribute("data-theme-option");
+          var isActive = optVal === theme;
+          var check = btn.querySelector(".theme-check-icon");
+          if (check) check.classList.toggle("hidden", !isActive);
 
-        transition.ready.then(function () {
-          document.documentElement.animate(
-            {
-              clipPath: [
-                "circle(0px at " + centerX + "px " + centerY + "px)",
-                "circle(" + maxDistance + "px at " + centerX + "px " + centerY + "px)",
-              ],
-            },
-            {
-              duration: 650,
-              easing: "ease-in-out",
-              pseudoElement: "::view-transition-new(root)",
-            }
-          );
+          btn.classList.toggle("bg-tbtnb/10", isActive);
+          btn.classList.toggle("dark:bg-tbtnb/20", isActive);
+          btn.classList.toggle("font-semibold", isActive);
+          btn.classList.toggle("text-tbtnb", isActive);
+          btn.setAttribute("aria-selected", isActive ? "true" : "false");
         });
       });
-    });
-    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function () {
-      if (readStored() === "system") apply("system");
-    });
+
+      // Update any hidden select
+      document.querySelectorAll('[data-testid="theme-select"]').forEach(function (s) {
+        s.value = theme;
+      });
+    }
+
+    function switchTheme(newTheme, triggerEl) {
+      if (newTheme !== "light" && newTheme !== "dark") newTheme = "light";
+
+      try {
+        window.localStorage.setItem(KEY, newTheme);
+      } catch (e) {}
+
+      // Close open dropdowns
+      var dd = triggerEl ? triggerEl.closest(".custom-dropdown") : null;
+      if (dd) {
+        var m = dd.querySelector(".dropdown-menu");
+        var btn = dd.querySelector(".dropdown-trigger");
+        var ch = dd.querySelector(".dropdown-chevron");
+        if (m) m.classList.add("hidden");
+        if (btn) btn.setAttribute("aria-expanded", "false");
+        if (ch) ch.classList.remove("rotate-180");
+      }
+
+      if (
+        !document.startViewTransition ||
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      ) {
+        syncThemeUI(newTheme);
+        return;
+      }
+
+      var rect = triggerEl ? triggerEl.getBoundingClientRect() : { left: window.innerWidth / 2, top: 0, width: 0, height: 0 };
+      var centerX = rect.left + rect.width / 2;
+      var centerY = rect.top + rect.height / 2;
+      var maxDistance = Math.hypot(
+        Math.max(centerX, window.innerWidth - centerX),
+        Math.max(centerY, window.innerHeight - centerY)
+      );
+
+      var transition = document.startViewTransition(function () {
+        syncThemeUI(newTheme);
+      });
+
+      transition.ready.then(function () {
+        document.documentElement.animate(
+          {
+            clipPath: [
+              "circle(0px at " + centerX + "px " + centerY + "px)",
+              "circle(" + maxDistance + "px at " + centerX + "px " + centerY + "px)",
+            ],
+          },
+          {
+            duration: 650,
+            easing: "ease-in-out",
+            pseudoElement: "::view-transition-new(root)",
+          }
+        );
+      });
+    }
+
+    function setupThemeOptions() {
+      document.querySelectorAll(".theme-option-btn").forEach(function (btn) {
+        if (btn._hasThemeClick) return;
+        btn._hasThemeClick = true;
+        btn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          var targetVal = btn.getAttribute("data-theme-option");
+          switchTheme(targetVal, btn);
+        });
+      });
+
+      document.querySelectorAll('[data-testid="theme-select"]').forEach(function (s) {
+        if (s._hasSelectChange) return;
+        s._hasSelectChange = true;
+        s.addEventListener("change", function () {
+          var targetVal = s.value === "dark" ? "dark" : "light";
+          switchTheme(targetVal, s);
+        });
+      });
+    }
+
     window.addEventListener("storage", function (e) {
-      if (e.key === KEY) apply(readStored());
+      if (e.key === KEY) {
+        syncThemeUI(readStoredTheme());
+      }
     });
-    apply(readStored());
+
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function (e) {
+      try {
+        if (!window.localStorage.getItem(KEY)) {
+          syncThemeUI(e.matches ? "dark" : "light");
+        }
+      } catch (err) {}
+    });
+
+    setupDropdowns();
+    setupThemeOptions();
+    syncThemeUI(readStoredTheme());
+
+    document.addEventListener("astro:page-load", function () {
+      setupDropdowns();
+      setupThemeOptions();
+      syncThemeUI(readStoredTheme());
+    });
   })();
 </script>
