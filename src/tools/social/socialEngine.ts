@@ -1,4 +1,5 @@
 import { decodeBitmapWithHeicFallback } from "../../lib/image/heic";
+import { stripBlobMetadata } from "../../lib/image/strip";
 /**
  * Standalone Social Media Resizer Engine.
  *
@@ -147,6 +148,9 @@ export async function resizeForSocial(
       canvas.toBlob((b) => resolve(b!), "image/jpeg", 0.92);
     });
   }
+
+  // Zero-metadata output: strip the encoder's ICC profile (JPEG APP2).
+  blob = await stripBlobMetadata(blob);
 
   return {
     dataUrl: URL.createObjectURL(blob),

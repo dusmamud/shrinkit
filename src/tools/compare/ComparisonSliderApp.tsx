@@ -1,4 +1,5 @@
 import { decodeBitmapWithHeicFallback } from "../../lib/image/heic";
+import { stripBlobMetadata } from "../../lib/image/strip";
 import { useState, useRef, useCallback } from "react";
 import { UploadSimple, SlidersHorizontal, Trash, FileArrowDown } from "@phosphor-icons/react";
 
@@ -33,9 +34,11 @@ export default function ComparisonSliderApp() {
         canvas.toBlob((b) => resolve(b!), "image/jpeg", q / 100);
       });
 
-      setCompressedSize(blob.size);
+      // Zero-metadata output: strip the encoder's ICC profile (JPEG APP2).
+      const cleanBlob = await stripBlobMetadata(blob);
+      setCompressedSize(cleanBlob.size);
       if (compressedUrl) URL.revokeObjectURL(compressedUrl);
-      setCompressedUrl(URL.createObjectURL(blob));
+      setCompressedUrl(URL.createObjectURL(cleanBlob));
       setProcessing(false);
     },
     [compressedUrl],

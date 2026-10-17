@@ -1,12 +1,13 @@
 /**
- * The real image pipeline: decode → validate → resize → flatten → encode → DPI.
+ * The real image pipeline: decode → validate → resize → flatten → encode → strip.
  *
  * Everything here runs on real browser APIs — no mocks, no stubs:
  * - decode: createImageBitmap with EXIF-orientation baking (plus a manual
  *   fallback for engines that ignore the option)
  * - resize: pica (worker-based, multi-step Lanczos downscale)
  * - encode: canvas blobs, plus gifenc for GIF
- * - metadata: honest DPI injection (see dpi.ts), optional EXIF preserve
+ * - metadata: none. Outputs are stripped of every metadata segment/chunk
+ *   (see strip.ts). DPI is used only to convert cm/inches to pixels.
  *
  * This module is intentionally DOM-light so it can run both inside the
  * dedicated Web Worker (preferred — the UI never freezes) and on the main
@@ -39,7 +40,7 @@ async function readOrientationFallback(blob: Blob): Promise<number> {
 }
 import { toPixels, cropRect, fitDims, type SizeUnit } from "./units";
 import { checkInputDimensions, checkOutputDimensions } from "./limits";
-import { injectJpegDpi, injectPngDpi, preserveJpegExif } from "./dpi";
+import { stripJpegMetadata, stripPngMetadata, stripWebpMetadata } from "./strip";
 import { outputFileName, type OutputFormat } from "./filenames";
 import { decodeHeicToPixels, isBmffImage, isHeicBytes } from "./heic";
 
@@ -65,8 +66,6 @@ export interface ProcessSettings {
   /** 0–100. Only affects JPEG and WebP output. */
   quality: number;
   background: "white" | "black";
-  /** Copy the source JPEG's EXIF into the output (orientation reset to 1). */
-  preserveExif: boolean;
   /** Defaults to "stretch" when omitted. */
   mode?: ResizeMode;
 }
@@ -424,16 +423,18 @@ export async function processImageBytes(
   }
   throwIfAborted(signal);
 
-  // Honest metadata: DPI is really written into the file.
+  // Zero-metadata outputs: strip every metadata segment/chunk the encoder
+  // added (JPEG APP1/APP2, PNG pHYs/iCCP, WebP ICCP, ...). DPI is used
+  // only to convert cm/inches to pixels; it is never written into a file.
+  // GIF needs no stripping — the GIF encoder writes no metadata.
   let finalBytes = encoded;
   if (settings.format === "jpeg") {
-    finalBytes = settings.preserveExif
-      ? await preserveJpegExif(input, encoded, settings.dpi)
-      : await injectJpegDpi(encoded, settings.dpi);
+    finalBytes = stripJpegMetadata(encoded);
   } else if (settings.format === "png") {
-    finalBytes = injectPngDpi(encoded, settings.dpi);
+    finalBytes = stripPngMetadata(encoded);
+  } else if (settings.format === "webp") {
+    finalBytes = stripWebpMetadata(encoded);
   }
-  // WebP/GIF carry no standard DPI container — documented, bytes untouched.
 
   return {
     data: finalBytes,

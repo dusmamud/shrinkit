@@ -11,7 +11,7 @@ const small = path.resolve(here, "fixtures/small.jpg"); // 640×480
  * End-to-end verification of the real pipeline in headless Chromium:
  * upload → settings → process → verify output → download.
  * No mocks: this exercises createImageBitmap, the pica worker, canvas
- * encoding, DPI injection and the download plumbing.
+ * encoding, metadata stripping and the download plumbing.
  */
 
 test("single image: 50% resize + quality 60 → JPEG downloads at 960×540", async ({ page }) => {
@@ -58,10 +58,10 @@ test("single image: 50% resize + quality 60 → JPEG downloads at 960×540", asy
   expect(stats.size).toBeGreaterThan(0);
   expect(stats.size).toBeLessThan(original.size);
 
-  // Confirm the JPEG really carries the DPI we set (72).
+  // Zero-metadata outputs: no EXIF segment at all (DPI is a conversion
+  // setting only, never written into the file).
   const bytes = fs.readFileSync(outPath);
-  const ascii = bytes.subarray(0, 200).toString("latin1");
-  expect(ascii).toContain("Exif");
+  expect(bytes.toString("latin1")).not.toContain("Exif");
   fs.unlinkSync(outPath);
 });
 
@@ -86,8 +86,8 @@ test("format conversion: JPG → PNG renames the file and downloads", async ({ p
   const bytes = fs.readFileSync(outPath);
   // PNG signature.
   expect([...bytes.subarray(0, 8)]).toEqual([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
-  // pHYs chunk present (honest DPI injection).
-  expect(bytes.toString("latin1")).toContain("pHYs");
+  // No pHYs chunk: zero-metadata outputs carry no DPI record.
+  expect(bytes.toString("latin1")).not.toContain("pHYs");
   fs.unlinkSync(outPath);
 });
 

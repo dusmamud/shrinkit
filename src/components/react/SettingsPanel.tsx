@@ -21,7 +21,6 @@ export interface SettingsState {
   format: OutputFormat;
   quality: string;
   background: "white" | "black";
-  preserveExif: boolean;
   resizeMode: ResizeMode;
 }
 
@@ -691,21 +690,6 @@ export default function SettingsPanel({
             </div>
           </div>
         )}
-
-        {/* EXIF preference (subtle clean checkbox below) */}
-        <div className="mt-6 flex justify-center">
-          <label className="flex cursor-pointer items-center gap-2.5 text-xs text-tmuted hover:text-tink transition">
-            <input
-              type="checkbox"
-              data-testid="exif-checkbox"
-              checked={settings.preserveExif}
-              disabled={disabled}
-              onChange={(e) => onChange({ preserveExif: e.target.checked })}
-              className="h-3.5 w-3.5 accent-taccent"
-            />
-            <span>{t(locale, "settings.preserve_exif")}</span>
-          </label>
-        </div>
       </div>
     </section>
   );

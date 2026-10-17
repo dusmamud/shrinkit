@@ -1,4 +1,5 @@
 import { decodeBitmapWithHeicFallback } from "../../lib/image/heic";
+import { stripBlobMetadata } from "../../lib/image/strip";
 /**
  * Standalone Client-Side Target File Size (KB) Compressor.
  *
@@ -196,15 +197,19 @@ export async function compressToTargetKb(
     bestQuality = 0.05;
   }
 
-  const dataUrl = URL.createObjectURL(bestBlob);
+  // Zero-metadata output: strip the encoder's ICC profile (JPEG APP2 /
+  // WebP ICCP). Stripping only shrinks the file, so the ≤ target check
+  // that selected this blob still holds.
+  const cleanBlob = await stripBlobMetadata(bestBlob);
+  const dataUrl = URL.createObjectURL(cleanBlob);
 
   return {
-    blob: bestBlob,
+    blob: cleanBlob,
     dataUrl,
     width: targetW,
     height: targetH,
     originalBytes,
-    outputBytes: bestBlob.size,
+    outputBytes: cleanBlob.size,
     qualityUsed: Math.round(bestQuality * 100),
     iterations,
   };

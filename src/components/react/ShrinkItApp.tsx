@@ -141,7 +141,6 @@ export default function ShrinkItApp({ locale }: ShrinkItAppProps) {
     format: "jpeg",
     quality: "90",
     background: "white",
-    preserveExif: false,
     resizeMode: "stretch",
   });
   const [items, setItems] = useState<QueueItem[]>([]);
@@ -396,7 +395,6 @@ export default function ShrinkItApp({ locale }: ShrinkItAppProps) {
       format: settings.format,
       quality,
       background: settings.background,
-      preserveExif: settings.preserveExif,
       mode: settings.resizeMode,
     };
   }, [locale, settings]);

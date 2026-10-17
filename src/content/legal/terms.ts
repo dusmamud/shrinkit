@@ -217,11 +217,11 @@ export const termsDoc: LegalDoc = {
         },
         {
           kind: "h3",
-          text: "DPI is metadata, not pixels",
+          text: "DPI is a conversion setting, not file metadata",
         },
         {
           kind: "p",
-          text: "The DPI setting records a resolution value in the output file's metadata. It affects the physical size at which the image prints, and it does not by itself add or remove pixels. Two files with the same pixels and different DPI values contain the same image; they differ only in the print-size instruction attached to them. Some recipients care about DPI, and some do not. If a recipient specifies a DPI requirement, check that the output carries the value you set, and remember that DPI alone does not make a low-resolution image suitable for print.",
+          text: "The DPI setting is used only to convert centimetres and inches to pixels when you size an image in those units. It is not written into output files: downloads carry no DPI value and no metadata of any kind. DPI does not by itself add or remove pixels. If a recipient specifies a DPI requirement, note that ShrinkIt cannot attach a DPI value to an output file, because outputs carry no metadata — and remember that DPI alone does not make a low-resolution image suitable for print.",
         },
         {
           kind: "h3",
@@ -253,7 +253,7 @@ export const termsDoc: LegalDoc = {
         },
         {
           kind: "p",
-          text: "By default, the service strips metadata from outputs, as described in the Privacy Policy. If you turn on the Keep photo metadata option, the source metadata is preserved in the downloaded file, with the orientation value reset and the resolution values updated. Neither behaviour is a guarantee that a recipient will read the metadata the way you expect. Some recipients ignore metadata entirely, and some strip it themselves on receipt. Check the recipient's requirements if metadata matters for your purpose.",
+          text: "The service strips all metadata from outputs, as described in the Privacy Policy. There is no option to keep metadata. If metadata matters for your purpose — for example, if a recipient requires a DPI value in the file — check the recipient's requirements, because ShrinkIt outputs carry none.",
         },
       ],
     },
@@ -345,7 +345,7 @@ export const termsDoc: LegalDoc = {
         },
         {
           kind: "p",
-          text: "To the fullest extent permitted by applicable law, ShrinkIt is not liable for any loss or damage arising from your use of the service, including loss of data, loss of work, loss of profits, loss of opportunity, or any indirect or consequential loss. In particular, we are not liable for: a recipient refusing an output, because acceptance is the recipient's decision; the loss of work when a tab closes before a download, because the service keeps no backup; any problem caused by your device, browser, extensions, or network connection; any problem caused by your decision to share a file, including the consequences of sharing a file that still contains metadata; and any loss arising from your use of the service in breach of these terms.",
+          text: "To the fullest extent permitted by applicable law, ShrinkIt is not liable for any loss or damage arising from your use of the service, including loss of data, loss of work, loss of profits, loss of opportunity, or any indirect or consequential loss. In particular, we are not liable for: a recipient refusing an output, because acceptance is the recipient's decision; the loss of work when a tab closes before a download, because the service keeps no backup; any problem caused by your device, browser, extensions, or network connection; any problem caused by your decision to share a file; and any loss arising from your use of the service in breach of these terms.",
         },
         {
           kind: "h3",

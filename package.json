@@ -12,7 +12,6 @@
     "jszip": "^3.10.1",
     "libheif-js": "^1.23.5",
     "pica": "^9.0.1",
-    "piexifjs": "^1.0.6",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "tailwindcss": "^4.3.3"

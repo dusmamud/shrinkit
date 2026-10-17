@@ -351,12 +351,11 @@ test("13. /es/ and /pt/ render the UI fully translated", async ({ page }) => {
   await expect(page.getByText("Escolha o novo tamanho e formato")).toBeVisible();
 });
 
-test("14. EXIF checkbox toggles; file input accepts multiple", async ({ page }) => {
+test("14. File input accepts multiple; outputs carry no EXIF checkbox (metadata is always stripped)", async ({
+  page,
+}) => {
   await upload(page, photo);
-  const box = page.getByTestId("exif-checkbox");
-  await expect(box).not.toBeChecked();
-  await box.check();
-  await expect(box).toBeChecked();
+  await expect(page.getByTestId("exif-checkbox")).toHaveCount(0);
   const multiple = await page.getByTestId("file-input").getAttribute("multiple");
   expect(multiple).not.toBeNull();
 });

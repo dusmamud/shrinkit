@@ -57,7 +57,7 @@ export const privacyDoc: LegalDoc = {
         },
         {
           kind: "p",
-          text: "It helps to picture the service in two layers. The first layer is the delivery of the web page itself. When you visit https://shrinkit.dusrel.com, your browser asks the hosting infrastructure for the page, and the page, including the code that performs the resizing, is sent to your browser. That delivery step involves the ordinary network traffic that every website visit involves, and Section 7 explains what the hosting provider and the font provider can necessarily see at that step. The second layer is everything that happens after the page has loaded. From that point on, the work happens locally: opening an image, resizing it, adjusting its quality, stripping or keeping its metadata, building a ZIP file of a batch, and saving the result. None of that second-layer activity involves the network at all, except for the font files described in Section 7 and the service worker behaviour described in Section 6.",
+          text: "It helps to picture the service in two layers. The first layer is the delivery of the web page itself. When you visit https://shrinkit.dusrel.com, your browser asks the hosting infrastructure for the page, and the page, including the code that performs the resizing, is sent to your browser. That delivery step involves the ordinary network traffic that every website visit involves, and Section 7 explains what the hosting provider and the font provider can necessarily see at that step. The second layer is everything that happens after the page has loaded. From that point on, the work happens locally: opening an image, resizing it, adjusting its quality, stripping all of its metadata, building a ZIP file of a batch, and saving the result. None of that second-layer activity involves the network at all, except for the font files described in Section 7 and the service worker behaviour described in Section 6.",
         },
         {
           kind: "p",
@@ -65,7 +65,7 @@ export const privacyDoc: LegalDoc = {
         },
         {
           kind: "p",
-          text: "The image processing itself uses standard browser capabilities. Images are drawn and transformed with the browser's Canvas features, and the heavier work is handed to Web Workers so the page stays responsive while a batch is processed. The resizing step uses the pica library, which runs in the browser. ZIP files for batch downloads are built in the browser with the JSZip library. Metadata is read with the exifr library and written, where needed, with the piexifjs library. HEIC images are decoded in the browser with a decoder described in Section 4. All of these libraries run locally, on your device, as part of the page. They do not send your images anywhere, and the app's own code does not make network requests carrying your images or your content.",
+          text: "The image processing itself uses standard browser capabilities. Images are drawn and transformed with the browser's Canvas features, and the heavier work is handed to Web Workers so the page stays responsive while a batch is processed. The resizing step uses the pica library, which runs in the browser. ZIP files for batch downloads are built in the browser with the JSZip library. Photo orientation is read with the exifr library so rotated photos display correctly. No library writes metadata into outputs: every output is stripped of all metadata segments before download. HEIC images are decoded in the browser with a decoder described in Section 4. All of these libraries run locally, on your device, as part of the page. They do not send your images anywhere, and the app's own code does not make network requests carrying your images or your content.",
         },
         {
           kind: "p",
@@ -115,11 +115,11 @@ export const privacyDoc: LegalDoc = {
         },
         {
           kind: "h3",
-          text: "Step 4: Metadata is handled exactly as you chose",
+          text: "Step 4: All metadata is stripped",
         },
         {
           kind: "p",
-          text: "By default, the metadata embedded in your image, often called EXIF data, is stripped from the output. That metadata can include details such as the camera model, the date and time the photo was taken, and, in some photos, the location where it was taken. Stripping it means the downloaded file does not carry those details. If you turn on the Keep photo metadata option, the source metadata is preserved in the downloaded file instead, with the orientation value reset and the resolution values updated to match the output. Either way, the metadata stays inside the file on your device. It is never extracted, read by ShrinkIt, or transmitted anywhere. Section 4 explains the metadata behaviour of each feature in more detail, including the single exception in which a minimal resolution record is written into JPEG outputs even in strip mode.",
+          text: "All metadata embedded in your image, often called EXIF data, is stripped from the output. That metadata can include details such as the camera model, the date and time the photo was taken, and, in some photos, the location where it was taken. Stripping it means the downloaded file does not carry those details. There is no option to keep metadata: every output is stripped, always. The DPI setting is used only to convert centimetres and inches to pixels; it is never written into an output file. The metadata is never extracted, read by ShrinkIt, or transmitted anywhere. Section 4 explains the metadata behaviour of each feature in more detail.",
         },
         {
           kind: "h3",
@@ -207,8 +207,8 @@ export const privacyDoc: LegalDoc = {
             ],
             [
               "Metadata (EXIF) handling",
-              "By default, strips metadata from outputs. With the Keep photo metadata option on, preserves the source metadata in the downloaded file, with the orientation value reset to 1 and the resolution values updated. Image orientation is honoured when decoding.",
-              "In strip mode, a JPEG output still carries one minimal metadata segment recording only the resolution values. No location, camera, or timestamp data is included in that segment. Metadata is never transmitted to ShrinkIt.",
+              "Always strips all metadata from outputs. There is no option to keep metadata. Image orientation is honoured when decoding.",
+              "Outputs carry no metadata at all: no EXIF, no colour profile, no DPI record, no text chunks. The DPI setting is used only to convert cm/inches to pixels. Metadata is never transmitted to ShrinkIt.",
             ],
           ],
         },
@@ -234,7 +234,7 @@ export const privacyDoc: LegalDoc = {
           kind: "list",
           items: [
             "Your images, whether originals or processed outputs, in any format, at any stage of processing.",
-            "The metadata inside your images, including location data, camera details, timestamps, or any other EXIF information, except that a minimal resolution record is written into your own downloaded JPEG file in strip mode, as described in Section 4.",
+            "The metadata inside your images, including location data, camera details, timestamps, or any other EXIF information. Downloads carry no metadata at all.",
             "Your name, email address, phone number, or any other contact detail, unless you choose to write to us by email, which is covered in Section 9.",
             "Any account information, password, or profile, because there are no accounts.",
             "Any payment information, because the service is free and takes no payments.",
@@ -290,7 +290,7 @@ export const privacyDoc: LegalDoc = {
         },
         {
           kind: "p",
-          text: "Every file you download from ShrinkIt is saved on your device, in the location your browser uses for downloads or in the location you choose. Those files are ordinary files. They remain there until you delete them, move them, or share them. ShrinkIt has no access to them after the download, cannot see whether you kept them, and cannot delete them. If a downloaded file still contains metadata because you used the Keep photo metadata option, that metadata stays in the file until you strip it or delete the file.",
+          text: "Every file you download from ShrinkIt is saved on your device, in the location your browser uses for downloads or in the location you choose. Those files are ordinary files. They remain there until you delete them, move them, or share them. ShrinkIt has no access to them after the download, cannot see whether you kept them, and cannot delete them. Downloaded files contain no metadata.",
         },
         {
           kind: "h3",
@@ -461,7 +461,7 @@ export const privacyDoc: LegalDoc = {
             "Anyone with access to your device can see what is on it, including your originals, your downloads, and anything visible on screen. ShrinkIt does not lock your device, hide your files, or require a password to open the tool.",
             "Anyone who can see your screen can see the images you are working with. Screenshots, screen recording, and looking over your shoulder are outside the service's control.",
             "Malware on your device, or a browser extension with broad permissions, can observe or capture what happens in your browser. ShrinkIt cannot detect or prevent that, and no web tool can fully protect against a compromised device or a malicious extension.",
-            "If you share a downloaded file, the recipient receives whatever the file contains. If you used the Keep photo metadata option, the file may contain the source metadata. If you share the file publicly, anyone who obtains it can keep it, copy it, and use it.",
+            "If you share a downloaded file, the recipient receives a file with no metadata in it. If you share the file publicly, anyone who obtains it can keep it, copy it, and use it.",
             "If you lose your device, or if you give it away without wiping it, your downloads go with it. ShrinkIt has no remote wipe and no way to reach your device.",
             "If you send us an email containing personal information, that email is handled by the email system, and its security depends on your provider and ours, not on the image tool.",
           ],
