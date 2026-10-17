@@ -48,7 +48,7 @@ const links = [
         ))
       }
       <a
-        href={`${home}#tool`}
+        href={localizedPath("/resize", locale)}
         class="ml-4 xl:ml-6 inline-flex h-[38px] xl:h-[40px] items-center rounded-[6px] bg-tbtnb px-4 xl:px-6 text-xs xl:text-[14px] font-bold text-white shadow-sm transition-all hover:bg-[#0257bf] hover:shadow active:scale-95"
       >
         {t(locale, "nav.resize")}
@@ -117,7 +117,7 @@ const links = [
       ))
     }
     <a
-      href={`${home}#tool`}
+      href={localizedPath("/resize", locale)}
       class="mobile-link mt-2 inline-flex h-[48px] items-center rounded-[6px] bg-tbtnb px-8 text-base font-bold text-white transition-colors hover:bg-[#0257bf]"
     >
       {t(locale, "nav.resize")}

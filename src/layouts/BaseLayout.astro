@@ -80,9 +80,9 @@ const ogImage = `${site}${Astro.props.image ?? "/og-image.png"}`;
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   </head>
-  <body class="bg-tpage text-tink2">
+  <body class="bg-tpage text-tink2 flex min-h-dvh flex-col">
     <Header locale={locale} path={path} />
-    <main>
+    <main class="flex-1">
       <slot />
     </main>
     <Footer locale={locale} minimal={minimalFooter} />

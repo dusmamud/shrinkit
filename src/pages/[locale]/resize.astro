@@ -18,6 +18,7 @@ const { locale } = Astro.params as { locale: Locale };
   path="/resize"
   title={`${t(locale, "hero.title")} — ${t(locale, "site.name")}`}
   description={t(locale, "site.description")}
+  image="/og-resize.png"
   minimalFooter
 >
   <HeroSection locale={locale} />
