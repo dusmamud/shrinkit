@@ -1,0 +1,24 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import HeroSection from "../../components/home/HeroSection.astro";
+import { t } from "../../lib/i18n";
+import { locales, type Locale } from "../../lib/locales";
+
+export function getStaticPaths() {
+  return locales
+    .filter((l): l is Exclude<Locale, "en"> => l !== "en")
+    .map((locale) => ({ params: { locale } }));
+}
+
+const { locale } = Astro.params as { locale: Locale };
+---
+
+<BaseLayout
+  locale={locale}
+  path="/resize"
+  title={`${t(locale, "hero.title")} — ${t(locale, "site.name")}`}
+  description={t(locale, "site.description")}
+  minimalFooter
+>
+  <HeroSection locale={locale} />
+</BaseLayout>

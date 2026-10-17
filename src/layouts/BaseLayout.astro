@@ -13,9 +13,11 @@ interface Props {
   description?: string;
   /** OG image path, e.g. "/og-image.png". Defaults to the landing OG image. */
   image?: string;
+  /** Render only the copyright bar in the footer (used by the clean /resize page). */
+  minimalFooter?: boolean;
 }
 
-const { locale, path } = Astro.props;
+const { locale, path, minimalFooter = false } = Astro.props;
 
 const site = (Astro.site ?? new URL("https://shrinkit.dusrel.com")).toString().replace(/\/$/, "");
 const title = Astro.props.title ?? `${t(locale, "site.name")} — ${t(locale, "site.tagline")}`;
@@ -83,7 +85,7 @@ const ogImage = `${site}${Astro.props.image ?? "/og-image.png"}`;
     <main>
       <slot />
     </main>
-    <Footer locale={locale} />
+    <Footer locale={locale} minimal={minimalFooter} />
     <script is:inline>
       if ("serviceWorker" in navigator) {
         if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {

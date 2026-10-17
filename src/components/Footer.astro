@@ -4,8 +4,10 @@ import { localizedPath, type Locale } from "../lib/locale";
 
 interface Props {
   locale: Locale;
+  /** Render only the copyright bar (used by the clean /resize page). */
+  minimal?: boolean;
 }
-const { locale } = Astro.props;
+const { locale, minimal = false } = Astro.props;
 
 const home = localizedPath("/", locale);
 const year = new Date().getFullYear();
@@ -43,7 +45,17 @@ const columns = [
 ];
 ---
 
-<footer class="mt-0 bg-tsurface2 pt-[3em]">
+{
+  minimal ? (
+    <footer class="mt-0">
+      <div class="bg-[#016df0]">
+        <p class="mx-auto max-w-[1075px] px-4 py-3 text-center text-sm font-normal text-white">
+          {t(locale, "footer.rights", { year })}
+        </p>
+      </div>
+    </footer>
+  ) : (
+    <footer class="mt-0 bg-tsurface2 pt-[3em]">
   <div class="mx-auto max-w-[1075px] px-4 pb-10">
     <div class="flex flex-col gap-10 md:flex-row md:justify-between">
       <div class="max-w-xs">
@@ -90,3 +102,5 @@ const columns = [
     </p>
   </div>
 </footer>
+  )
+}
