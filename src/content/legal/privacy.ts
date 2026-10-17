@@ -9,7 +9,7 @@ export const privacyDoc: LegalDoc = {
   lastUpdated: "17 October 2026",
   summary: [
     "ShrinkIt is a free image resizer and compressor that runs entirely in your web browser. When you resize, compress, or convert an image with ShrinkIt, your image stays on your own device. It is never uploaded to ShrinkIt, never sent to a server operated by ShrinkIt, and never shared with a third party by the app. There is no account, no sign-up, no payment, and no newsletter, so ShrinkIt does not hold a profile about you.",
-    "There are two honest qualifications to that headline, and this policy explains both in full. First, the website is served by hosting infrastructure, and the pages load a font from Google Fonts. Those providers necessarily see the ordinary request-level information that any web host or font provider sees, such as your IP address and browser details, even though the app itself sends them nothing about your images. Second, your browser itself keeps a small amount of local data if you change the theme, and the service worker keeps a cache of the site's own files so the site loads reliably. Your images are never part of that cache.",
+    "There are two honest qualifications to that headline, and this policy explains both in full. First, the website is served by hosting infrastructure. That provider necessarily sees the ordinary request-level information that any web host sees, such as your IP address and browser details, even though the app itself sends it nothing about your images. The site's font is self-hosted — it comes from the same server as the rest of the site, so no font provider is involved. Second, your browser itself keeps a small amount of local data if you change the theme, and the service worker keeps a cache of the site's own files so the site loads reliably. Your images are never part of that cache.",
     "This document is provided for information only. It is not legal advice, and it is not a substitute for advice from a qualified lawyer. If any part of this policy is unclear, you can write to hello@shrinkit.dusrel.com and we will explain it in plain language.",
   ],
   sections: [
@@ -332,11 +332,11 @@ export const privacyDoc: LegalDoc = {
         },
         {
           kind: "h3",
-          text: "Google Fonts",
+          text: "Self-hosted fonts",
         },
         {
           kind: "p",
-          text: "Every page on the site loads the Poppins typeface from Google Fonts. The page first opens a connection to the Google Fonts servers and then loads the font stylesheet and the font files themselves. When your browser makes those requests, Google necessarily sees the standard request information for them, such as your IP address and user-agent string, just as it would for any other site that uses Google Fonts. The app itself sends Google no image data, no user content, and no information about what you do on the page. The font requests are about fonts only. If you use a browser extension or setting that blocks third-party font requests, the site's text will fall back to a local font and the tools will continue to work, because the tools do not depend on the font.",
+          text: "Every page on the site uses the Poppins typeface, and the font files are served from the same host as the rest of the site — they are bundled with the site's own files when the site is built. No request goes to Google Fonts or any other font provider, so no font provider sees anything about your visit. The only party that sees the request for a font file is the hosting provider described above, in exactly the same way it sees the request for any other file on the site. The tools do not depend on the font: if the font files fail to load for any reason, the site's text falls back to a local font and the tools continue to work.",
         },
         {
           kind: "h3",
@@ -344,11 +344,11 @@ export const privacyDoc: LegalDoc = {
         },
         {
           kind: "p",
-          text: "In practice, the infrastructure picture is this: the hosting provider and the font provider see that a device at a given IP address requested a page or a font file, at a given time, with a given browser. They do not see your images, your settings, your outputs, or anything you do after the page has loaded, because none of that is ever sent over the network. The distinction matters. A claim that ShrinkIt logs nothing at all would be false, because the hosting and font infrastructure necessarily handle request-level data. A claim that the app collects your images would also be false, because the app sends nothing. This policy makes the first claim nowhere, and it makes the second claim everywhere it is relevant, because that is the accurate picture.",
+          text: "In practice, the infrastructure picture is this: the hosting provider sees that a device at a given IP address requested a page or a file, at a given time, with a given browser. It does not see your images, your settings, your outputs, or anything you do after the page has loaded, because none of that is ever sent over the network. The distinction matters. A claim that ShrinkIt logs nothing at all would be false, because the hosting infrastructure necessarily handles request-level data. A claim that the app collects your images would also be false, because the app sends nothing. This policy makes the first claim nowhere, and it makes the second claim everywhere it is relevant, because that is the accurate picture.",
         },
         {
           kind: "p",
-          text: "There are no other third-party requests made by the app. In particular, the app does not load analytics scripts, advertising scripts, social media widgets, or tracking pixels. The only network requests involved in using ShrinkIt are the requests that fetch the site's own files, the font requests described above, and the service worker's requests for the site's own files. If you inspect the network activity of the page in your browser's developer tools, you will see that pattern: requests for the site's own files and for fonts, and nothing carrying your images.",
+          text: "There are no other third-party requests made by the app. In particular, the app does not load analytics scripts, advertising scripts, social media widgets, or tracking pixels. The only network requests involved in using ShrinkIt are the requests that fetch the site's own files (including the font files, which are part of the site) and the service worker's requests for the site's own files. If you inspect the network activity of the page in your browser's developer tools, you will see that pattern: requests for the site's own files, and nothing carrying your images.",
         },
       ],
     },
