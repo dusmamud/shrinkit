@@ -1,0 +1,15 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import LegalPage from "../components/LegalPage.astro";
+import { termsDoc } from "../content/legal/terms";
+---
+
+<BaseLayout
+  locale="en"
+  path="/terms"
+  title="Terms & Conditions — ShrinkIt"
+  description="The rules for using ShrinkIt: you keep ownership of your images, outputs carry no guarantee of acceptance by any third party, and the free service is provided as is."
+  image="/og-privacy.png"
+>
+  <LegalPage doc={termsDoc} />
+</BaseLayout>

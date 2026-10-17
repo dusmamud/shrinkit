@@ -1,0 +1,27 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import LegalPage from "../../components/LegalPage.astro";
+import { termsDoc } from "../../content/legal/terms";
+import { locales, type Locale } from "../../lib/locales";
+
+export function getStaticPaths() {
+  return locales
+    .filter((l): l is Exclude<Locale, "en"> => l !== "en")
+    .map((locale) => ({ params: { locale } }));
+}
+
+const { locale } = Astro.params as { locale: Locale };
+---
+
+<BaseLayout
+  locale={locale}
+  path="/terms"
+  title="Terms & Conditions — ShrinkIt"
+  description="The rules for using ShrinkIt: you keep ownership of your images, outputs carry no guarantee of acceptance by any third party, and the free service is provided as is."
+  image="/og-privacy.png"
+>
+  <LegalPage
+    doc={termsDoc}
+    notice="This document is provided in English. The English version governs."
+  />
+</BaseLayout>

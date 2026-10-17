@@ -31,7 +31,10 @@ const columns = [
   },
   {
     heading: t(locale, "footer.col_privacy"),
-    links: [{ href: localizedPath("/privacy", locale), label: t(locale, "footer.privacy_policy") }],
+    links: [
+      { href: localizedPath("/privacy", locale), label: t(locale, "footer.privacy_policy") },
+      { href: localizedPath("/terms", locale), label: t(locale, "footer.terms") },
+    ],
   },
   {
     heading: t(locale, "footer.col_reachout"),

@@ -1,17 +1,15 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import InfoPage from "../components/InfoPage.astro";
-import { t } from "../lib/i18n";
-
-const locale = "en" as const;
-const sections = [
-  { title: t(locale, "privacy.s1t"), body: t(locale, "privacy.s1d") },
-  { title: t(locale, "privacy.s2t"), body: t(locale, "privacy.s2d") },
-  { title: t(locale, "privacy.s3t"), body: t(locale, "privacy.s3d") },
-  { title: t(locale, "privacy.s4t"), body: t(locale, "privacy.s4d") },
-];
+import LegalPage from "../components/LegalPage.astro";
+import { privacyDoc } from "../content/legal/privacy";
 ---
 
-<BaseLayout locale={locale} path="/privacy" title={`${t(locale, "privacy.title")} — ${t(locale, "site.name")}`} image="/og-privacy.png">
-  <InfoPage locale={locale} title={t(locale, "privacy.title")} intro={t(locale, "privacy.intro")} sections={sections} />
+<BaseLayout
+  locale="en"
+  path="/privacy"
+  title="Privacy Policy — ShrinkIt"
+  description="How ShrinkIt handles your images and your information: everything runs in your browser, nothing is uploaded, and the site keeps almost nothing."
+  image="/og-privacy.png"
+>
+  <LegalPage doc={privacyDoc} />
 </BaseLayout>

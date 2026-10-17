@@ -1,0 +1,130 @@
+---
+import type { LegalBlock, LegalDoc } from "../content/legal/types";
+
+interface Props {
+  doc: LegalDoc;
+  /** Short notice shown above the content, e.g. that the English version governs. */
+  notice?: string;
+}
+
+const { doc, notice } = Astro.props;
+
+function blockKey(sectionId: string, index: number): string {
+  return `${sectionId}-block-${index}`;
+}
+---
+
+<div class="bg-tband">
+  <div class="mx-auto max-w-3xl px-4 py-14">
+    <h1 class="text-[2.5rem] font-normal tracking-tight text-tink">{doc.title}</h1>
+    <p class="mt-3 text-sm font-light text-tink2">Last updated: {doc.lastUpdated}</p>
+    {
+      notice && (
+        <p class="mt-4 rounded-[6px] border border-tdash bg-tsurface px-5 py-4 text-sm font-light leading-relaxed text-tink2">
+          {notice}
+        </p>
+      )
+    }
+
+    <section
+      aria-label="Summary"
+      class="mt-8 rounded-[6px] border border-tdivider bg-tsurface p-6"
+    >
+      <h2 class="text-lg font-medium text-tink">In short</h2>
+      {
+        doc.summary.map((paragraph) => (
+          <p class="mt-2 text-[1.0625rem] font-light leading-relaxed text-tink2">{paragraph}</p>
+        ))
+      }
+    </section>
+
+    <nav aria-label="Contents" class="mt-8 rounded-[6px] border border-tdivider bg-tsurface p-6">
+      <h2 class="text-lg font-medium text-tink">Contents</h2>
+      <ol class="mt-3 list-none space-y-1.5 pl-5 text-[1rem] font-light leading-relaxed text-tink2">
+        {
+          doc.sections.map((section) => (
+            <li>
+              <a href={`#${section.id}`} class="text-taccent underline underline-offset-2 hover:text-[#0257bf]">
+                {section.heading}
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </nav>
+
+    <div class="mt-8 space-y-8">
+      {
+        doc.sections.map((section) => (
+          <section
+            id={section.id}
+            class="scroll-mt-6 rounded-[6px] border border-tdivider bg-tsurface p-6"
+          >
+            <h2 class="text-xl font-medium text-tink">{section.heading}</h2>
+            {section.blocks.map((block: LegalBlock, index: number) => {
+              if (block.kind === "p") {
+                return (
+                  <p
+                    key={blockKey(section.id, index)}
+                    class="mt-3 text-[1.0625rem] font-light leading-relaxed text-tink2"
+                  >
+                    {block.text}
+                  </p>
+                );
+              }
+              if (block.kind === "h3") {
+                return (
+                  <h3
+                    key={blockKey(section.id, index)}
+                    class="mt-5 text-[1.0625rem] font-medium text-tink"
+                  >
+                    {block.text}
+                  </h3>
+                );
+              }
+              if (block.kind === "list") {
+                return (
+                  <ul
+                    key={blockKey(section.id, index)}
+                    class="mt-3 list-disc space-y-2 pl-6 text-[1.0625rem] font-light leading-relaxed text-tink2"
+                  >
+                    {block.items.map((item) => (
+                      <li>{item}</li>
+                    ))}
+                  </ul>
+                );
+              }
+              return (
+                <div key={blockKey(section.id, index)} class="mt-4 overflow-x-auto">
+                  <table class="w-full border-collapse text-left text-[0.9375rem] font-light leading-relaxed text-tink2">
+                    <thead>
+                      <tr>
+                        {block.headers.map((header) => (
+                          <th class="border border-tdivider px-3 py-2 font-medium text-tink">{header}</th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {block.rows.map((row, rowIndex) => (
+                        <tr>
+                          {row.map((cell, cellIndex) => (
+                            <td
+                              class="border border-tdivider px-3 py-2 align-top"
+                              key={`${blockKey(section.id, index)}-${rowIndex}-${cellIndex}`}
+                            >
+                              {cell}
+                            </td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              );
+            })}
+          </section>
+        ))
+      }
+    </div>
+  </div>
+</div>
