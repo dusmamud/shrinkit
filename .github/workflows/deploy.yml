@@ -6,7 +6,7 @@
 # integration — NOT both, or every push double-deploys.
 #
 # BEFORE the first deploy succeeds, do these two things:
-# 1. Cloudflare Pages project named EXACTLY "shrinkit" (Workers & Pages ->
+# 1. Cloudflare Pages project named EXACTLY "shrinkit-dr" (Workers & Pages ->
 #    Create -> Pages -> Direct Uploads). Do NOT connect the Git repo there.
 # 2. Repo Settings -> Secrets and variables -> Actions:
 #    - CLOUDFLARE_API_TOKEN (API token with Cloudflare Pages: Edit)
@@ -54,4 +54,4 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-          command: pages deploy dist --project-name=shrinkit --commit-dirty=true
+          command: pages deploy dist --project-name=shrinkit-dr --commit-dirty=true
