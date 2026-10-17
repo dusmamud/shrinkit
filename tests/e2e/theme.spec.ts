@@ -8,9 +8,10 @@ const photo = path.resolve(here, "fixtures/photo.jpg");
 /**
  * Theme toggle spec — contracts implemented by the theme feature:
  * - <html> carries data-theme="dark" | "light"
- * - localStorage key "shrinkit-theme" with values "light" | "dark" | "system"
- * - toggle = native <select data-testid="theme-select"> (desktop in header
- *   + one inside the mobile menu)
+ * - localStorage key "shrinkit-theme" with values "light" | "dark"
+ *   (no stored value = follow the OS; "system" is not a UI option)
+ * - toggle = custom dropdown [data-dropdown="theme"] (desktop in header
+ *   + one inside the mobile menu); options are [data-theme-option]
  * Screenshots are for human review only — no pixel baselines.
  */
 
@@ -69,6 +70,22 @@ async function awaitThemeSettled(page: Page, expectedBg: string): Promise<void> 
   );
 }
 
+/**
+ * Drive the real custom theme dropdown: open it and pick the option.
+ * `prefix` selects the desktop header dropdown or the mobile-menu one.
+ * The hidden native <select data-testid="theme-select"> is off-screen /
+ * zero-size, so Playwright cannot selectOption() it — click the real UI.
+ */
+async function selectTheme(
+  page: Page,
+  theme: "light" | "dark",
+  prefix: "desktop" | "mobile" = "desktop",
+): Promise<void> {
+  const dropdown = page.locator(`[data-dropdown="theme"][data-prefix="${prefix}"]`);
+  await dropdown.locator(".dropdown-trigger").click();
+  await dropdown.locator(`[data-theme-option="${theme}"]`).click();
+}
+
 /** Element text color + nearest opaque ancestor background. */
 async function computedPair(locator: Locator): Promise<{ fg: string; bg: string }> {
   return locator.evaluate((el) => {
@@ -90,7 +107,7 @@ async function upload(page: Page) {
 
 test("1. toggle light → dark applies dark tokens", async ({ page }) => {
   await gotoApp(page, "/");
-  await page.getByTestId("theme-select").first().selectOption("dark");
+  await selectTheme(page, "dark");
   await expect.poll(() => getTheme(page)).toBe("dark");
   await awaitThemeSettled(page, "rgb(18, 18, 20)");
 
@@ -117,10 +134,9 @@ test("1. toggle light → dark applies dark tokens", async ({ page }) => {
 
 test("2. toggle dark → light restores light tokens", async ({ page }) => {
   await gotoApp(page, "/");
-  const select = page.getByTestId("theme-select").first();
-  await select.selectOption("dark");
+  await selectTheme(page, "dark");
   await expect.poll(() => getTheme(page)).toBe("dark");
-  await select.selectOption("light");
+  await selectTheme(page, "light");
   await expect.poll(() => getTheme(page)).toBe("light");
   await awaitThemeSettled(page, "rgb(255, 255, 255)");
 
@@ -132,7 +148,7 @@ test("2. toggle dark → light restores light tokens", async ({ page }) => {
 
 test("3. theme persists across reload", async ({ page }) => {
   await gotoApp(page, "/");
-  await page.getByTestId("theme-select").first().selectOption("dark");
+  await selectTheme(page, "dark");
   await expect.poll(() => getTheme(page)).toBe("dark");
 
   await page.reload();
@@ -143,7 +159,7 @@ test("3. theme persists across reload", async ({ page }) => {
 
 test("4. theme persists across locale change", async ({ page }) => {
   await gotoApp(page, "/");
-  await page.getByTestId("theme-select").first().selectOption("dark");
+  await selectTheme(page, "dark");
   await expect.poll(() => getTheme(page)).toBe("dark");
 
   await gotoApp(page, "/es/");
@@ -156,7 +172,7 @@ test.describe("5. system mode follows the OS setting", () => {
   test("system resolves dark on a dark OS", async ({ page }) => {
     await page.addInitScript(() => localStorage.removeItem("shrinkit-theme"));
     await gotoApp(page, "/");
-    await page.getByTestId("theme-select").first().selectOption("system");
+    // No stored preference: the page follows the OS (system is not a UI option).
     await expect.poll(() => getTheme(page)).toBe("dark");
   });
 });
@@ -167,7 +183,7 @@ test.describe("5b. system mode follows the OS setting (light OS)", () => {
   test("system resolves light on a light OS", async ({ page }) => {
     await page.addInitScript(() => localStorage.removeItem("shrinkit-theme"));
     await gotoApp(page, "/");
-    await page.getByTestId("theme-select").first().selectOption("system");
+    // No stored preference: the page follows the OS (system is not a UI option).
     await expect.poll(() => getTheme(page)).toBe("light");
   });
 });
@@ -219,7 +235,7 @@ test("7. no FOUC: stored dark applies before hydration", async ({ page }) => {
 test("8. contrast spot-checks meet WCAG AA in both themes", async ({ page }) => {
   for (const theme of ["light", "dark"] as const) {
     await gotoApp(page, "/");
-    await page.getByTestId("theme-select").first().selectOption(theme);
+    await selectTheme(page, theme);
     await expect.poll(() => getTheme(page)).toBe(theme);
     await awaitThemeSettled(page, theme === "dark" ? "rgb(18, 18, 20)" : "rgb(255, 255, 255)");
     await upload(page);
@@ -243,7 +259,7 @@ test("8. contrast spot-checks meet WCAG AA in both themes", async ({ page }) => 
 
 test("9. info illustrations use the dark variant in dark mode", async ({ page }) => {
   await gotoApp(page, "/");
-  await page.getByTestId("theme-select").first().selectOption("dark");
+  await selectTheme(page, "dark");
   await expect.poll(() => getTheme(page)).toBe("dark");
 
   await page.locator("#how-it-works").scrollIntoViewIfNeeded();
@@ -266,14 +282,14 @@ test.describe("10. theme screenshots (desktop, human review)", () => {
 
   test("light desktop full-page", async ({ page }) => {
     await gotoApp(page, "/");
-    await page.getByTestId("theme-select").first().selectOption("light");
+    await selectTheme(page, "light");
     await expect.poll(() => getTheme(page)).toBe("light");
     await page.screenshot({ path: "/tmp/qa-shots/theme-light-desktop.png", fullPage: true });
   });
 
   test("dark desktop full-page", async ({ page }) => {
     await gotoApp(page, "/");
-    await page.getByTestId("theme-select").first().selectOption("dark");
+    await selectTheme(page, "dark");
     await expect.poll(() => getTheme(page)).toBe("dark");
     await page.screenshot({ path: "/tmp/qa-shots/theme-dark-desktop.png", fullPage: true });
   });
@@ -288,7 +304,7 @@ test.describe("10b. theme screenshots (mobile, human review)", () => {
     await page.locator("#nav-open").click();
     const menu = page.locator("#mobile-menu");
     await expect(menu).toBeVisible();
-    await menu.getByTestId("theme-select").selectOption("dark");
+    await selectTheme(page, "dark", "mobile");
     await expect.poll(() => getTheme(page)).toBe("dark");
     await page.locator("#nav-close").click();
     await expect(menu).toBeHidden();
@@ -304,7 +320,7 @@ test.describe("11. mobile menu theme toggle", () => {
     await page.locator("#nav-open").click();
     const menu = page.locator("#mobile-menu");
     await expect(menu).toBeVisible();
-    await menu.getByTestId("theme-select").selectOption("dark");
+    await selectTheme(page, "dark", "mobile");
     await expect.poll(() => getTheme(page)).toBe("dark");
     await expect(menu).toBeVisible();
   });

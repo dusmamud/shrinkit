@@ -114,19 +114,32 @@ test.describe("Ultra-Responsive Design Across All Screen Dimensions", () => {
 
     // Nothing but the hamburger visible in the mobile header bar
     // (the desktop copies of both controls exist in the DOM but are hidden).
+    // The hidden native selects are off-screen, so assert on the real
+    // custom-dropdown triggers instead.
     await expect(page.locator("#nav-open")).toBeVisible();
-    await expect(page.locator("header").getByTestId("language-switcher")).toBeHidden();
-    await expect(page.locator("header").getByTestId("theme-select")).toBeHidden();
+    await expect(
+      page.locator('[data-dropdown="language"][data-prefix="desktop"] .dropdown-trigger'),
+    ).toBeHidden();
+    await expect(
+      page.locator('[data-dropdown="theme"][data-prefix="desktop"] .dropdown-trigger'),
+    ).toBeHidden();
 
     // Both controls appear inside the hamburger menu.
     await page.locator("#nav-open").click();
     const menu = page.locator("#mobile-menu");
     await expect(menu).toBeVisible();
-    await expect(menu.getByTestId("language-switcher")).toBeVisible();
-    await expect(menu.getByTestId("theme-select")).toBeVisible();
+    await expect(
+      menu.locator('[data-dropdown="language"][data-prefix="mobile"] .dropdown-trigger'),
+    ).toBeVisible();
+    await expect(
+      menu.locator('[data-dropdown="theme"][data-prefix="mobile"] .dropdown-trigger'),
+    ).toBeVisible();
 
-    // Language switcher inside the menu actually navigates.
-    await menu.getByTestId("language-switcher").selectOption({ index: 1 });
+    // Language switcher inside the menu actually navigates (options are
+    // links in en/es/pt order; index 1 = Español).
+    const langDropdown = menu.locator('[data-dropdown="language"][data-prefix="mobile"]');
+    await langDropdown.locator(".dropdown-trigger").click();
+    await langDropdown.locator('[role="option"]').nth(1).click();
     await expect(page).toHaveURL(/\/es(\/|$)/);
   });
 });
