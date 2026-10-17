@@ -39,6 +39,9 @@ jobs:
     steps:
       # Deploy exactly the commit CI tested (workflow_run), or the branch
       # tip on manual runs (workflow_dispatch).
+      # NOTE: checking out a SHA leaves a detached HEAD, so wrangler cannot
+      # infer the branch and would preview-deploy. --branch=main below
+      # forces the production deployment.
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.workflow_run.head_sha || github.ref }}
@@ -54,4 +57,4 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-          command: pages deploy dist --project-name=shrinkit-dr --commit-dirty=true
+          command: pages deploy dist --project-name=shrinkit-dr --branch=main --commit-dirty=true
