@@ -129,9 +129,5 @@
   "theme.light": "Claro",
   "theme.system": "Sistema",
   "theme.system_tip": "Seguir la configuración de tu dispositivo",
-  "result.larger": "más grande",
-  "trust.free": "100% Gratis",
-  "trust.no_signup": "Sin registro",
-  "trust.no_watermarks": "Sin marcas de agua",
-  "trust.private": "Privado"
+  "result.larger": "más grande"
 }

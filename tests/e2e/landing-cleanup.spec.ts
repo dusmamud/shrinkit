@@ -2,23 +2,14 @@ import { test, expect } from "@playwright/test";
 import { gotoApp } from "./helpers";
 import path from "node:path";
 
-test("landing shows the trust strip with 4 items", async ({ page }) => {
-  await gotoApp(page, "/");
-  const strip = page.locator("div.border-b").filter({ hasText: "100% Free" });
-  await expect(strip).toBeVisible();
-  for (const label of ["100% Free", "No Sign-Up", "Private", "No Watermarks"]) {
-    await expect(strip).toContainText(label);
-  }
-});
-
-test("landing no longer renders FormatPresets or the info carousel", async ({ page }) => {
+test("landing has no trust strip and no FormatPresets or info carousel", async ({ page }) => {
   await gotoApp(page, "/");
   await expect(page.getByText("Popular Dimensions Ready to Use")).toHaveCount(0);
   await expect(page.locator("[data-format]")).toHaveCount(0);
   await expect(page.locator("#info-swiper-wrapper")).toHaveCount(0);
 });
 
-test("landing FAQ has 5 items (Q6 moved to the trust strip)", async ({ page }) => {
+test("landing FAQ has 5 items (free/fees Q6 removed)", async ({ page }) => {
   await gotoApp(page, "/");
   const items = page.locator('section[aria-labelledby="faq-heading"] details');
   await expect(items).toHaveCount(5);

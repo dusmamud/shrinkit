@@ -129,9 +129,5 @@
   "theme.light": "Light",
   "theme.system": "System",
   "theme.system_tip": "Follow your device setting",
-  "result.larger": "larger",
-  "trust.free": "100% Free",
-  "trust.no_signup": "No Sign-Up",
-  "trust.no_watermarks": "No Watermarks",
-  "trust.private": "Private"
+  "result.larger": "larger"
 }

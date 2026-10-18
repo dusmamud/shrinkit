@@ -2,7 +2,6 @@
 import type { Locale } from "../lib/locale";
 
 import HeroSection from "./home/HeroSection.astro";
-import TrustStrip from "./home/TrustStrip.astro";
 import HowItWorks from "./home/HowItWorks.astro";
 import ToolsShowcase from "./home/ToolsShowcase.astro";
 import ZeroUploadGuarantee from "./home/ZeroUploadGuarantee.astro";
@@ -17,8 +16,6 @@ const { locale } = Astro.props;
 ---
 
 <HeroSection locale={locale} />
-
-<TrustStrip locale={locale} />
 
 <HowItWorks locale={locale} />
 
