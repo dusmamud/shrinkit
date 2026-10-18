@@ -1,0 +1,23 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import GuidePage from "../../components/GuidePage.astro";
+import { t } from "../../lib/i18n";
+import { locales, type Locale } from "../../lib/locales";
+
+export function getStaticPaths() {
+  return locales
+    .filter((l): l is Exclude<Locale, "en"> => l !== "en")
+    .map((locale) => ({ params: { locale } }));
+}
+
+const { locale } = Astro.params as { locale: Locale };
+---
+
+<BaseLayout
+  locale={locale}
+  path="/guide"
+  title={`${t(locale, "guide.title")} — ${t(locale, "site.name")}`}
+  description={t(locale, "guide.description")}
+>
+  <GuidePage locale={locale} />
+</BaseLayout>

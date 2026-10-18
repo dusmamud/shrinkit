@@ -9,8 +9,10 @@ const heic = path.resolve(here, "fixtures/sample.heic"); // real HEIC, 1440×960
 
 /**
  * Cross-verification for the Oct 2026 fix batch:
- * ToolsShowcase 404 links, FormatPresets click-to-apply,
+ * ToolsShowcase 404 links,
  * Black & White mode on the 20KB tool, HEIC in the KB tools.
+ * (FormatPresets click-to-apply was removed with the landing cleanup —
+ *  the component no longer renders on the landing page.)
  */
 
 test("ToolsShowcase links never point at /es/tools or /pt/tools (404)", async ({ page }) => {
@@ -24,30 +26,6 @@ test("ToolsShowcase links never point at /es/tools or /pt/tools (404)", async ({
   await gotoApp(page, "/es");
   await page.locator('a[href="/tools/compress-to-50kb"]').first().click();
   await expect(page).toHaveURL(/\/tools\/compress-to-50kb/);
-});
-
-test("FormatPresets: format card sets output format, dims preset sets size + unit", async ({
-  page,
-}) => {
-  await gotoApp(page);
-  await page.getByTestId("file-input").setInputFiles(small);
-  await expect(page.getByTestId("process-button")).toBeEnabled();
-
-  // WebP format card → format select becomes webp.
-  await page.locator('[data-format="webp"]').scrollIntoViewIfNeeded();
-  await page.locator('[data-format="webp"]').click();
-  await expect(page.getByTestId("format-select")).toHaveValue("webp");
-
-  // Instagram Square preset → 1080×1080 pixels.
-  await page.locator('[data-dims-width="1080"][data-dims-height="1080"]').scrollIntoViewIfNeeded();
-  await page.locator('[data-dims-width="1080"][data-dims-height="1080"]').click();
-  await expect(page.getByTestId("width-input")).toHaveValue("1080");
-  await expect(page.getByTestId("height-input")).toHaveValue("1080");
-  await expect(page.getByTestId("unit-select")).toHaveValue("pixels");
-
-  // Passport + Signature presets are real links to the dedicated tools.
-  await expect(page.locator('a[href="/tools/passport-photo-maker"]').first()).toBeVisible();
-  await expect(page.locator('a[href="/tools/compress-to-20kb"]').first()).toBeVisible();
 });
 
 test("20KB tool: Black & White toggle produces near-pure black/white pixels", async ({ page }) => {

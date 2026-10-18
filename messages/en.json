@@ -47,6 +47,9 @@
   "footer.resize_image": "Resize an Image",
   "footer.rights": "© {year} ShrinkIt. All rights reserved.",
   "footer.tagline": "Shrink images right in your browser — free, private, no sign-up.",
+  "footer.guide": "Guide",
+  "guide.title": "Image Guide",
+  "guide.description": "Learn how image file size works, how to reduce it without losing quality, and how to pick the right format — free guides from ShrinkIt.",
   "hero.private_note": "100% private in-browser, zero uploads.",
   "hero.title": "Resize an Image",
   "info1.p1": "Every digital photo is a grid of tiny coloured dots called pixels. Your camera or phone decides how many dots fit in each row and column — a 4000×3000 photo holds 12 million of them, which is where the word “megapixel” comes from.",
@@ -126,5 +129,9 @@
   "theme.light": "Light",
   "theme.system": "System",
   "theme.system_tip": "Follow your device setting",
-  "result.larger": "larger"
+  "result.larger": "larger",
+  "trust.free": "100% Free",
+  "trust.no_signup": "No Sign-Up",
+  "trust.no_watermarks": "No Watermarks",
+  "trust.private": "Private"
 }

@@ -1,0 +1,44 @@
+---
+import { t } from "../../lib/i18n";
+import type { Locale } from "../../lib/locale";
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+
+const items = [
+  t(locale, "trust.free"),
+  t(locale, "trust.no_signup"),
+  t(locale, "trust.private"),
+  t(locale, "trust.no_watermarks"),
+];
+---
+
+<div class="border-b border-tborderfaint bg-tpage">
+  <div
+    class="mx-auto flex max-w-[1075px] flex-wrap items-center justify-center gap-x-8 gap-y-2 px-4 py-3"
+  >
+    {
+      items.map((label) => (
+        <span class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-tmuted">
+          <svg
+            class="h-4 w-4 text-taccent"
+            viewBox="0 0 16 16"
+            fill="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M3 8.5l3.2 3.2L13 5"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          {label}
+        </span>
+      ))
+    }
+  </div>
+</div>

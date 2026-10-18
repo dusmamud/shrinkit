@@ -47,6 +47,9 @@
   "footer.resize_image": "Redimensionar una imagen",
   "footer.rights": "© {year} ShrinkIt. Todos los derechos reservados.",
   "footer.tagline": "Reduce imágenes en tu navegador — gratis, privado, sin registro.",
+  "footer.guide": "Guía",
+  "guide.title": "Guía de imágenes",
+  "guide.description": "Aprende cómo funciona el tamaño de los archivos de imagen, cómo reducirlo sin perder calidad y cómo elegir el formato adecuado — guías gratuitas de ShrinkIt.",
   "hero.private_note": "100% privado en el navegador, cero subidas.",
   "hero.title": "Redimensionar una imagen",
   "info1.p1": "Cada foto digital es una cuadrícula de diminutos puntos de colores llamados píxeles. Tu cámara o teléfono decide cuántos puntos caben en cada fila y columna: una foto de 4000×3000 contiene 12 millones de ellos, de ahí viene la palabra “megapíxel”.",
@@ -126,5 +129,9 @@
   "theme.light": "Claro",
   "theme.system": "Sistema",
   "theme.system_tip": "Seguir la configuración de tu dispositivo",
-  "result.larger": "más grande"
+  "result.larger": "más grande",
+  "trust.free": "100% Gratis",
+  "trust.no_signup": "Sin registro",
+  "trust.no_watermarks": "Sin marcas de agua",
+  "trust.private": "Privado"
 }

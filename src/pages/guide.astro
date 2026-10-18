@@ -1,0 +1,14 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import GuidePage from "../components/GuidePage.astro";
+import { t } from "../lib/i18n";
+---
+
+<BaseLayout
+  locale="en"
+  path="/guide"
+  title={`${t("en", "guide.title")} — ${t("en", "site.name")}`}
+  description={t("en", "guide.description")}
+>
+  <GuidePage locale="en" />
+</BaseLayout>

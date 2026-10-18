@@ -1,0 +1,110 @@
+---
+import { t } from "../lib/i18n";
+import type { Locale } from "../lib/locale";
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+
+const articles = [
+  {
+    title: t(locale, "info1.title"),
+    paragraphs: [t(locale, "info1.p1"), t(locale, "info1.p2"), t(locale, "info1.p3")],
+    img: {
+      light: "/Illustration/what-is-file-size-color.svg",
+      dark: "/Illustration/what-is-file-size-color-dark.svg",
+      alt: "Illustration showing what an image file size is",
+    },
+    flip: false,
+  },
+  {
+    title: t(locale, "info2.title"),
+    paragraphs: [t(locale, "info2.p1"), t(locale, "info2.p2"), t(locale, "info2.p3")],
+    img: {
+      light: "/Illustration/how-to-reduce-file-size-color.svg",
+      dark: "/Illustration/how-to-reduce-file-size-color-dark.svg",
+      alt: "Illustration showing how to reduce image file size",
+    },
+    flip: true,
+  },
+];
+---
+
+<div class="mx-auto max-w-[1075px] px-4 py-10 sm:py-14">
+  <div class="mx-auto mb-12 max-w-2xl text-center sm:mb-16">
+    <h1
+      class="text-3xl sm:text-4xl md:text-[2.75rem] font-bold tracking-tight text-tink leading-tight"
+    >
+      {t(locale, "guide.title")}
+    </h1>
+    <p class="mt-3 text-sm sm:text-base text-tmuted leading-relaxed">
+      {t(locale, "guide.description")}
+    </p>
+  </div>
+
+  {
+    articles.map((article) => (
+      <article class="mb-14 flex flex-col items-center gap-8 sm:mb-20 md:flex-row md:gap-16">
+        <div
+          class:list={[
+            "flex w-full items-center justify-center md:w-1/2",
+            article.flip && "md:order-2",
+          ]}
+        >
+          <img
+            src={article.img.light}
+            data-illustration
+            data-light-src={article.img.light}
+            data-dark-src={article.img.dark}
+            alt={article.img.alt}
+            width="420"
+            height="420"
+            loading="lazy"
+            decoding="async"
+            class="h-auto max-h-[240px] min-[600px]:max-h-[300px] md:max-h-[360px] w-auto max-w-full object-contain select-none pointer-events-none"
+          />
+        </div>
+        <div class:list={["w-full md:w-1/2", article.flip && "md:order-1"]}>
+          <h2 class="text-[1.875rem] min-[700px]:text-[2.5rem] font-normal leading-tight text-tink pb-5">
+            {article.title}
+          </h2>
+          <div class="text-[1.0625rem] font-light leading-relaxed text-tink2 space-y-4">
+            {article.paragraphs.map((p) => (
+              <p>{p}</p>
+            ))}
+          </div>
+        </div>
+      </article>
+    ))
+  }
+</div>
+
+<script>
+  // Keep guide illustrations in sync with the active theme (same as the
+  // landing info sections).
+  function setupGuideIllustrationTheme() {
+    const imgs = document.querySelectorAll<HTMLImageElement>("[data-illustration]");
+    if (imgs.length === 0) return;
+
+    const applyTheme = () => {
+      const isDark = document.documentElement.dataset.theme === "dark";
+      imgs.forEach((img) => {
+        const next = isDark ? img.dataset.darkSrc : img.dataset.lightSrc;
+        if (next && img.getAttribute("src") !== next) {
+          img.setAttribute("src", next);
+        }
+      });
+    };
+
+    applyTheme();
+    const observer = new MutationObserver(applyTheme);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
+  }
+
+  setupGuideIllustrationTheme();
+  document.addEventListener("astro:page-load", setupGuideIllustrationTheme);
+</script>

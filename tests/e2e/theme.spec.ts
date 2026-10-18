@@ -116,6 +116,9 @@ test("1. toggle light → dark applies dark tokens", async ({ page }) => {
   expect(fg).toBe("rgb(209, 209, 214)"); // #d1d1d6 — body text uses --t-ink-2 by design
 
   // Settings panel surface — upload to reveal the panel.
+  // NOTE: the panel container deliberately blends into the page in dark mode
+  // (like the light theme), so the first non-transparent ancestor is the
+  // page background, not a surface box.
   await upload(page);
   const panelBg = await page
     .getByText("Choose new size and format")
@@ -129,7 +132,7 @@ test("1. toggle light → dark applies dark tokens", async ({ page }) => {
       }
       return "transparent";
     });
-  expect(panelBg).toBe("rgb(28, 28, 30)"); // #1c1c1e
+  expect(panelBg).toBe("rgb(18, 18, 20)"); // #121214 — page bg, container blends in
 });
 
 test("2. toggle dark → light restores light tokens", async ({ page }) => {
@@ -258,12 +261,14 @@ test("8. contrast spot-checks meet WCAG AA in both themes", async ({ page }) => 
 });
 
 test("9. info illustrations use the dark variant in dark mode", async ({ page }) => {
-  await gotoApp(page, "/");
+  // NOTE: the info illustrations moved from the landing to /guide
+  // (landing cleanup) — select them there.
+  await page.goto("/guide");
+  await page.waitForLoadState("networkidle");
   await selectTheme(page, "dark");
   await expect.poll(() => getTheme(page)).toBe("dark");
 
-  // NOTE: illustrations live in the info sections, not in the #how-it-works
-  // steps section — select them by their own marker, not by the anchor id.
+  // Select illustrations by their own marker, not by any anchor id.
   const imgs = page.locator("[data-illustration]");
   await imgs.first().scrollIntoViewIfNeeded();
   expect(await imgs.count()).toBeGreaterThan(0);

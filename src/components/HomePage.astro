@@ -1,13 +1,12 @@
 ---
 import type { Locale } from "../lib/locale";
-import InfoSections from "./InfoSections.astro";
 
 import HeroSection from "./home/HeroSection.astro";
-import ToolsShowcase from "./home/ToolsShowcase.astro";
+import TrustStrip from "./home/TrustStrip.astro";
 import HowItWorks from "./home/HowItWorks.astro";
+import ToolsShowcase from "./home/ToolsShowcase.astro";
 import ZeroUploadGuarantee from "./home/ZeroUploadGuarantee.astro";
 import ComparisonTable from "./home/ComparisonTable.astro";
-import FormatPresets from "./home/FormatPresets.astro";
 import FaqSection from "./home/FaqSection.astro";
 import HomeCta from "./home/HomeCta.astro";
 
@@ -19,17 +18,15 @@ const { locale } = Astro.props;
 
 <HeroSection locale={locale} />
 
-<ToolsShowcase locale={locale} />
+<TrustStrip locale={locale} />
 
 <HowItWorks locale={locale} />
 
+<ToolsShowcase locale={locale} />
+
 <ZeroUploadGuarantee locale={locale} />
 
-<InfoSections locale={locale} />
-
 <ComparisonTable locale={locale} />
-
-<FormatPresets locale={locale} />
 
 <FaqSection locale={locale} />
 
