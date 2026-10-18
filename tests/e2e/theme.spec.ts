@@ -332,3 +332,36 @@ test.describe("11. mobile menu theme toggle", () => {
     await expect(menu).toBeVisible();
   });
 });
+
+test.describe("12. mobile menu dropdowns open upward, fully visible", () => {
+  test.use({ viewport: { width: 390, height: 844 } });
+
+  test("language + theme menus are not clipped by the drawer", async ({ page }) => {
+    await gotoApp(page, "/");
+    await page.locator("#nav-open").click();
+    const drawer = page.locator("#mobile-menu");
+    await expect(drawer).toBeVisible();
+    const vp = page.viewportSize()!;
+
+    for (const name of ["language", "theme"]) {
+      const btn = drawer.locator(
+        `[data-dropdown="${name}"][data-prefix="mobile"] .dropdown-trigger`,
+      );
+      const menu = drawer.locator(`[data-dropdown="${name}"][data-prefix="mobile"] .dropdown-menu`);
+      await btn.click();
+      await expect(menu).toBeVisible();
+      const btnBox = (await btn.boundingBox())!;
+      const menuBox = (await menu.boundingBox())!;
+      // Opens upward: the menu's bottom edge sits above the button's top edge.
+      expect(menuBox.y + menuBox.height).toBeLessThanOrEqual(btnBox.y + 8);
+      // Fully inside the viewport — not clipped by the drawer's scroll container.
+      expect(menuBox.x).toBeGreaterThanOrEqual(0);
+      expect(menuBox.x + menuBox.width).toBeLessThanOrEqual(vp.width);
+      expect(menuBox.y).toBeGreaterThanOrEqual(0);
+      expect(menuBox.y + menuBox.height).toBeLessThanOrEqual(vp.height);
+      // The opened menu must not block the other dropdown's trigger.
+      await btn.click(); // close
+      await expect(menu).toBeHidden();
+    }
+  });
+});

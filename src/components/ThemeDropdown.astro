@@ -70,7 +70,15 @@ const darkLabel = t(locale, "theme.dark");
   </button>
 
   <div
-    class="dropdown-menu absolute right-0 top-full z-[80] mt-1.5 hidden w-36 origin-top-right rounded-lg border border-tdivider bg-tsurface p-1 shadow-lg ring-1 ring-black/5 backdrop-blur-sm"
+    class:list={[
+      "dropdown-menu absolute right-0 z-[80] hidden w-36 rounded-lg border border-tdivider bg-tsurface p-1 shadow-lg ring-1 ring-black/5 backdrop-blur-sm",
+      // In the mobile drawer the switcher sits at the bottom, so the menu
+      // opens upward — opening downward gets clipped by the drawer's
+      // overflow-y-auto container.
+      idPrefix === "mobile"
+        ? "bottom-full mb-1.5 origin-bottom-right"
+        : "top-full mt-1.5 origin-top-right",
+    ]}
     role="listbox"
     aria-label={t(locale, "theme.choose")}
   >
