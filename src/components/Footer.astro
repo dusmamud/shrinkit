@@ -27,8 +27,8 @@ const columns = [
   {
     heading: t(locale, "footer.col_product"),
     links: [
-      { href: `${home}#how-it-works`, label: t(locale, "footer.how_it_works") },
-      { href: `${home}#tool`, label: t(locale, "footer.resize_image") },
+      { href: localizedPath("/how-it-works", locale), label: t(locale, "footer.how_it_works") },
+      { href: localizedPath("/resize", locale), label: t(locale, "footer.resize_image") },
       { href: localizedPath("/guide", locale), label: t(locale, "footer.guide") },
     ],
   },

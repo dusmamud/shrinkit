@@ -114,15 +114,11 @@ test.describe("Ultra-Responsive Design Across All Screen Dimensions", () => {
 
     // Nothing but the hamburger visible in the mobile header bar
     // (the desktop copies of both controls exist in the DOM but are hidden).
-    // The hidden native selects are off-screen, so assert on the real
-    // custom-dropdown triggers instead.
     await expect(page.locator("#nav-open")).toBeVisible();
     await expect(
       page.locator('[data-dropdown="language"][data-prefix="desktop"] .dropdown-trigger'),
     ).toBeHidden();
-    await expect(
-      page.locator('[data-dropdown="theme"][data-prefix="desktop"] .dropdown-trigger'),
-    ).toBeHidden();
+    await expect(page.locator("[data-theme-toggle]").first()).toBeHidden();
 
     // Both controls appear inside the hamburger menu.
     await page.locator("#nav-open").click();
@@ -131,9 +127,7 @@ test.describe("Ultra-Responsive Design Across All Screen Dimensions", () => {
     await expect(
       menu.locator('[data-dropdown="language"][data-prefix="mobile"] .dropdown-trigger'),
     ).toBeVisible();
-    await expect(
-      menu.locator('[data-dropdown="theme"][data-prefix="mobile"] .dropdown-trigger'),
-    ).toBeVisible();
+    await expect(menu.locator("[data-theme-toggle]").first()).toBeVisible();
 
     // Language switcher inside the menu actually navigates (options are
     // links in en/es/pt order; index 1 = Español).

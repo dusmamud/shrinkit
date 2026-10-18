@@ -10,8 +10,8 @@ const photo = path.resolve(here, "fixtures/photo.jpg");
  * - <html> carries data-theme="dark" | "light"
  * - localStorage key "shrinkit-theme" with values "light" | "dark"
  *   (no stored value = follow the OS; "system" is not a UI option)
- * - toggle = custom dropdown [data-dropdown="theme"] (desktop in header
- *   + one inside the mobile menu); options are [data-theme-option]
+ * - toggle = [data-theme-toggle] icon button (desktop in header + one
+ *   inside the mobile menu); moon icon in light mode, sun icon in dark mode
  * Screenshots are for human review only — no pixel baselines.
  */
 
@@ -71,19 +71,22 @@ async function awaitThemeSettled(page: Page, expectedBg: string): Promise<void> 
 }
 
 /**
- * Drive the real custom theme dropdown: open it and pick the option.
- * `prefix` selects the desktop header dropdown or the mobile-menu one.
- * The hidden native <select data-testid="theme-select"> is off-screen /
- * zero-size, so Playwright cannot selectOption() it — click the real UI.
+ * Drive the real theme toggle button: click it until the wanted theme is
+ * active. `prefix` selects the desktop header toggle or the mobile-menu one.
+ * Toggling never closes the mobile menu.
  */
 async function selectTheme(
   page: Page,
   theme: "light" | "dark",
   prefix: "desktop" | "mobile" = "desktop",
 ): Promise<void> {
-  const dropdown = page.locator(`[data-dropdown="theme"][data-prefix="${prefix}"]`);
-  await dropdown.locator(".dropdown-trigger").click();
-  await dropdown.locator(`[data-theme-option="${theme}"]`).click();
+  const scope = prefix === "mobile" ? page.locator("#mobile-menu") : page;
+  const btn = scope.locator("[data-theme-toggle]").first();
+  await expect.poll(() => getTheme(page), { timeout: 5_000 }).not.toBe(undefined);
+  if ((await getTheme(page)) !== theme) {
+    await btn.click();
+  }
+  await expect.poll(() => getTheme(page)).toBe(theme);
 }
 
 /** Element text color + nearest opaque ancestor background. */
@@ -333,35 +336,53 @@ test.describe("11. mobile menu theme toggle", () => {
   });
 });
 
-test.describe("12. mobile menu dropdowns open upward, fully visible", () => {
+test.describe("12. mobile menu language dropdown opens upward, fully visible", () => {
   test.use({ viewport: { width: 390, height: 844 } });
 
-  test("language + theme menus are not clipped by the drawer", async ({ page }) => {
+  test("language menu is not clipped by the drawer", async ({ page }) => {
     await gotoApp(page, "/");
     await page.locator("#nav-open").click();
     const drawer = page.locator("#mobile-menu");
     await expect(drawer).toBeVisible();
     const vp = page.viewportSize()!;
 
-    for (const name of ["language", "theme"]) {
-      const btn = drawer.locator(
-        `[data-dropdown="${name}"][data-prefix="mobile"] .dropdown-trigger`,
-      );
-      const menu = drawer.locator(`[data-dropdown="${name}"][data-prefix="mobile"] .dropdown-menu`);
-      await btn.click();
-      await expect(menu).toBeVisible();
-      const btnBox = (await btn.boundingBox())!;
-      const menuBox = (await menu.boundingBox())!;
-      // Opens upward: the menu's bottom edge sits above the button's top edge.
-      expect(menuBox.y + menuBox.height).toBeLessThanOrEqual(btnBox.y + 8);
-      // Fully inside the viewport — not clipped by the drawer's scroll container.
-      expect(menuBox.x).toBeGreaterThanOrEqual(0);
-      expect(menuBox.x + menuBox.width).toBeLessThanOrEqual(vp.width);
-      expect(menuBox.y).toBeGreaterThanOrEqual(0);
-      expect(menuBox.y + menuBox.height).toBeLessThanOrEqual(vp.height);
-      // The opened menu must not block the other dropdown's trigger.
-      await btn.click(); // close
-      await expect(menu).toBeHidden();
-    }
+    const btn = drawer.locator(
+      '[data-dropdown="language"][data-prefix="mobile"] .dropdown-trigger',
+    );
+    const menu = drawer.locator('[data-dropdown="language"][data-prefix="mobile"] .dropdown-menu');
+    await btn.click();
+    await expect(menu).toBeVisible();
+    const btnBox = (await btn.boundingBox())!;
+    const menuBox = (await menu.boundingBox())!;
+    // Opens upward: the menu's bottom edge sits above the button's top edge.
+    expect(menuBox.y + menuBox.height).toBeLessThanOrEqual(btnBox.y + 8);
+    // Fully inside the viewport — not clipped by the drawer's scroll container.
+    expect(menuBox.x).toBeGreaterThanOrEqual(0);
+    expect(menuBox.x + menuBox.width).toBeLessThanOrEqual(vp.width);
+    expect(menuBox.y).toBeGreaterThanOrEqual(0);
+    expect(menuBox.y + menuBox.height).toBeLessThanOrEqual(vp.height);
+    await btn.click(); // close
+    await expect(menu).toBeHidden();
+  });
+
+  test("theme toggle in the menu switches theme without closing the menu", async ({ page }) => {
+    await gotoApp(page, "/");
+    await page.locator("#nav-open").click();
+    const drawer = page.locator("#mobile-menu");
+    await expect(drawer).toBeVisible();
+    const btn = drawer.locator("[data-theme-toggle]").first();
+    await expect(btn).toBeVisible();
+    // Icon reflects the current theme: moon in light mode, sun in dark mode.
+    const startTheme = await getTheme(page);
+    await expect(
+      btn.locator(startTheme === "dark" ? ".theme-toggle-sun" : ".theme-toggle-moon"),
+    ).toBeVisible();
+    await btn.click();
+    const flipped = startTheme === "dark" ? "light" : "dark";
+    await expect.poll(() => getTheme(page)).toBe(flipped);
+    await expect(drawer).toBeVisible();
+    await expect(
+      btn.locator(flipped === "dark" ? ".theme-toggle-sun" : ".theme-toggle-moon"),
+    ).toBeVisible();
   });
 });

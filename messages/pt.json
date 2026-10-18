@@ -50,6 +50,7 @@
   "footer.guide": "Guia",
   "guide.title": "Guia de imagens",
   "guide.description": "Aprenda como funciona o tamanho dos arquivos de imagem, como reduzi-lo sem perder qualidade e como escolher o formato certo — guias gratuitos do ShrinkIt.",
+  "how.description": "Veja como o ShrinkIt funciona em 3 passos simples: adicione suas imagens, ajuste dimensões e formato, baixe na hora. 100% privado, no navegador, grátis.",
   "hero.private_note": "100% privado no navegador, sem nenhum upload.",
   "hero.title": "Redimensionar uma imagem",
   "info1.p1": "Toda foto digital é uma grade de minúsculos pontos coloridos chamados pixels. Sua câmera ou celular decide quantos pontos cabem em cada linha e coluna — uma foto de 4000×3000 contém 12 milhões deles, daí vem a palavra “megapixel”.",
@@ -129,5 +130,6 @@
   "theme.light": "Claro",
   "theme.system": "Sistema",
   "theme.system_tip": "Seguir a configuração do dispositivo",
+  "theme.toggle": "Alternar tema",
   "result.larger": "maior"
 }

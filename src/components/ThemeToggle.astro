@@ -1,0 +1,52 @@
+---
+import { t } from "../lib/i18n";
+import type { Locale } from "../lib/locale";
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+---
+
+<button
+  type="button"
+  data-theme-toggle
+  class="inline-flex h-9 w-9 items-center justify-center rounded-[6px] border border-tdivider bg-tsurface text-tink shadow-sm transition hover:border-taccent hover:text-taccent focus:outline-none focus-visible:ring-2 focus-visible:ring-taccent active:scale-95"
+  aria-label={t(locale, "theme.toggle")}
+  title={t(locale, "theme.toggle")}
+>
+  <!-- Moon: shown in light mode (click switches to dark) -->
+  <svg
+    class="theme-toggle-moon h-[18px] w-[18px]"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+  </svg>
+  <!-- Sun: shown in dark mode (click switches to light) -->
+  <svg
+    class="theme-toggle-sun hidden h-[18px] w-[18px]"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="4"></circle>
+    <path d="M12 2v2"></path>
+    <path d="M12 20v2"></path>
+    <path d="m4.93 4.93 1.41 1.41"></path>
+    <path d="m17.66 17.66 1.41 1.41"></path>
+    <path d="M2 12h2"></path>
+    <path d="M20 12h2"></path>
+    <path d="m6.34 17.66-1.41 1.41"></path>
+    <path d="m19.07 4.93-1.41 1.41"></path>
+  </svg>
+</button>

@@ -2,7 +2,7 @@
 import { t } from "../lib/i18n";
 import { localizedPath, type Locale } from "../lib/locale";
 import LanguageSwitcher from "./LanguageSwitcher.astro";
-import ThemeDropdown from "./ThemeDropdown.astro";
+import ThemeToggle from "./ThemeToggle.astro";
 
 interface Props {
   locale: Locale;
@@ -12,7 +12,7 @@ const { locale, path } = Astro.props;
 
 const home = localizedPath("/", locale);
 const links = [
-  { href: `${home}#how-it-works`, label: t(locale, "nav.how") },
+  { href: localizedPath("/how-it-works", locale), label: t(locale, "nav.how") },
   { href: "/tools", label: t(locale, "nav.tools") },
   { href: localizedPath("/privacy", locale), label: t(locale, "nav.privacy") },
   { href: localizedPath("/contact", locale), label: t(locale, "nav.contact") },
@@ -54,7 +54,7 @@ const links = [
         {t(locale, "nav.resize")}
       </a>
       <span class="ml-3 xl:ml-4 inline-flex items-center gap-2">
-        <ThemeDropdown locale={locale} idPrefix="desktop" />
+        <ThemeToggle locale={locale} />
         <LanguageSwitcher locale={locale} path={path} idPrefix="desktop" />
       </span>
     </nav>
@@ -129,7 +129,7 @@ const links = [
       </div>
       <div class="flex w-full items-center justify-between">
         <span class="text-sm font-medium text-tink">{t(locale, "theme.label")}</span>
-        <ThemeDropdown locale={locale} idPrefix="mobile" />
+        <ThemeToggle locale={locale} />
       </div>
     </div>
   </nav>
@@ -231,46 +231,27 @@ const links = [
         m.setAttribute("content", theme === "dark" ? "#121214" : "#007bff");
       });
 
-      // Update all ThemeDropdown instances across page
-      document.querySelectorAll('[data-dropdown="theme"]').forEach(function (dd) {
-        var iconLight = dd.querySelector(".theme-icon-light");
-        var iconDark = dd.querySelector(".theme-icon-dark");
-        var label = dd.querySelector(".theme-current-label");
-
-        var lightBtn = dd.querySelector('[data-theme-option="light"]');
-        var darkBtn = dd.querySelector('[data-theme-option="dark"]');
-
-        var isDark = theme === "dark";
-
-        if (iconLight && iconDark) {
-          iconLight.classList.toggle("hidden", isDark);
-          iconDark.classList.toggle("hidden", !isDark);
-        }
-
-        if (label) {
-          var lightText = lightBtn ? lightBtn.querySelector("span span")?.textContent : "Light";
-          var darkText = darkBtn ? darkBtn.querySelector("span span")?.textContent : "Dark";
-          label.textContent = isDark ? (darkText || "Dark") : (lightText || "Light");
-        }
-
-        [lightBtn, darkBtn].forEach(function (btn) {
-          if (!btn) return;
-          var optVal = btn.getAttribute("data-theme-option");
-          var isActive = optVal === theme;
-          var check = btn.querySelector(".theme-check-icon");
-          if (check) check.classList.toggle("hidden", !isActive);
-
-          btn.classList.toggle("bg-tbtnb/10", isActive);
-          btn.classList.toggle("dark:bg-tbtnb/20", isActive);
-          btn.classList.toggle("font-semibold", isActive);
-          btn.classList.toggle("text-tbtnb", isActive);
-          btn.setAttribute("aria-selected", isActive ? "true" : "false");
-        });
+      // Update all theme toggle buttons across the page:
+      // moon icon in light mode (click -> dark), sun icon in dark mode.
+      var isDark = theme === "dark";
+      document.querySelectorAll("[data-theme-toggle]").forEach(function (btn) {
+        var moon = btn.querySelector(".theme-toggle-moon");
+        var sun = btn.querySelector(".theme-toggle-sun");
+        if (moon) moon.classList.toggle("hidden", isDark);
+        if (sun) sun.classList.toggle("hidden", !isDark);
+        btn.setAttribute("aria-pressed", isDark ? "true" : "false");
       });
+    }
 
-      // Update any hidden select
-      document.querySelectorAll('[data-testid="theme-select"]').forEach(function (s) {
-        s.value = theme;
+    function setupThemeToggle() {
+      document.querySelectorAll("[data-theme-toggle]").forEach(function (btn) {
+        if (btn._hasThemeToggle) return;
+        btn._hasThemeToggle = true;
+        btn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          var next = readStoredTheme() === "dark" ? "light" : "dark";
+          switchTheme(next, btn);
+        });
       });
     }
 
@@ -329,27 +310,6 @@ const links = [
       });
     }
 
-    function setupThemeOptions() {
-      document.querySelectorAll(".theme-option-btn").forEach(function (btn) {
-        if (btn._hasThemeClick) return;
-        btn._hasThemeClick = true;
-        btn.addEventListener("click", function (e) {
-          e.stopPropagation();
-          var targetVal = btn.getAttribute("data-theme-option");
-          switchTheme(targetVal, btn);
-        });
-      });
-
-      document.querySelectorAll('[data-testid="theme-select"]').forEach(function (s) {
-        if (s._hasSelectChange) return;
-        s._hasSelectChange = true;
-        s.addEventListener("change", function () {
-          var targetVal = s.value === "dark" ? "dark" : "light";
-          switchTheme(targetVal, s);
-        });
-      });
-    }
-
     window.addEventListener("storage", function (e) {
       if (e.key === KEY) {
         syncThemeUI(readStoredTheme());
@@ -365,12 +325,12 @@ const links = [
     });
 
     setupDropdowns();
-    setupThemeOptions();
+    setupThemeToggle();
     syncThemeUI(readStoredTheme());
 
     document.addEventListener("astro:page-load", function () {
       setupDropdowns();
-      setupThemeOptions();
+      setupThemeToggle();
       syncThemeUI(readStoredTheme());
     });
   })();

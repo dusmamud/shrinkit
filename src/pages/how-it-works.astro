@@ -1,0 +1,16 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HowItWorks from "../components/home/HowItWorks.astro";
+import HomeCta from "../components/home/HomeCta.astro";
+import { t } from "../lib/i18n";
+---
+
+<BaseLayout
+  locale="en"
+  path="/how-it-works"
+  title={`${t("en", "nav.how")} — ${t("en", "site.name")}`}
+  description={t("en", "how.description")}
+>
+  <HowItWorks locale="en" />
+  <HomeCta locale="en" />
+</BaseLayout>
