@@ -92,4 +92,4 @@ tests/
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+All Rights Reserved (proprietary, source-viewable only) — see [LICENSE](LICENSE).
