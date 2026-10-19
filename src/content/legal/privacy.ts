@@ -2,14 +2,14 @@ import type { LegalDoc } from "./types";
 
 /**
  * Privacy Policy for ShrinkIt. All prose is original writing.
- * Effective date: 17 October 2026.
+ * Effective date: 19 October 2026.
  */
 export const privacyDoc: LegalDoc = {
   title: "Privacy Policy",
-  lastUpdated: "17 October 2026",
+  lastUpdated: "19 October 2026",
   summary: [
-    "ShrinkIt is a free image resizer and compressor that runs entirely in your web browser. When you resize, compress, or convert an image with ShrinkIt, your image stays on your own device. It is never uploaded to ShrinkIt, never sent to a server operated by ShrinkIt, and never shared with a third party by the app. There is no account, no sign-up, no payment, and no newsletter, so ShrinkIt does not hold a profile about you.",
-    "There are two honest qualifications to that headline, and this policy explains both in full. First, the website is served by hosting infrastructure. That provider necessarily sees the ordinary request-level information that any web host sees, such as your IP address and browser details, even though the app itself sends it nothing about your images. The site's font is self-hosted — it comes from the same server as the rest of the site, so no font provider is involved. Second, your browser itself keeps a small amount of local data if you change the theme, and the service worker keeps a cache of the site's own files so the site loads reliably. Your images are never part of that cache.",
+    "ShrinkIt is a free image resizer and compressor available as a website and as an Android app. Both run entirely on your own device. When you resize, compress, or convert an image with ShrinkIt, your image stays on your own device. It is never uploaded to ShrinkIt, never sent to a server operated by ShrinkIt, and never shared with a third party by the app. There is no account, no sign-up, no payment, and no newsletter, so ShrinkIt does not hold a profile about you.",
+    "There are two honest qualifications to that headline, and this policy explains both in full. First, the website is served by hosting infrastructure. That provider necessarily sees the ordinary request-level information that any web host sees, such as your IP address and browser details, even though the app itself sends it nothing about your images. The site's font is self-hosted — it comes from the same server as the rest of the site, so no font provider is involved. Second, your device itself keeps a small amount of local data: the website keeps a theme choice and a cache of its own files, and the Android app keeps a local history of your processed images, your settings, and your preferences. Your images themselves are never uploaded, and the Android app's history contains only metadata such as file names and dimensions, never the image content.",
     "This document is provided for information only. It is not legal advice, and it is not a substitute for advice from a qualified lawyer. If any part of this policy is unclear, you can write to hello@shrinkit.dusrel.com and we will explain it in plain language.",
   ],
   sections: [
@@ -19,15 +19,15 @@ export const privacyDoc: LegalDoc = {
       blocks: [
         {
           kind: "p",
-          text: "This Privacy Policy explains what happens to your information when you use ShrinkIt, the free image resizing and compression service available at https://shrinkit.dusrel.com. It is written to be read from beginning to end, but it is also designed so that each section stands on its own. If you only have a minute, the summary at the top gives you the essential picture. If you want the complete picture, the sections below describe the service feature by feature, explain exactly what stays on your device, and set out your rights under the laws of India and of other places around the world.",
+          text: "This Privacy Policy explains what happens to your information when you use ShrinkIt, the free image resizing and compression service available at https://shrinkit.dusrel.com and as an Android app. It is written to be read from beginning to end, but it is also designed so that each section stands on its own. If you only have a minute, the summary at the top gives you the essential picture. If you want the complete picture, the sections below describe the service feature by feature, explain exactly what stays on your device, and set out your rights under the laws of India and of other places around the world. Where the website and the Android app differ, this policy says so explicitly.",
         },
         {
           kind: "p",
-          text: "ShrinkIt is operated under the name Dusrel. In this policy, when we say ShrinkIt, we, us, or our, we mean the operator of this service. When we say you or your, we mean the person using the service. The service is offered on the web, free of charge, and it is designed so that the work of resizing and compressing your images happens on your own device, in your own browser, rather than on a computer somewhere else.",
+          text: "ShrinkIt is operated under the name Dusrel. In this policy, when we say ShrinkIt, we, us, or our, we mean the operator of this service. When we say you or your, we mean the person using the service. The service is offered on the web and as an Android app, free of charge, and it is designed so that the work of resizing and compressing your images happens on your own device, in your own browser or in the app on your phone, rather than on a computer somewhere else.",
         },
         {
           kind: "p",
-          text: "The effective date of this policy is 17 October 2026, and the last-updated date shown at the top of this page is the date from which this version applies. If we change this policy in the future, we will update the last-updated date and publish the new version on this page. Section 15 explains how changes work. Because ShrinkIt does not collect contact details from its users, we cannot send you a personal notice of a change. The published page is the record of the current policy, and you can check it at any time.",
+          text: "The effective date of this policy is 19 October 2026, and the last-updated date shown at the top of this page is the date from which this version applies. If we change this policy in the future, we will update the last-updated date and publish the new version on this page. Section 15 explains how changes work. Because ShrinkIt does not collect contact details from its users, we cannot send you a personal notice of a change. The published page is the record of the current policy, and you can check it at any time.",
         },
         {
           kind: "p",
@@ -35,7 +35,7 @@ export const privacyDoc: LegalDoc = {
         },
         {
           kind: "p",
-          text: "This policy applies to the ShrinkIt website and to every tool on it, including the main image resizer and the tools listed in Section 4. It applies whether you visit from India or from anywhere else in the world, and whether you use a computer, a tablet, or a phone. It does not apply to any other website, app, or service that you might reach by following a link from ShrinkIt, because ShrinkIt does not control those services. If you follow a link to another service, that service's own policy will govern what it does with your information.",
+          text: "This policy applies to the ShrinkIt website, to every tool on it, and to the ShrinkIt Android app, including the main image resizer and the tools listed in Section 4. It applies whether you visit from India or from anywhere else in the world, and whether you use a computer, a tablet, or a phone. It does not apply to any other website, app, or service that you might reach by following a link from ShrinkIt, because ShrinkIt does not control those services. If you follow a link to another service, that service's own policy will govern what it does with your information.",
         },
         {
           kind: "p",
@@ -302,6 +302,46 @@ export const privacyDoc: LegalDoc = {
         },
         {
           kind: "h3",
+          text: "Android app: local history, settings, and app data",
+        },
+        {
+          kind: "p",
+          text: "The Android app keeps more on your device than the website does, because an app can offer features a web page cannot. All of the following stays on your phone. None of it is uploaded to ShrinkIt.",
+        },
+        {
+          kind: "h3",
+          text: "Processing history (Android app only)",
+        },
+        {
+          kind: "p",
+          text: "The Android app keeps a local history of the images you process, so that you can see what you worked on and share or delete past results. For each processed image, the app stores the file name, the original and processed file sizes, the image dimensions, the output format, and the date and time of processing. It does not store the image content itself in the history database. The history is kept in a database on your device that only the app can access. You can delete individual entries or clear the entire history from within the app, and uninstalling the app deletes the history database.",
+        },
+        {
+          kind: "h3",
+          text: "App settings and preferences (Android app only)",
+        },
+        {
+          kind: "p",
+          text: "The app stores your settings on your device: the theme mode (light, dark, or system), the app language, your default quality and format choices, whether batch-completion notifications are enabled, and whether you have completed the onboarding. These are stored in the app's private preferences on your device. They are never transmitted anywhere. Clearing the app's data in your phone's settings removes them, and uninstalling the app deletes them.",
+        },
+        {
+          kind: "h3",
+          text: "Notifications (Android app only)",
+        },
+        {
+          kind: "p",
+          text: "If you allow notifications, the app can notify you when a batch of images finishes processing. Notifications are generated on your device by the app itself. No notification content is sent to ShrinkIt or to any third party. You can turn notifications off in the app's settings or in your phone's system settings for the app.",
+        },
+        {
+          kind: "h3",
+          text: "Camera and saved images (Android app only)",
+        },
+        {
+          kind: "p",
+          text: "The app can open your phone's camera so that you can take a photo and process it directly, and it can save processed images to your phone's Pictures folder. The camera is used only when you tap the camera option, and the app sees only the photo you take. Saved images are ordinary files in your Pictures/ShrinkIt folder. They remain there until you delete them. The app does not upload photos taken with the camera and does not share your saved images with anyone.",
+        },
+        {
+          kind: "h3",
           text: "Browser console messages",
         },
         {
@@ -310,7 +350,7 @@ export const privacyDoc: LegalDoc = {
         },
         {
           kind: "p",
-          text: "Taken together, the local footprint of ShrinkIt is small: one theme setting if you change the theme, a cache of the site's own files, the downloads you chose to save, and temporary in-memory data that vanishes when the page closes. If you want to remove the site's local footprint, Section 12 explains the self-help steps: clear the site's data in your browser, unregister the service worker, and delete any downloads you no longer want.",
+          text: "Taken together, the local footprint of ShrinkIt is small. On the website: one theme setting if you change the theme, a cache of the site's own files, the downloads you chose to save, and temporary in-memory data that vanishes when the page closes. On the Android app: a local history of processed images (metadata only, no image content), your settings and preferences, and the images you chose to save to your Pictures folder. If you want to remove the local footprint, Section 12 explains the self-help steps. On the website, clear the site's data in your browser and delete any downloads you no longer want. On the Android app, clear the history from within the app, clear the app's data in your phone's settings, or uninstall the app.",
         },
       ],
     },

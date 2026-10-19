@@ -2,13 +2,13 @@ import type { LegalDoc } from "./types";
 
 /**
  * Terms and Conditions for ShrinkIt. All prose is original writing.
- * Effective date: 17 October 2026.
+ * Effective date: 19 October 2026.
  */
 export const termsDoc: LegalDoc = {
   title: "Terms & Conditions",
-  lastUpdated: "17 October 2026",
+  lastUpdated: "19 October 2026",
   summary: [
-    "These Terms and Conditions govern your use of ShrinkIt, the free image resizing and compression service at https://shrinkit.dusrel.com. By using the service, you agree to these terms. The service is free, requires no account, and processes your images entirely in your browser: your images are never uploaded to ShrinkIt.",
+    "These Terms and Conditions govern your use of ShrinkIt, the free image resizing and compression service at https://shrinkit.dusrel.com and as an Android app. By using the service, you agree to these terms. The service is free, requires no account, and processes your images entirely on your own device: your images are never uploaded to ShrinkIt.",
     "The short version is this. You keep ownership of your images. You are responsible for having the right to use the images you process, and for how you use the outputs. The tools are provided as they are, with no promise that any third party, such as an exam portal, an embassy, or a social platform, will accept a particular output. The service is free, with no uptime promise. Our liability is limited as described in Section 10, and nothing in these terms limits any right that the law says cannot be limited.",
     "These terms are provided for information only. They are not legal advice, and they do not create a lawyer-client relationship. If you need legal advice about your own situation, please speak to a qualified lawyer.",
   ],
@@ -19,11 +19,11 @@ export const termsDoc: LegalDoc = {
       blocks: [
         {
           kind: "p",
-          text: "These Terms and Conditions form an agreement between you and ShrinkIt, operated under the name Dusrel, for your use of the service available at https://shrinkit.dusrel.com. When we say ShrinkIt, we, us, or our, we mean the operator of the service. When we say you or your, we mean the person using the service. The service includes the main image resizer, the tools described in Section 2, and every page on the site.",
+          text: "These Terms and Conditions form an agreement between you and ShrinkIt, operated under the name Dusrel, for your use of the service available at https://shrinkit.dusrel.com and as an Android app. When we say ShrinkIt, we, us, or our, we mean the operator of the service. When we say you or your, we mean the person using the service. The service includes the main image resizer, the tools described in Section 2, every page on the site, and the Android app.",
         },
         {
           kind: "p",
-          text: "By using the service, you agree to these terms. If you do not agree to them, do not use the service. You do not need to create an account or click an acceptance button for the terms to apply. Using the site, opening an image in a tool, or downloading an output is use of the service, and it carries the agreement with it. If you are using the service on behalf of someone else, for example a parent using it for a child, or an employee using it for an employer, you confirm that you have the authority to agree to these terms on their behalf, and these terms apply to that use as well.",
+          text: "By using the service, you agree to these terms. If you do not agree to them, do not use the service. You do not need to create an account or click an acceptance button for the terms to apply. Using the site, opening an image in a tool, downloading an output, or installing and opening the Android app is use of the service, and it carries the agreement with it. If you are using the service on behalf of someone else, for example a parent using it for a child, or an employee using it for an employer, you confirm that you have the authority to agree to these terms on their behalf, and these terms apply to that use as well.",
         },
         {
           kind: "p",
@@ -35,7 +35,7 @@ export const termsDoc: LegalDoc = {
         },
         {
           kind: "p",
-          text: "The effective date of these terms is 17 October 2026, and the last-updated date shown at the top of this page is the date from which this version applies. If we change these terms, Section 14 explains how the change works. The English version of these terms governs. The site is also available in Spanish and Portuguese, and the translated pages display this same English text with a short notice explaining that the English version governs, so that the agreement does not drift between translations.",
+          text: "The effective date of these terms is 19 October 2026, and the last-updated date shown at the top of this page is the date from which this version applies. If we change these terms, Section 14 explains how the change works. The English version of these terms governs. The site is also available in Spanish and Portuguese, and the translated pages display this same English text with a short notice explaining that the English version governs, so that the agreement does not drift between translations.",
         },
         {
           kind: "p",
@@ -53,7 +53,7 @@ export const termsDoc: LegalDoc = {
       blocks: [
         {
           kind: "p",
-          text: "ShrinkIt is a free, client-side image tool. It resizes, compresses, converts, and crops images, and it offers specialised tools for particular size targets, identity-photo sizes, social-media sizes, and before-and-after comparison. All of the work happens in your web browser, on your own device. Your images are read into your browser's memory, transformed there, and offered back to you as downloads. They are never uploaded to ShrinkIt, and there is no server component that could receive them. The Privacy Policy describes this architecture in full.",
+          text: "ShrinkIt is a free, client-side image tool, available as a website and as an Android app. It resizes, compresses, converts, and crops images, and it offers specialised tools for particular size targets, identity-photo sizes, social-media sizes, and before-and-after comparison. All of the work happens on your own device, in your web browser or in the app on your phone. Your images are read into your browser's memory, transformed there, and offered back to you as downloads. They are never uploaded to ShrinkIt, and there is no server component that could receive them. The Privacy Policy describes this architecture in full.",
         },
         {
           kind: "p",
@@ -61,7 +61,7 @@ export const termsDoc: LegalDoc = {
         },
         {
           kind: "p",
-          text: "The service requires no account, no sign-up, and no payment. There is nothing to subscribe to and nothing to cancel. Because there is no account, there is no profile, no saved history, and no way to retrieve work from a previous visit. If you close the tab before downloading a result, the result is gone, because it existed only in the browser's memory. Keeping your originals and downloading your outputs promptly is your responsibility, and Section 7 explains that there is no backup and no recovery.",
+          text: "The service requires no account, no sign-up, and no payment. There is nothing to subscribe to and nothing to cancel. Because there is no account, there is no profile and no way to retrieve work from another device. On the website, there is no saved history: if you close the tab before downloading a result, the result is gone, because it existed only in the browser's memory. The Android app does keep a local history of your processed images on your phone, as described in the Privacy Policy, but that history never leaves your device. Keeping your originals and downloading your outputs promptly is your responsibility, and Section 7 explains that there is no backup and no recovery.",
         },
         {
           kind: "p",
