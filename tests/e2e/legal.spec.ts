@@ -10,7 +10,7 @@ import { gotoApp } from "./helpers";
 test("Privacy Policy page renders the full document", async ({ page }) => {
   await page.goto("/privacy");
   await expect(page.getByRole("heading", { name: "Privacy Policy", exact: true })).toBeVisible();
-  await expect(page.getByText("Last updated: 17 October 2026")).toBeVisible();
+  await expect(page.getByText("Last updated: 19 October 2026")).toBeVisible();
   // All 16 sections render, with working TOC anchors.
   await expect(page.locator("section[id]")).toHaveCount(16);
   await expect(page.locator("#what-stays-on-device")).toContainText("What stays on your device");
