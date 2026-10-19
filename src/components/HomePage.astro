@@ -1,5 +1,6 @@
 ---
 import type { Locale } from "../lib/locale";
+import { t } from "../lib/i18n";
 
 import HeroSection from "./home/HeroSection.astro";
 import HowItWorks from "./home/HowItWorks.astro";
@@ -14,6 +15,38 @@ interface Props {
 }
 const { locale } = Astro.props;
 ---
+
+<script
+  type="application/ld+json"
+  set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://dusrel.com/#organization",
+        name: "Dusrel",
+        url: "https://dusrel.com/",
+        logo: "https://dusrel.com/logo.png",
+        sameAs: [
+          "https://x.com/dusrel",
+          "https://www.instagram.com/dusrel",
+          "https://www.facebook.com/dusrel",
+          "https://www.youtube.com/@dusrel",
+          "https://www.linkedin.com/company/dusrel",
+        ],
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://shrinkit.dusrel.com/#website",
+        url: "https://shrinkit.dusrel.com/",
+        name: t(locale, "site.name"),
+        description: t(locale, "site.description"),
+        inLanguage: locale,
+        publisher: { "@id": "https://dusrel.com/#organization" },
+      },
+    ],
+  })}
+/>
 
 <HeroSection locale={locale} />
 

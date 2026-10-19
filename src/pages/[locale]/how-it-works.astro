@@ -19,6 +19,7 @@ const { locale } = Astro.params as { locale: Locale };
   path="/how-it-works"
   title={`${t(locale, "nav.how")} — ${t(locale, "site.name")}`}
   description={t(locale, "how.description")}
+  image="/og-how-it-works.png"
 >
   <HowItWorks locale={locale} />
   <HomeCta locale={locale} />

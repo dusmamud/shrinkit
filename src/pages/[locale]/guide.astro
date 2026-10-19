@@ -18,6 +18,7 @@ const { locale } = Astro.params as { locale: Locale };
   path="/guide"
   title={`${t(locale, "guide.title")} — ${t(locale, "site.name")}`}
   description={t(locale, "guide.description")}
+  image="/og-guide.png"
 >
   <GuidePage locale={locale} />
 </BaseLayout>

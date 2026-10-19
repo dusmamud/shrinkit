@@ -15,15 +15,22 @@ interface Props {
   image?: string;
   /** Render only the copyright bar in the footer (used by the clean /resize page). */
   minimalFooter?: boolean;
+  /** Robots meta content, e.g. "noindex, nofollow" for the 404 page. */
+  robots?: string;
 }
 
-const { locale, path, minimalFooter = false } = Astro.props;
+const { locale, path, minimalFooter = false, robots } = Astro.props;
 
 const site = (Astro.site ?? new URL("https://shrinkit.dusrel.com")).toString().replace(/\/$/, "");
 const title = Astro.props.title ?? `${t(locale, "site.name")} — ${t(locale, "site.tagline")}`;
 const description = Astro.props.description ?? t(locale, "site.description");
 const canonical = `${site}${localizedPath(path, locale)}`;
 const ogImage = `${site}${Astro.props.image ?? "/og-image.png"}`;
+const ogLocaleMap = { en: "en_US", es: "es_ES", pt: "pt_BR" } as const;
+const ogLocale = ogLocaleMap[locale];
+const ogLocaleAlternates = (Object.keys(ogLocaleMap) as (keyof typeof ogLocaleMap)[]).filter(
+  (l) => l !== locale,
+);
 ---
 
 <!doctype html>
@@ -51,6 +58,7 @@ const ogImage = `${site}${Astro.props.image ?? "/og-image.png"}`;
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    {robots && <meta name="robots" content={robots} />}
     <link rel="canonical" href={canonical} />
     {alternates(site, path).map((a) => (
       <link rel="alternate" hreflang={a.locale} href={a.href} />
@@ -58,10 +66,16 @@ const ogImage = `${site}${Astro.props.image ?? "/og-image.png"}`;
     <link rel="alternate" hreflang="x-default" href={`${site}${path}`} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={t(locale, "site.name")} />
+    <meta property="og:locale" content={ogLocale} />
+    {ogLocaleAlternates.map((l) => (
+      <meta property="og:locale:alternate" content={ogLocaleMap[l]} />
+    ))}
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@drskrinkit" />
+    <meta name="twitter:creator" content="@drskrinkit" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
