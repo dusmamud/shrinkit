@@ -1,5 +1,7 @@
 # ShrinkIt
 
+> A **Dusrel** product — part of the [Dusrel](https://dusrel.com) family of free, privacy-first tools.
+
 Free, private, client-side image resizer & compressor. Shrink, compress and
 convert JPG, PNG, GIF and WebP images **entirely in your browser** — no
 sign-up, no uploads, no watermarks, batch processing included free.
