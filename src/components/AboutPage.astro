@@ -1,0 +1,100 @@
+---
+import { t } from "../lib/i18n";
+import type { Locale } from "../lib/locale";
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+
+const sections = [1, 2, 3, 4, 5, 6, 7].map((n) => ({
+  title: t(locale, `about.s${n}_title` as "about.s1_title"),
+  body: t(locale, `about.s${n}_body` as "about.s1_body"),
+}));
+
+const tools = [
+  { href: "/tools", label: t(locale, "footer.tools_all") },
+  { href: "/tools/compress-to-50kb", label: t(locale, "footer.tools_50kb") },
+  { href: "/tools/compress-to-20kb", label: t(locale, "footer.tools_20kb") },
+  { href: "/tools/passport-photo-maker", label: t(locale, "footer.tools_passport") },
+  { href: "/tools/social-media-resizer", label: t(locale, "footer.tools_social") },
+  { href: "/tools/compare-images", label: t(locale, "footer.tools_compare") },
+];
+
+const faqs = [1, 2, 3, 4, 5, 6].map((n) => ({
+  q: t(locale, `about.q${n}` as "about.q1"),
+  a: t(locale, `about.a${n}` as "about.a1"),
+}));
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+<div class="bg-tband">
+  <div class="mx-auto max-w-3xl px-4 py-14">
+    <h1 class="text-[2.5rem] font-normal tracking-tight text-tink">{t(locale, "about.title")}</h1>
+    <p class="mt-4 text-[1.0625rem] font-light leading-relaxed text-tink2">{t(locale, "about.intro")}</p>
+
+    <div class="mt-8 space-y-8">
+      {
+        sections.map((s) => (
+          <section class="rounded-[6px] border border-tdivider bg-tsurface p-6">
+            <h2 class="text-lg font-medium text-tink">{s.title}</h2>
+            <p class="mt-2 text-[1.0625rem] font-light leading-relaxed text-tink2">{s.body}</p>
+          </section>
+        ))
+      }
+
+      <section class="rounded-[6px] border border-tdivider bg-tsurface p-6">
+        <h2 class="text-lg font-medium text-tink">{t(locale, "about.tools_title")}</h2>
+        <ul class="mt-3 space-y-2.5">
+          {
+            tools.map((tool) => (
+              <li>
+                <a
+                  href={tool.href}
+                  class="text-[1.0625rem] font-light text-taccent underline-offset-2 hover:underline"
+                >
+                  {tool.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </section>
+    </div>
+
+    <section class="mt-12">
+      <h2 class="text-[1.75rem] font-normal tracking-tight text-tink">{t(locale, "about.faq_title")}</h2>
+      <div class="mt-6 space-y-8">
+        {
+          faqs.map((f) => (
+            <div>
+              <h3 class="text-lg font-medium text-tink">{f.q}</h3>
+              <p class="mt-2 text-[1.0625rem] font-light leading-relaxed text-tink2">{f.a}</p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <p class="mt-12 rounded-[6px] border border-tdash bg-tsurface px-5 py-4 text-sm font-light text-tink2">
+      {t(locale, "contact.email_label")}{" "}
+      <a
+        href="mailto:hello@shrinkit.dusrel.com"
+        class="font-normal text-taccent underline underline-offset-2 hover:text-[#0257bf]"
+      >
+        hello@shrinkit.dusrel.com
+      </a>
+    </p>
+  </div>
+</div>
