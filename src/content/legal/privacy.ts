@@ -9,7 +9,7 @@ export const privacyDoc: LegalDoc = {
   lastUpdated: "20 October 2026",
   summary: [
     "ShrinkIt is a free image resizer and compressor available as a website, as an Android app, as a Chrome browser extension, and as a Windows app. Every version runs entirely on your own device. When you resize, compress, or convert an image with ShrinkIt, your image stays on your own device. It is never uploaded to ShrinkIt, never sent to a server operated by ShrinkIt, and never shared with a third party by the app. There is no account, no sign-up, no payment, and no newsletter, so ShrinkIt does not hold a profile about you.",
-    "There are two honest qualifications to that headline, and this policy explains both in full. First, the website is served by hosting infrastructure. That provider necessarily sees the ordinary request-level information that any web host sees, such as your IP address and browser details, even though the app itself sends it nothing about your images. The site's font is self-hosted — it comes from the same server as the rest of the site, so no font provider is involved. Second, your device itself keeps a small amount of local data: the website keeps a theme choice and a cache of its own files; the Android app keeps a local history of your processed images, your settings, and your preferences; the Chrome extension keeps your settings and nothing else; and the Windows app keeps your theme and language choices. Your images themselves are never uploaded, and the Android app's history contains only metadata such as file names and dimensions, never the image content.",
+    "There are two honest qualifications to that headline, and this policy explains both in full. First, the website is served by hosting infrastructure. That provider necessarily sees the ordinary request-level information that any web host sees, such as your IP address and browser details, even though the app itself sends it nothing about your images. The same provider also supplies aggregate statistics about visits to the website — how many pages were viewed, from which countries, and how quickly they loaded — measured without cookies and without identifying any visitor, as Section 7 describes. The site's font is self-hosted — it comes from the same server as the rest of the site, so no font provider is involved. Second, your device itself keeps a small amount of local data: the website keeps a theme choice and a cache of its own files; the Android app keeps a local history of your processed images, your settings, and your preferences; the Chrome extension keeps your settings and nothing else; and the Windows app keeps your theme and language choices. Your images themselves are never uploaded, and the Android app's history contains only metadata such as file names and dimensions, never the image content.",
     "This document is provided for information only. It is not legal advice, and it is not a substitute for advice from a qualified lawyer. If any part of this policy is unclear, you can write to hello@shrinkit.dusrel.com and we will explain it in plain language.",
   ],
   sections: [
@@ -228,7 +228,7 @@ export const privacyDoc: LegalDoc = {
       blocks: [
         {
           kind: "p",
-          text: "Because the service has no accounts, no backend, and no analytics, the list of things ShrinkIt does not collect is long, and it is worth stating plainly. ShrinkIt does not collect, receive, store, or have access to any of the following through the service:",
+          text: "Because the service has no accounts and no backend, and the app itself contains no analytics, the list of things ShrinkIt does not collect is long, and it is worth stating plainly. ShrinkIt does not collect, receive, store, or have access to any of the following through the service:",
         },
         {
           kind: "list",
@@ -239,7 +239,7 @@ export const privacyDoc: LegalDoc = {
             "Any account information, password, or profile, because there are no accounts.",
             "Any payment information, because the service is free and takes no payments.",
             "Any record of which images you processed, what settings you chose, how many images you processed, or how often you used the service.",
-            "Any analytics, usage statistics, error reports, or crash reports. If something goes wrong, the error stays in your browser. Nothing is reported back to ShrinkIt.",
+            "Any error reports or crash reports, and any analytics collected by the app itself. The app contains no analytics code and sends no reports of its own. If something goes wrong, the error stays in your browser. The one measurement that does happen is at the hosting level: Cloudflare, which hosts the website, provides aggregate, cookie-free statistics about visits to the website, as Section 7 describes. Those statistics describe visits in total, never you as an individual.",
             "Any advertising identifier, tracking identifier, or cross-site tracking data. The service carries no advertising and uses no advertising trackers.",
             "Any information from your clipboard except the image you deliberately paste, and any information written to your clipboard except the result you deliberately copy.",
             "Any information about other files on your device. The app sees only the files you deliberately choose, drag, or paste.",
@@ -404,6 +404,14 @@ export const privacyDoc: LegalDoc = {
         },
         {
           kind: "h3",
+          text: "Website statistics: Cloudflare Web Analytics",
+        },
+        {
+          kind: "p",
+          text: "Cloudflare also provides a measurement service called Web Analytics, and it is switched on for this website. It produces aggregate statistics about visits to the website: how many pages were viewed, which pages were viewed and which sites referred the visits, the countries the visits came from, the kinds of browsers used, and how quickly the pages loaded. The measurement is made from the page requests themselves as they pass through Cloudflare's network. It uses no cookies, stores nothing on your device, creates no identifier for you as a visitor, and does not fingerprint your browser. Your IP address is used at the moment of the request to derive the country, and Cloudflare states that it is not stored for this purpose. We see only totals and breakdowns — never a record of an individual visit, and never anything about what you do with the tools after a page has loaded. These statistics cover the website only. The Android app, the Chrome extension, and the Windows app are not measured by Cloudflare Web Analytics, or by any other analytics service.",
+        },
+        {
+          kind: "h3",
           text: "Self-hosted fonts",
         },
         {
@@ -420,7 +428,7 @@ export const privacyDoc: LegalDoc = {
         },
         {
           kind: "p",
-          text: "There are no other third-party requests made by the app. In particular, the app does not load analytics scripts, advertising scripts, social media widgets, or tracking pixels. The only network requests involved in using ShrinkIt are the requests that fetch the site's own files (including the font files, which are part of the site) and the service worker's requests for the site's own files. If you inspect the network activity of the page in your browser's developer tools, you will see that pattern: requests for the site's own files, and nothing carrying your images.",
+          text: "There are no other third-party requests made by the app. In particular, the app does not load analytics scripts of its own, advertising scripts, social media widgets, or tracking pixels — the statistics described above are measured by Cloudflare from the page requests themselves, and add no script and no extra request to the page. The only network requests involved in using ShrinkIt are the requests that fetch the site's own files (including the font files, which are part of the site) and the service worker's requests for the site's own files. If you inspect the network activity of the page in your browser's developer tools, you will see that pattern: requests for the site's own files, and nothing carrying your images.",
         },
       ],
     },
@@ -499,7 +507,7 @@ export const privacyDoc: LegalDoc = {
         },
         {
           kind: "p",
-          text: "Because the service collects nothing from anyone, it also engages in no tracking of children, no targeted advertising to children, and no profiling of children. There is no behavioural advertising on the service at all, to any visitor. If a child uses the service, the only data involved is the same as for any visitor: the request-level information that the hosting and font infrastructure necessarily sees when serving the page, as described in Section 7, and any local data described in Section 6 if the child changes the theme or downloads a file.",
+          text: "Because the service collects no personal information from anyone, it also engages in no tracking of children, no targeted advertising to children, and no profiling of children. There is no behavioural advertising on the service at all, to any visitor. If a child uses the service, the only data involved is the same as for any visitor: the request-level information that the hosting and font infrastructure necessarily sees when serving the page, as described in Section 7, and any local data described in Section 6 if the child changes the theme or downloads a file.",
         },
         {
           kind: "p",
@@ -705,7 +713,7 @@ export const privacyDoc: LegalDoc = {
         },
         {
           kind: "p",
-          text: "If a change to the service alters the privacy picture in a material way, for example if the service were ever to add an account system, an upload feature, or analytics, this policy would be updated before or at the same time as the change, and the new behaviour would be described in full. A change of that kind would be a fundamental change to the service, and it would not be introduced silently. As of the last-updated date, no such change is planned, and the architecture described in this policy is the architecture of the service you are using.",
+          text: "If a change to the service alters the privacy picture in a material way, for example if the service were ever to add an account system, an upload feature, or analytics beyond the aggregate hosting-level statistics described in Section 7, this policy would be updated before or at the same time as the change, and the new behaviour would be described in full. A change of that kind would be a fundamental change to the service, and it would not be introduced silently. As of the last-updated date, no such further change is planned, and the architecture described in this policy is the architecture of the service you are using.",
         },
       ],
     },
