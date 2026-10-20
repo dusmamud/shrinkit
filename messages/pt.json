@@ -138,5 +138,9 @@
   "theme.system": "Sistema",
   "theme.system_tip": "Seguir a configuração do dispositivo",
   "theme.toggle": "Alternar tema",
-  "result.larger": "maior"
+  "result.larger": "maior",
+  "footer.col_apps": "Baixe o app",
+  "footer.app_android": "Baixar para Android",
+  "footer.app_windows": "Instalar no Windows",
+  "footer.app_chrome": "Adicionar ao Chrome"
 }
