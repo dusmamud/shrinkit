@@ -44,6 +44,21 @@ const { locale } = Astro.props;
         inLanguage: locale,
         publisher: { "@id": "https://dusrel.com/#organization" },
       },
+      {
+        "@type": "WebApplication",
+        "@id": "https://shrinkit.dusrel.com/#app",
+        name: t(locale, "site.name"),
+        url: "https://shrinkit.dusrel.com/",
+        applicationCategory: "MultimediaApplication",
+        operatingSystem: "Any",
+        inLanguage: locale,
+        offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+        description: t(locale, "site.description"),
+        featureList:
+          "Resize images by pixels, percent, cm or inches; compress to an exact size such as 50KB or 20KB; convert JPG, PNG, GIF and WebP; open HEIC/HEIF and AVIF; batch processing; all metadata removed; 100% on-device, no uploads",
+        publisher: { "@id": "https://dusrel.com/#organization" },
+        isPartOf: { "@id": "https://shrinkit.dusrel.com/#website" },
+      },
     ],
   })}
 />
