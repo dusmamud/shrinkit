@@ -42,7 +42,7 @@ test("ES/PT legal pages show the English text with an English-governs notice", a
 test("Footer links to Privacy Policy and Terms & Conditions", async ({ page }) => {
   await gotoApp(page);
   await page.getByRole("link", { name: "Terms & Conditions" }).first().click();
-  await expect(page).toHaveURL(/\/terms$/);
+  await expect(page).toHaveURL(/\/terms\/?$/);
   await expect(
     page.getByRole("heading", { name: "Terms & Conditions", exact: true }),
   ).toBeVisible();

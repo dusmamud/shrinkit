@@ -40,7 +40,7 @@ test("/es/guide and /pt/guide are localized", async ({ page }) => {
 
 test("footer Guide link goes to /guide", async ({ page }) => {
   await gotoApp(page, "/");
-  await page.locator('footer a[href="/guide"]').click();
+  await page.locator('footer a[href="/guide/"]').click();
   await expect(page).toHaveURL(/\/guide\/?$/);
   await expect(page.locator("h1")).toHaveText("Image Guide");
 });

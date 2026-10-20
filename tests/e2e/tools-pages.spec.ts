@@ -66,7 +66,7 @@ test.describe("Dedicated Tools Pages (Zero Landing Page Contamination)", () => {
     // Header navigation
     const headerTools = page.getByRole("banner").getByRole("link", { name: "Tools", exact: true });
     await expect(headerTools).toBeVisible();
-    await expect(headerTools).toHaveAttribute("href", "/tools");
+    await expect(headerTools).toHaveAttribute("href", "/tools/");
 
     // Footer navigation
     const footer = page.locator("footer");

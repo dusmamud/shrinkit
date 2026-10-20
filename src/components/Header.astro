@@ -13,7 +13,7 @@ const { locale, path } = Astro.props;
 const home = localizedPath("/", locale);
 const links = [
   { href: localizedPath("/how-it-works", locale), label: t(locale, "nav.how") },
-  { href: "/tools", label: t(locale, "nav.tools") },
+  { href: "/tools/", label: t(locale, "nav.tools") },
   { href: localizedPath("/privacy", locale), label: t(locale, "nav.privacy") },
   { href: localizedPath("/contact", locale), label: t(locale, "nav.contact") },
   { href: localizedPath("/about", locale), label: t(locale, "nav.about") },
