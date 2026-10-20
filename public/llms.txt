@@ -1,0 +1,30 @@
+# ShrinkIt
+
+> ShrinkIt is a free image resizer, compressor and converter created by Dusrel. It runs entirely on the user's own device — as a website, an Android app, a Windows app and a Chrome extension — so images are never uploaded to a server. No sign-up, no watermarks, no premium tier: every feature, including batch processing, is free.
+
+ShrinkIt resizes images by pixels, percentage, centimetres or inches (aspect ratio locked or free; stretch, crop and fit modes), compresses to a chosen quality or to an exact target file size, and converts between JPG, PNG, GIF and WebP. It opens JPG, PNG, GIF, WebP, BMP, AVIF and iPhone HEIC/HEIF files. All processing happens locally on the device: there is no upload step and no server ever receives, stores or sees the images. Every output file is stripped of all metadata — EXIF, GPS location and camera details. The website uses Cloudflare Web Analytics only for aggregate, cookie-free visit statistics (page views and load speeds) that identify no visitor; the apps and extension use no analytics at all.
+
+## Tools
+
+- [Image Resizer](https://shrinkit.dusrel.com/resize/): Resize an image by pixels, percent, cm or inches, change format and quality, and download it — free, with no upload.
+- [Compress Image to 50KB](https://shrinkit.dusrel.com/tools/compress-to-50kb/): Compress a photo to 50 KB or under, the size limit used by exam and recruitment portals such as UPSC, SSC and IBPS.
+- [Compress Image to 20KB — Signature to 20KB](https://shrinkit.dusrel.com/tools/compress-to-20kb/): Compress a signature or photo to 20 KB or under, with a black-and-white mode for signature scans.
+- [Passport Photo Maker](https://shrinkit.dusrel.com/tools/passport-photo-maker/): Make passport-size photos with guided cropping and standard dimensions.
+- [Social Media Resizer](https://shrinkit.dusrel.com/tools/social-media-resizer/): Resize images to the exact sizes used by social platforms, with ready-made presets.
+- [Compare Images](https://shrinkit.dusrel.com/tools/compare-images/): Compare an image before and after compression side by side to check quality.
+- [All Free Tools](https://shrinkit.dusrel.com/tools/): The full list of ShrinkIt tools.
+
+## Pages
+
+- [About ShrinkIt](https://shrinkit.dusrel.com/about/): What ShrinkIt is, how it works, its privacy model, its limits, and who makes it (Dusrel) — with frequently asked questions.
+- [How It Works](https://shrinkit.dusrel.com/how-it-works/): The three steps of using ShrinkIt, and why processing happens in the browser on the user's device.
+- [Guide](https://shrinkit.dusrel.com/guide/): What image file size is, and how to reduce an image's file size.
+- [Privacy Policy](https://shrinkit.dusrel.com/privacy/): The full privacy policy covering the website, the Android app, the Chrome extension and the Windows app.
+- [Terms & Conditions](https://shrinkit.dusrel.com/terms/): The terms for using ShrinkIt.
+- [Contact](https://shrinkit.dusrel.com/contact/): How to contact Dusrel about ShrinkIt (hello@shrinkit.dusrel.com).
+
+## Optional
+
+- [ShrinkIt en español](https://shrinkit.dusrel.com/es/): The website in Spanish.
+- [ShrinkIt em português](https://shrinkit.dusrel.com/pt/): The website in Portuguese.
+- [Full text for LLMs](https://shrinkit.dusrel.com/llms-full.txt): The complete text of the key ShrinkIt pages in one file.

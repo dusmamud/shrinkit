@@ -1,0 +1,5 @@
+Contact: mailto:hello@shrinkit.dusrel.com
+Expires: 2027-10-21T00:00:00.000Z
+Preferred-Languages: en, es, pt
+Canonical: https://shrinkit.dusrel.com/.well-known/security.txt
+Policy: https://shrinkit.dusrel.com/privacy/

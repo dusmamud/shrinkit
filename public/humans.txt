@@ -1,0 +1,19 @@
+/* SHRINKIT */
+
+ShrinkIt — free image resizer, compressor and converter.
+Your images never leave your device: no uploads, no sign-up, no watermarks.
+
+Site: https://shrinkit.dusrel.com
+Contact: hello@shrinkit.dusrel.com
+
+/* DUSREL */
+
+ShrinkIt is a Dusrel product — free, privacy-first tools that work on your
+own device and ask for nothing they do not need.
+
+Site: https://dusrel.com
+
+/* COLOPHON */
+
+Built with Astro, React and TypeScript. Hosted on Cloudflare Pages.
+Fonts: Poppins (self-hosted). Standards: HTML5, Schema.org, llms.txt.
