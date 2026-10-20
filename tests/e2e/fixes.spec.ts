@@ -20,11 +20,11 @@ test("ToolsShowcase links never point at /es/tools or /pt/tools (404)", async ({
     await gotoApp(page, `/${locale}`);
     // No tool link may carry the locale prefix — tools pages are EN-only.
     expect(await page.locator(`a[href^="/${locale}/tools"]`).count()).toBe(0);
-    expect(await page.locator('a[href="/tools/compress-to-50kb"]').count()).toBeGreaterThan(0);
+    expect(await page.locator('a[href="/tools/compress-to-50kb/"]').count()).toBeGreaterThan(0);
   }
   // Clicking a tool card on the ES homepage lands on the real EN tools page.
   await gotoApp(page, "/es");
-  await page.locator('a[href="/tools/compress-to-50kb"]').first().click();
+  await page.locator('a[href="/tools/compress-to-50kb/"]').first().click();
   await expect(page).toHaveURL(/\/tools\/compress-to-50kb/);
 });
 

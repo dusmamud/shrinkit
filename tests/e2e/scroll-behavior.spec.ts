@@ -25,7 +25,7 @@ test("'How it works' opens the dedicated page; landing section keeps the real st
   page,
 }) => {
   await gotoApp(page, "/");
-  await page.locator('header a[href="/how-it-works"]').click();
+  await page.locator('header a[href="/how-it-works/"]').click();
   await expect(page).toHaveURL(/\/how-it-works\/?$/);
   await expect(page.locator("#how-it-works-heading")).toContainText(
     "How to Resize & Optimize in Seconds",
