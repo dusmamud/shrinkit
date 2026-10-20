@@ -12,14 +12,16 @@ export function localeFromPath(pathname: string): Locale {
  */
 export function localizedPath(path: string, locale: Locale): string {
   const clean = path.startsWith("/") ? path : `/${path}`;
-  if (locale === DEFAULT_LOCALE) return clean === "/" ? "/" : clean;
-  return `/${locale}${clean === "/" ? "" : clean}`;
+  if (clean === "/") return locale === DEFAULT_LOCALE ? "/" : `/${locale}/`;
+  const slashed = clean.endsWith("/") ? clean : `${clean}/`;
+  if (locale === DEFAULT_LOCALE) return slashed;
+  return `/${locale}${slashed}`;
 }
 
 /** Canonical URL for a page in every locale (for hreflang alternates). */
 export function alternates(site: string, path: string): { locale: Locale; href: string }[] {
   if (path.startsWith("/tools")) {
-    return [{ locale: DEFAULT_LOCALE, href: `${site}${path}` }];
+    return [{ locale: DEFAULT_LOCALE, href: `${site}${path.endsWith("/") ? path : `${path}/`}` }];
   }
   return locales.map((locale) => ({
     locale,
