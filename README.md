@@ -100,3 +100,4 @@ Note: a DPI value only survives in JPG and PNG output — WebP and GIF have no s
 EXIF data is stripped by default; use the preserve option only when you deliberately want the source EXIF kept (with Orientation reset to 1).
 Tip: run `npm run preview` to serve the production build locally and check the real built output before deploying.
 Before going live, replace the `site` placeholder in `astro.config.mjs` with your real `.pages.dev` URL — it drives canonical URLs, hreflang and the sitemap.
+Batch ZIPs are built entirely in memory with JSZip, so very large batches are bounded by the device's available RAM.
