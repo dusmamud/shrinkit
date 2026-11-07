@@ -96,3 +96,4 @@ tests/
 
 All Rights Reserved (proprietary, source-viewable only) — see [LICENSE](LICENSE).
 Tip: the local dev server runs on port 7860 — open http://localhost:7860 after `npm run dev`.
+Note: a DPI value only survives in JPG and PNG output — WebP and GIF have no standard DPI container, so the app does not pretend otherwise.
