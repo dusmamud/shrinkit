@@ -95,3 +95,4 @@ tests/
 ## License
 
 All Rights Reserved (proprietary, source-viewable only) — see [LICENSE](LICENSE).
+Tip: the local dev server runs on port 7860 — open http://localhost:7860 after `npm run dev`.
